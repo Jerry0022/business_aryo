@@ -3,7 +3,7 @@
 Website of **Maximilian Parkett** (working name; Bodenleger in NRW, owner Aryo Sabouri, claim „Da stehst du drauf.“) plus a private studio with the **Werkbank** admin area. Brand, tone and business rules: [`docs/konzept/markenkonzept.md`](docs/konzept/markenkonzept.md).
 
 - **Public site** (`/`): landing page in design direction A „Aufmaß“ (technical drawing on screed grey) around the question „Wie viel willst du selbst machen?“: live contingent counter from the Werkbank calendar, the three ways (Machen lassen, Selbst machen, Für Profis) plus an emergency entry, the 7-step Boden-Check with Bodenprofil, registration for the monthly Boden-Sprechstunde, services (prices only once set in the Werkbank), subscriptions and applications for projects and partners. Form entries are stored as leads for the Werkbank.
-- **Ratgeber** (`/ratgeber`): seven statically generated advice articles in six pillars, content as typed data in `src/content/ratgeber/`, with the interactive Kosten-pro-Jahr-Rechner, `Article` JSON-LD and per-article Open Graph images. Legal pages: `/impressum`, `/datenschutz`.
+- **Ratgeber** (`/ratgeber`): seven statically generated advice articles in six pillars, content as typed data in `src/content/ratgeber/`, with the interactive Kosten-pro-Jahr-Rechner, `Article` JSON-LD and per-article Open Graph images. Legal pages: `/impressum`, `/datenschutz`. Optional PostHog analytics behind a cookie-consent banner (off until `NEXT_PUBLIC_POSTHOG_KEY` is set, see [docs/ANALYTICS.md](docs/ANALYTICS.md)).
 - **Studio** (`/studio`, login required): an interactive 3D **dream house** (single-story villa with roof terrace on a mountain above a city) and, for admins, the **user management**.
 
 ## Stack
@@ -84,6 +84,7 @@ The time slider and the Tag/Nacht toggle change sun, sky, lighting, interior lam
 
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Vercel (Aryo's account) + Neon setup
 - [docs/GO-LIVE.md](docs/GO-LIVE.md) — open items before the site goes public
+- [docs/ANALYTICS.md](docs/ANALYTICS.md) — PostHog analytics + cookie banner setup
 - [docs/TRAUMHAUS.md](docs/TRAUMHAUS.md) — how to evolve the dream house together
 
 ## Concept

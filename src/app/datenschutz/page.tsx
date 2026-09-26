@@ -1,16 +1,42 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton";
 import { LegalLayout, Placeholder } from "@/components/site/LegalLayout";
+import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
+import { CONSENT_COOKIE } from "@/lib/consent";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
-  description: `Wie ${siteConfig.name} mit personenbezogenen Daten umgeht: Hosting, Formulare und Datenbank, Boden-Sprechstunde, Newsletter, Login-Bereich und deine Rechte.`,
+  description: `Wie ${siteConfig.name} mit personenbezogenen Daten umgeht: Hosting, Formulare und Datenbank, Boden-Sprechstunde, Newsletter, Login-Bereich, Cookies, Webanalyse und deine Rechte.`,
   alternates: { canonical: "/datenschutz" },
 };
 
 // Conservative first version, not legal advice. Everything marked with <Placeholder> must be
 // filled in or confirmed before go-live (docs/GO-LIVE.md), ideally checked by a lawyer.
+// The cookie and analytics sections switch with `analyticsEnabled` (NEXT_PUBLIC_POSTHOG_KEY).
+
+const cookieOverview = [
+  {
+    name: CONSENT_COOKIE,
+    consent: false,
+    purpose: "Merkt sich deine Auswahl im Cookie-Hinweis, damit du nicht bei jedem Besuch gefragt wirst.",
+    duration: "12 Monate",
+  },
+  {
+    name: "better-auth.session_token",
+    consent: false,
+    purpose: "Hält dich im Login-Bereich angemeldet (samt zugehöriger Sitzungs-Cookies). Nur nach der Anmeldung.",
+    duration: "bis zur Abmeldung, höchstens 14 Tage",
+  },
+  {
+    name: "ph_<Projektschlüssel>_posthog",
+    consent: true,
+    purpose: "Zufällige Kennung von PostHog, um Seitenaufrufe desselben Browsers pseudonym zusammenzufassen.",
+    duration: "bis zu 12 Monate",
+  },
+] as const;
+
 export default function DatenschutzPage() {
   const { street, postalCode, city, country } = siteConfig.address;
   const { email } = siteConfig;
@@ -20,11 +46,20 @@ export default function DatenschutzPage() {
       eyebrow="Rechtliches"
       title={<>Datenschutz&shy;erklärung</>}
       intro={
-        <p>
-          Kurz gesagt: Ich verarbeite deine Daten nur, soweit es für die Website, deine Anfrage oder deine Anmeldung
-          nötig ist. Was du in die Formulare einträgst, speichere ich in einer Datenbank, die für diese Website betrieben
-          wird. Tracking, Analyse-Tools und Werbe-Cookies gibt es hier derzeit nicht.
-        </p>
+        analyticsEnabled ? (
+          <p>
+            Kurz gesagt: Ich verarbeite deine Daten nur, soweit es für die Website, deine Anfrage oder deine Anmeldung
+            nötig ist. Was du in die Formulare einträgst, speichere ich in einer Datenbank, die für diese Website
+            betrieben wird. Eine Nutzungsstatistik mit PostHog läuft nur, wenn du ausdrücklich zustimmst. Werbe-Cookies
+            und Social-Media-Plugins gibt es nicht.
+          </p>
+        ) : (
+          <p>
+            Kurz gesagt: Ich verarbeite deine Daten nur, soweit es für die Website, deine Anfrage oder deine Anmeldung
+            nötig ist. Was du in die Formulare einträgst, speichere ich in einer Datenbank, die für diese Website
+            betrieben wird. Tracking, Analyse-Tools und Werbe-Cookies gibt es hier derzeit nicht.
+          </p>
+        )
       }
     >
       <h2>1. Verantwortlicher</h2>
@@ -276,13 +311,75 @@ export default function DatenschutzPage() {
         verlieren ihre Gültigkeit. Gespeichert wird in der Datenbank aus Abschnitt 3.
       </p>
 
-      <h2>10. Cookies</h2>
+      <h2 id="cookies" className="scroll-mt-28">
+        10. Cookies und Einwilligung
+      </h2>
+      {analyticsEnabled ? (
+        <>
+          <p>
+            Cookies sind kleine Textdateien, die dein Browser speichert. Ähnlich funktionieren Einträge im lokalen
+            Speicher des Browsers (Local Storage). Diese Website unterscheidet zwei Arten:
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {cookieOverview.map((cookie) => (
+              <div key={cookie.name} className="rounded-xs border border-strich bg-blatt p-4 text-[0.95rem] leading-snug">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <code className="font-mono text-[0.85rem] font-semibold text-graphit [overflow-wrap:anywhere]">
+                    {cookie.name}
+                  </code>
+                  <span
+                    className={`rounded-xs px-2 py-0.5 font-mono text-[0.7rem] uppercase tracking-[0.08em] ${
+                      cookie.consent ? "bg-eiche/20 text-graphit" : "bg-kreide/10 text-kreide-deep"
+                    }`}
+                  >
+                    {cookie.consent ? "nur mit Einwilligung" : "notwendig"}
+                  </span>
+                </div>
+                <div className="mt-2 text-graphit-soft">{cookie.purpose}</div>
+                <div className="mt-2 text-sm text-graphit-muted">
+                  <strong className="text-graphit-soft">Dauer:</strong> {cookie.duration}
+                </div>
+              </div>
+            ))}
+          </div>
+          <h3>Technisch notwendige Cookies</h3>
+          <p>
+            Die als „notwendig“ markierten Cookies sind für den Betrieb der Website bzw. den von dir gewünschten Dienst
+            unbedingt erforderlich; eine Einwilligung ist dafür nicht nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1
+            lit. b und f DSGVO). Die Login-Cookies werden erst gesetzt, wenn du dich anmeldest.
+          </p>
+          <h3>Statistik-Cookies (nur mit Einwilligung)</h3>
+          <p>
+            Nur wenn du im Cookie-Hinweis auf „Einverstanden“ klickst, speichert PostHog ein Cookie bzw. einen
+            Local-Storage-Eintrag. Er enthält eine zufällig erzeugte Kennung, mit der wiederholte Besuche desselben
+            Browsers erkannt werden. Details dazu in Abschnitt 12. Rechtsgrundlage ist deine Einwilligung (§ 25 Abs. 1
+            TDDDG, Art. 6 Abs. 1 lit. a DSGVO).
+          </p>
+          <h3>Browser-Erweiterungen für Cookie-Hinweise</h3>
+          <p>
+            Nutzt du eine Browser-Erweiterung, die Cookie-Hinweise für dich beantwortet (etwa Consent-O-Matic), trifft
+            sie die Auswahl in deinem Auftrag, so wie du sie dort eingestellt hast. Blendet eine Erweiterung den Hinweis
+            nur aus, gilt das nicht als Einwilligung: Die Statistik bleibt dann aus. Sendet dein Browser das Signal „Do
+            Not Track“, wird auch nach einer Einwilligung nichts erfasst.
+          </p>
+          <h3>Einwilligung ändern oder widerrufen</h3>
+          <p>
+            Deine Einwilligung ist freiwillig. Du kannst sie jederzeit mit Wirkung für die Zukunft widerrufen oder
+            erneut erteilen, über den Link „Cookie-Einstellungen“ im Seitenfuß oder direkt hier:{" "}
+            <CookieSettingsButton className="cursor-pointer font-semibold text-kreide underline underline-offset-4" />.
+            Nach einem Widerruf werden die Statistik-Cookies aus deinem Browser entfernt.
+          </p>
+        </>
+      ) : (
+        <p>
+          Auf den öffentlichen Seiten dieser Website werden keine Cookies gesetzt. Erst wenn du dich im Login-Bereich
+          anmeldest, werden technisch notwendige Sitzungs-Cookies gespeichert (zum Beispiel „better-auth.session_token“),
+          die dich als angemeldete Person wiedererkennen. Sie verlieren spätestens nach 14 Tagen ihre Gültigkeit bzw.
+          werden beim Abmelden gelöscht. Da diese Cookies für den von dir ausdrücklich gewünschten Dienst unbedingt
+          erforderlich sind, ist keine Einwilligung nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1 lit. b und f DSGVO).
+        </p>
+      )}
       <p>
-        Auf den öffentlichen Seiten dieser Website werden keine Cookies gesetzt. Erst wenn du dich im Login-Bereich
-        anmeldest, werden technisch notwendige Sitzungs-Cookies gespeichert (zum Beispiel „better-auth.session_token“), die
-        dich als angemeldete Person wiedererkennen. Sie verlieren spätestens nach 14 Tagen ihre Gültigkeit bzw. werden beim
-        Abmelden gelöscht. Da diese Cookies für den von dir ausdrücklich gewünschten Dienst unbedingt erforderlich sind,
-        ist keine Einwilligung nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1 lit. b und f DSGVO).{" "}
         <Placeholder>
           [Vor Go-live prüfen: Speichert ein Formular Zwischenstände im Browser (localStorage)? Dann hier ergänzen.]
         </Placeholder>
@@ -295,17 +392,66 @@ export default function DatenschutzPage() {
         Schriftanbietern statt.
       </p>
 
-      <h2>12. Keine Analyse- und Tracking-Dienste</h2>
-      <p>
-        Derzeit setze ich keine Analyse- oder Tracking-Werkzeuge ein, keine Werbenetzwerke und keine
-        Social-Media-Plugins. Der Kosten-Rechner im Ratgeber rechnet nur in deinem Browser, deine Eingaben werden weder
-        gespeichert noch gesendet.
-      </p>
-      <p>
-        Geplant ist ein Analyse-Werkzeug (PostHog, mit Hosting in der EU), um zu verstehen, welche Seiten und Schritte im
-        Boden-Check hilfreich sind. Es wird erst geladen, wenn du über ein Einwilligungsbanner ausdrücklich zustimmst
-        (§ 25 Abs. 1 TDDDG, Art. 6 Abs. 1 lit. a DSGVO). Bevor das passiert, ergänze ich diese Datenschutzerklärung.
-      </p>
+      {analyticsEnabled ? (
+        <>
+          <h2 id="webanalyse" className="scroll-mt-28">
+            12. Webanalyse mit PostHog
+          </h2>
+          <p>
+            Wenn du eingewilligt hast, nutze ich den Analysedienst PostHog der PostHog Inc., 2261 Market Street #4008,
+            San Francisco, CA 94114, USA. PostHog hilft mir zu verstehen, welche Seiten und Schritte im Boden-Check
+            hilfreich sind und wo die Website besser werden kann. Dabei werden folgende Daten verarbeitet:
+          </p>
+          <ul>
+            <li>aufgerufene Seiten, Zeitpunkt und Dauer des Besuchs sowie die zuvor besuchte Seite (Referrer)</li>
+            <li>
+              Klicks auf Links und Schaltflächen (auch solche ohne Wirkung); Eingaben in Formularfelder werden nicht
+              erfasst
+            </li>
+            <li>Ladezeiten und technische Leistungswerte der Seite</li>
+            <li>Gerätetyp, Browser, Betriebssystem, Bildschirmgröße und Spracheinstellung</li>
+            <li>ungefährer Standort (Land, Region, Stadt), abgeleitet aus der IP-Adresse</li>
+            <li>eine zufällig erzeugte Kennung deines Browsers (siehe Abschnitt 10)</li>
+          </ul>
+          <p>
+            Die IP-Adresse wird in PostHog nicht gespeichert. Es werden keine Bildschirmaufzeichnungen (Session
+            Recordings) angefertigt, keine geräteübergreifenden Profile gebildet und die Daten nicht mit anderen Daten
+            zusammengeführt oder für Werbung verwendet. Sendet dein Browser das Signal „Do Not Track“, findet keine
+            Erfassung statt.
+          </p>
+          <p>
+            Die Daten werden in der EU-Cloud von PostHog (Rechenzentrum in Frankfurt am Main) gespeichert. Dein Browser
+            sendet sie dabei nicht direkt an PostHog, sondern an diese Website, die sie an PostHog weiterleitet. PostHog
+            ist als Auftragsverarbeiter tätig (Art. 28 DSGVO). Soweit ein Zugriff aus den USA nicht ausgeschlossen
+            werden kann, erfolgt die Übermittlung auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c
+            DSGVO).
+          </p>
+          <p>
+            Rechtsgrundlage ist deine Einwilligung (§ 25 Abs. 1 TDDDG, Art. 6 Abs. 1 lit. a DSGVO), die du jederzeit
+            über die Cookie-Einstellungen widerrufen kannst. Ohne Einwilligung wird PostHog nicht geladen. Die
+            Analysedaten werden gelöscht, sobald sie für die Auswertung nicht mehr erforderlich sind.
+          </p>
+          <p>
+            Werbenetzwerke und Social-Media-Plugins setze ich nicht ein. Der Kosten-Rechner im Ratgeber rechnet nur in
+            deinem Browser, deine Eingaben werden weder gespeichert noch gesendet.
+          </p>
+        </>
+      ) : (
+        <>
+          <h2>12. Keine Analyse- und Tracking-Dienste</h2>
+          <p>
+            Derzeit setze ich keine Analyse- oder Tracking-Werkzeuge ein, keine Werbenetzwerke und keine
+            Social-Media-Plugins. Der Kosten-Rechner im Ratgeber rechnet nur in deinem Browser, deine Eingaben werden
+            weder gespeichert noch gesendet.
+          </p>
+          <p>
+            Vorbereitet ist ein Analyse-Werkzeug (PostHog, mit Hosting in der EU), um zu verstehen, welche Seiten und
+            Schritte im Boden-Check hilfreich sind. Es wird erst geladen, wenn du über einen Cookie-Hinweis ausdrücklich
+            zustimmst (§ 25 Abs. 1 TDDDG, Art. 6 Abs. 1 lit. a DSGVO). Sobald es aktiv ist, steht hier, welche Daten es
+            verarbeitet.
+          </p>
+        </>
+      )}
 
       <h2>13. SSL-/TLS-Verschlüsselung</h2>
       <p>

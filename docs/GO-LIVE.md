@@ -22,7 +22,7 @@ Die Website, der Ratgeber und die Werkbank sind technisch fertig und getestet. V
   - Speicherfristen festlegen (Vorschläge stehen als Platzhalter im Text).
   - Boden-Check: Die Antwort „Allergiker“ kann ein Gesundheitsdatum sein (Art. 9 DSGVO). Entweder ausdrückliche Einwilligung im Formular einholen oder die Option neutral formulieren.
   - Prüfen, ob ein Formular Zwischenstände im Browser speichert (localStorage), und das dann ergänzen.
-  - Anschrift der Aufsichtsbehörde (LDI NRW) und die Angaben zu Vercel und Google (Gmail) einmal gegenprüfen.
+  - Anschrift der Aufsichtsbehörde (LDI NRW) und die Anbieterangaben zu Vercel, Neon, Google (Gmail) und PostHog einmal gegenprüfen.
 - [ ] **AGB und Widerrufsbelehrung** von einem Anwalt formulieren lassen, **bevor Abos online abgeschlossen werden** können. Dazu gehören der Kündigungsbutton (§ 312k BGB), das Widerrufsrecht von 14 Tagen und höchstens 24 Monate Erstlaufzeit für Privatkunden. Formuliert als Pflege- und Wartungsvertrag, nicht als Versicherung oder Garantie. Heute kann man Abos nur anfragen.
 
 ## Partner und Preise
@@ -33,7 +33,7 @@ Die Website, der Ratgeber und die Werkbank sind technisch fertig und getestet. V
 - [ ] **E-Mail-Anbieter einrichten** (z. B. Resend oder Postmark, möglichst mit Servern in der EU): Double-Opt-in für Sprechstunde und Newsletter, Versand des Bodenprofils, Benachrichtigung an Aryo bei neuen Anfragen (Boden-Check, Projekt, Partner, Notfall, Abo), später Passwort-Reset.
 - [ ] **Speicher für Foto-Uploads** bei Notfall-Anfragen (und für die 3 Raumfotos der Gutschein-Bedingung) auswählen, z. B. Vercel Blob. Bis dahin schicken Kunden Fotos per E-Mail. Danach Datenschutzerklärung ergänzen.
 - [ ] **Webinar-Tool für die Boden-Sprechstunde** auswählen (Aufzeichnung, Teilnahme-Nachweis für den Gutschein, möglichst EU-Hosting) und in der Datenschutzerklärung eintragen.
-- [ ] **PostHog (EU-Cloud) mit Einwilligungsbanner:** erst laden, wenn Besucher zustimmen. Vorher Datenschutzerklärung (Abschnitt „Keine Analyse- und Tracking-Dienste“) aktualisieren und die URL in den Werkbank-Einstellungen eintragen.
+- [ ] **PostHog** (optional, Einwilligungsbanner ist eingebaut): `NEXT_PUBLIC_POSTHOG_KEY` in Vercel setzen, „Discard client IP data“ aktivieren, DPA abschließen und die Projekt-URL in den Werkbank-Einstellungen eintragen, siehe [ANALYTICS.md](ANALYTICS.md). Ohne Key bleiben Banner und Tracking aus.
 - [ ] Vercel + Neon einrichten, siehe [DEPLOYMENT.md](DEPLOYMENT.md)
 - [ ] Admin-Konto über `/einrichten` anlegen
 - [ ] Optional: eigene Domain + `NEXT_PUBLIC_SITE_URL` (Canonical-URLs, Sitemap und JSON-LD nutzen diese Adresse)

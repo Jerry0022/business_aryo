@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton";
+import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
 import { resolveHref } from "./content";
 import { Logo } from "./Logo";
@@ -50,6 +52,9 @@ export function SiteFooter({ onHome = false }: { onHome?: boolean }) {
               <Link href="/datenschutz" className={footerLink}>
                 Datenschutz
               </Link>
+              {analyticsEnabled ? (
+                <CookieSettingsButton className={`cursor-pointer ${footerLink}`} />
+              ) : null}
             </span>
           </Cell>
           <Cell label="Wissen">
