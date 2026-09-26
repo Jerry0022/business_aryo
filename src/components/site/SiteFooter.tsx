@@ -7,30 +7,30 @@ import { InstallAppButton } from "@/features/pwa/ui/InstallAppButton";
 import { resolveHref } from "./content";
 import { Logo } from "./Logo";
 
-// Footer as the title block (Schriftfeld) of a technical drawing.
+// Footer as the title block (Schriftfeld) of a technical drawing, on walnut like the contact section.
 
 function Cell({ label, children, className = "" }: { label: string; children: ReactNode; className?: string }) {
   return (
-    <div className={`flex min-w-0 flex-col gap-1.5 border-b border-r border-graphit px-3.5 py-3 ${className}`}>
-      <span className="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-graphit-muted">{label}</span>
-      <div className="text-sm text-graphit">{children}</div>
+    <div className={`flex min-w-0 flex-col gap-1.5 border-b border-r border-creme/15 px-3.5 py-3 ${className}`}>
+      <span className="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-fuge-dark">{label}</span>
+      <div className="text-sm text-leinen-deep">{children}</div>
     </div>
   );
 }
 
 const footerLink =
-  "underline decoration-graphit/30 decoration-1 underline-offset-4 transition-colors hover:text-kreide hover:decoration-kreide";
+  "underline decoration-leinen-deep/30 decoration-1 underline-offset-4 transition-colors hover:text-kupfer-light hover:decoration-kupfer-light";
 
 export function SiteFooter({ onHome = false }: { onHome?: boolean }) {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-estrich pb-14 pt-4">
+    <footer className={`site-dark bg-nuss pb-14 text-creme ${onHome ? "pt-4" : "pt-14"}`}>
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 xl:px-20">
-        <div className="grid grid-cols-2 border-l border-t border-graphit md:grid-cols-4">
+        <div className="grid grid-cols-2 border-l border-t border-creme/15 md:grid-cols-4">
           <Cell label="Zeichnung" className="col-span-2 md:row-span-2">
             <div className="flex h-full flex-col justify-between gap-4 pb-1">
-              <Logo href={onHome ? "#top" : "/"} />
-              <p className="max-w-xs text-pretty text-sm leading-relaxed text-graphit-soft">{siteConfig.tagline}</p>
+              <Logo href={onHome ? "#top" : "/"} tone="dark" />
+              <p className="max-w-xs text-pretty text-sm leading-relaxed text-fuge">{siteConfig.tagline}</p>
             </div>
           </Cell>
           <Cell label="Firma">
@@ -75,7 +75,7 @@ export function SiteFooter({ onHome = false }: { onHome?: boolean }) {
             <span className="font-mono text-[0.8125rem]">1/1 · M 1:1</span>
           </Cell>
           <Cell label="Claim" className="col-span-2 md:col-span-3">
-            <span className="font-display text-base font-extrabold font-semiwide">{siteConfig.claim}</span>
+            <span className="font-display text-lg italic text-kupfer-light">{siteConfig.claim}</span>
           </Cell>
           <Cell label="Stand" className="col-span-2 md:col-span-1">
             <span className="font-mono text-[0.8125rem]">

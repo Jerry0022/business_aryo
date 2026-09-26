@@ -120,7 +120,7 @@ export default function FloorSample3D({ active, onReady, onInteract, ...board }:
       />
       <directionalLight position={[-2.5, 1.5, -1]} intensity={0.35} />
       <Board {...board} />
-      <ContactShadows position={[0, -0.002, 0]} opacity={0.42} scale={3.2} blur={2.6} far={0.8} resolution={512} color="#22252a" />
+      <ContactShadows position={[0, -0.002, 0]} opacity={0.42} scale={3.2} blur={2.6} far={0.8} resolution={512} color="#231913" />
       <OrbitControls
         makeDefault
         enableZoom={false}

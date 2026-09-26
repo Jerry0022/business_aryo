@@ -10,9 +10,9 @@ interface DimensionLineProps {
  * A dimension line from a technical drawing ("Bemaßung"): end ticks, oblique marks and an
  * optional label. Purely decorative; never put information here that is not also in the text.
  */
-export function DimensionLine({ label, surface = "bg-estrich", className = "" }: DimensionLineProps) {
+export function DimensionLine({ label, surface = "bg-leinen", className = "" }: DimensionLineProps) {
   return (
-    <div className={`relative h-[22px] text-kreide ${className}`} aria-hidden="true">
+    <div className={`relative h-[22px] text-kupfer ${className}`} aria-hidden="true">
       <span className="absolute inset-y-0 left-0 w-px bg-current" />
       <span className="absolute inset-y-0 right-0 w-px bg-current" />
       <span className="absolute inset-x-0 top-1/2 h-px bg-current" />

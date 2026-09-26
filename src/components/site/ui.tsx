@@ -1,22 +1,27 @@
 import type { ReactNode } from "react";
 
-// Shared building blocks of the "Aufmaß" design: technical drawing on screed grey, dimension lines
-// as the signature motif, chalk-line blue accent, square-ish corners. Hook-free (server-safe).
+// Shared building blocks of the "Werkstatt" design: oiled linen and dark walnut surfaces, copper accent,
+// a soft serif for headlines and the Aufmaß details (mono labels, dimension lines). Hook-free (server-safe).
 
 export const container = "mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 xl:px-20";
 
 export const buttonPrimary =
-  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-xs bg-kreide text-center px-5 py-3 text-[0.95rem] font-semibold text-white transition-colors hover:bg-kreide-deep disabled:cursor-wait disabled:opacity-70";
+  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-kupfer text-center px-6 py-3 text-[0.95rem] font-semibold text-creme shadow-[0_10px_24px_-14px_rgb(124_53_18/0.9)] transition-[background-color,transform] hover:-translate-y-px hover:bg-kupfer-deep disabled:cursor-wait disabled:opacity-70";
+
+/** Primary action on walnut surfaces: blond maple with dark text. */
+export const buttonOnDark =
+  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-ahorn text-center px-6 py-3 text-[0.95rem] font-semibold text-nuss shadow-[0_12px_32px_-14px_rgb(236_214_169/0.6)] transition-[background-color,transform] hover:-translate-y-px hover:bg-ahorn-light disabled:cursor-wait disabled:opacity-70";
 
 export const buttonSecondary =
-  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-xs border border-graphit/35 px-5 py-3 text-[0.95rem] font-semibold text-graphit transition-colors hover:border-graphit hover:bg-blatt";
+  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full border border-nuss/30 px-6 py-3 text-[0.95rem] font-semibold text-nuss transition-colors hover:border-nuss hover:bg-creme";
 
 export const textLink =
-  "inline-flex items-center gap-2 font-semibold text-kreide underline decoration-kreide/35 decoration-1 underline-offset-4 transition-colors hover:text-kreide-deep hover:decoration-kreide-deep";
+  "inline-flex items-center gap-2 font-semibold text-kupfer underline decoration-kupfer/35 decoration-1 underline-offset-4 transition-colors hover:text-kupfer-deep hover:decoration-kupfer-deep";
 
-export const eyebrow = "font-mono text-xs uppercase tracking-[0.12em]";
+export const eyebrow = "font-mono text-xs uppercase tracking-[0.14em]";
 
-export const card = "rounded-xs border border-strich bg-blatt";
+export const card =
+  "rounded-2xl border border-fuge/80 bg-creme shadow-[0_1px_0_rgb(255_255_255/0.7)_inset,0_22px_44px_-34px_rgb(35_25_19/0.45)]";
 
 export function ArrowIcon({ className = "size-4" }: { className?: string }) {
   return (
@@ -56,7 +61,7 @@ export function CheckIcon({ className = "size-3.5" }: { className?: string }) {
 
 interface DimensionLineProps {
   label: string;
-  /** Background behind the label, must match the surface (e.g. "bg-estrich"). */
+  /** Background behind the label, must match the surface (e.g. "bg-leinen"). */
   labelBg?: string;
   /** Colour of line and label. */
   tone?: string;
@@ -66,8 +71,8 @@ interface DimensionLineProps {
 /** Bemaßungslinie: extension lines, 45° ticks and a centred measurement label. */
 export function DimensionLine({
   label,
-  labelBg = "bg-estrich",
-  tone = "text-kreide",
+  labelBg = "bg-leinen",
+  tone = "text-kupfer",
   className = "",
 }: DimensionLineProps) {
   return (
@@ -102,14 +107,14 @@ export function SectionHeader({ id, label, title, children, dark = false, classN
   return (
     <div className={`flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between ${className}`}>
       <div className="max-w-3xl">
-        <p className={`${eyebrow} flex items-center gap-3 ${dark ? "text-strich" : "text-kreide"}`}>
-          <span className="h-px w-6 bg-current" aria-hidden="true" />
+        <p className={`${eyebrow} flex items-center gap-3 ${dark ? "text-kupfer-light" : "text-kupfer"}`}>
+          <span className="h-px w-8 bg-current" aria-hidden="true" />
           {label}
         </p>
         <h2
           id={`${id}-title`}
-          className={`mt-4 text-balance font-display text-[clamp(2rem,6vw,3rem)] font-extrabold leading-[1.05] tracking-[-0.01em] font-semiwide ${
-            dark ? "text-blatt" : "text-graphit"
+          className={`mt-4 text-balance font-display text-[clamp(2.25rem,6.5vw,3.5rem)] font-medium leading-[1.02] tracking-[-0.025em] ${
+            dark ? "text-creme" : "text-nuss"
           }`}
         >
           {title}
@@ -117,7 +122,7 @@ export function SectionHeader({ id, label, title, children, dark = false, classN
         {children ? (
           <div
             className={`mt-4 max-w-2xl text-pretty text-lg leading-relaxed sm:text-[1.1875rem] ${
-              dark ? "text-estrich-deep" : "text-graphit-soft"
+              dark ? "text-leinen-deep" : "text-nuss-soft"
             }`}
           >
             {children}
@@ -134,7 +139,7 @@ export function LeaderRow({ label, value, className = "" }: { label: ReactNode; 
   return (
     <div className={`flex items-baseline gap-2 ${className}`}>
       <span>{label}</span>
-      <span className="min-w-4 flex-1 border-b border-dotted border-graphit-muted/70" aria-hidden="true" />
+      <span className="min-w-4 flex-1 border-b border-dotted border-nuss-muted/70" aria-hidden="true" />
       <span className="shrink-0 text-right">{value}</span>
     </div>
   );

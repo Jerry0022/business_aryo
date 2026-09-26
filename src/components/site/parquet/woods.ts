@@ -9,9 +9,23 @@ export interface WoodTone {
   knot: string;
   /** Representative colours for UI swatches (light → dark). */
   swatch: readonly [string, string];
+  /** Aryo's favourite wood, highlighted in the explorer. */
+  favorite?: boolean;
 }
 
 export const WOODS = {
+  // European maple: creamy blond, fine pores, calm grain. Aryo's favourite wood.
+  ahorn: {
+    label: "Ahorn",
+    note: "blond, feinporig, ruhig",
+    fills: ["#ecd6a9", "#f1dfb6", "#e5cb98", "#f5e5c1", "#dec08c", "#eacfa0"],
+    seam: "#a8875a",
+    grainDark: "#b3915f",
+    grainLight: "#fff7e4",
+    knot: "#9c7a4d",
+    swatch: ["#f5e5c1", "#dec08c"],
+    favorite: true,
+  },
   "eiche-natur": {
     label: "Eiche natur",
     note: "warm, hell, zeitlos",

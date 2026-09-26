@@ -6,7 +6,7 @@ import { MATERIALS, PATTERNS, type MaterialId } from "../content";
 import { usePrefersReducedMotion, useNearViewport, useWebGLSupport } from "../hooks";
 import { buildParquet, type ParquetGeometry, type PatternId } from "../parquet/geometry";
 import { ParquetSvg } from "../parquet/ParquetSvg";
-import { WOOD_IDS, WOODS, type WoodId } from "../parquet/woods";
+import { WOOD_IDS, WOODS, type WoodId, type WoodTone } from "../parquet/woods";
 import { container, eyebrow, SectionHeader } from "../ui";
 
 // Boden-Explorer: material, pattern and wood tone on a 3D sample board. The 3D part is loaded only
@@ -76,12 +76,12 @@ class SceneBoundary extends Component<{ children: ReactNode; onError: () => void
 }
 
 const radioBase =
-  "group flex items-center gap-3 rounded-xs border transition-colors hover:border-graphit/60 aria-checked:border-kreide aria-checked:bg-blatt aria-checked:shadow-[0_10px_24px_-18px_rgb(34_37_42/0.6)]";
+  "group flex items-center gap-3 rounded-lg border transition-colors hover:border-nuss/60 aria-checked:border-kupfer aria-checked:bg-creme aria-checked:shadow-[0_10px_24px_-18px_rgb(35_25_19/0.6)]";
 
 export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean }) {
   const [material, setMaterial] = useState<MaterialId>("parkett");
   const [patternId, setPatternId] = useState<PatternId>("landhausdiele");
-  const [woodId, setWoodId] = useState<WoodId>("eiche-natur");
+  const [woodId, setWoodId] = useState<WoodId>("ahorn");
   const [yaw, setYaw] = useState(0);
   const [interacted, setInteracted] = useState(false);
   const [ready, setReady] = useState(false);
@@ -135,7 +135,7 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
     : "Gibt es auch als Fertigparkett zum schwimmenden Verlegen.";
 
   return (
-    <section id="muster" aria-labelledby="muster-title" className="scroll-mt-16 border-t border-strich py-20 sm:py-24 xl:scroll-mt-20">
+    <section id="muster" aria-labelledby="muster-title" className="scroll-mt-16 border-t border-fuge py-20 sm:py-24 xl:scroll-mt-20">
       <div className={container}>
         <SectionHeader id="muster" label="3D-Boden-Explorer" title="Böden zum Anfassen">
           <p>Material, Muster und Holzton: dreh die Probe, bis du weißt, was dir gefällt. Und was nicht.</p>
@@ -148,13 +148,13 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                 ref={previewRef}
                 role="img"
                 aria-label={previewName}
-                className="drawing-grid relative aspect-[4/3] overflow-hidden rounded-xs border border-strich bg-blatt"
+                className="drawing-grid relative aspect-[4/3] overflow-hidden rounded-2xl border border-fuge bg-creme"
               >
                 <div
                   className={`absolute inset-[12%] transition-opacity duration-500 ${ready && show3D ? "opacity-0" : "opacity-100"}`}
                   aria-hidden="true"
                 >
-                  <div className="explorer-flat size-full shadow-[0_30px_40px_-24px_rgb(34_37_42/0.55)]">
+                  <div className="explorer-flat size-full shadow-[0_30px_40px_-24px_rgb(35_25_19/0.55)]">
                     <ParquetSvg key={`${shownPattern}-${material}`} geometry={geometry} wood={woodId} className="block size-full" />
                   </div>
                 </div>
@@ -173,18 +173,18 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                     />
                   </SceneBoundary>
                 ) : null}
-                <span className={`${eyebrow} pointer-events-none absolute left-3 top-3 text-[0.625rem] text-graphit-muted`} aria-hidden="true">
+                <span className={`${eyebrow} pointer-events-none absolute left-3 top-3 text-[0.625rem] text-nuss-muted`} aria-hidden="true">
                   Muster · {materialInfo.label}
                 </span>
-                <span className={`${eyebrow} pointer-events-none absolute bottom-3 right-3 text-[0.625rem] text-graphit-muted`} aria-hidden="true">
+                <span className={`${eyebrow} pointer-events-none absolute bottom-3 right-3 text-[0.625rem] text-nuss-muted`} aria-hidden="true">
                   {show3D && ready ? "Ziehen zum Drehen" : "Vorschau"}
                 </span>
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <figcaption className="min-w-0" aria-live="polite">
-                  <p className="font-display text-xl font-bold leading-tight font-semiwide sm:text-2xl">
-                    {patternLabel} <span className="font-normal text-graphit-muted">in {wood.label}</span>
+                  <p className="font-display text-xl font-semibold leading-tight sm:text-2xl">
+                    {patternLabel} <span className="font-normal text-nuss-muted">in {wood.label}</span>
                   </p>
                 </figcaption>
                 {show3D ? (
@@ -192,7 +192,7 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                     <button
                       type="button"
                       onClick={() => rotate(-Math.PI / 6)}
-                      className="inline-flex size-11 items-center justify-center rounded-xs border border-strich-dark bg-blatt text-graphit hover:border-graphit"
+                      className="inline-flex size-11 items-center justify-center rounded-lg border border-fuge-dark bg-creme text-nuss hover:border-nuss"
                       aria-label="Probe nach links drehen"
                     >
                       <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
@@ -202,7 +202,7 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                     <button
                       type="button"
                       onClick={() => rotate(Math.PI / 6)}
-                      className="inline-flex size-11 items-center justify-center rounded-xs border border-strich-dark bg-blatt text-graphit hover:border-graphit"
+                      className="inline-flex size-11 items-center justify-center rounded-lg border border-fuge-dark bg-creme text-nuss hover:border-nuss"
                       aria-label="Probe nach rechts drehen"
                     >
                       <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
@@ -217,7 +217,7 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
 
           <div className="flex min-w-0 flex-col gap-8 lg:col-span-5 lg:col-start-1 lg:row-span-2 lg:row-start-1">
             <div>
-              <p id="muster-material-label" className={`${eyebrow} text-graphit-muted`}>
+              <p id="muster-material-label" className={`${eyebrow} text-nuss-muted`}>
                 Material
               </p>
               <div role="radiogroup" aria-labelledby="muster-material-label" className="mt-3 grid grid-cols-3 gap-2">
@@ -233,10 +233,10 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                       tabIndex={checked ? 0 : -1}
                       onClick={() => setMaterial(item.id)}
                       onKeyDown={materialKeys.onKeyDown}
-                      className={`${radioBase} flex-col items-start gap-0.5 border-strich-dark/50 bg-blatt/50 px-3 py-2.5 text-left`}
+                      className={`${radioBase} flex-col items-start gap-0.5 border-fuge-dark/50 bg-creme/50 px-3 py-2.5 text-left`}
                     >
-                      <span className="font-semibold text-graphit">{item.label}</span>
-                      <span className="text-xs text-graphit-muted">{item.short}</span>
+                      <span className="font-semibold text-nuss">{item.label}</span>
+                      <span className="text-xs text-nuss-muted">{item.short}</span>
                     </button>
                   );
                 })}
@@ -245,7 +245,7 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
 
             {isParkett ? (
               <div>
-                <p id="muster-pattern-label" className={`${eyebrow} text-graphit-muted`}>
+                <p id="muster-pattern-label" className={`${eyebrow} text-nuss-muted`}>
                   Verlegemuster
                 </p>
                 <div role="radiogroup" aria-labelledby="muster-pattern-label" className="mt-3 grid grid-cols-2 gap-1.5 sm:grid-cols-1">
@@ -264,18 +264,18 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                         onKeyDown={patternKeys.onKeyDown}
                         className={`${radioBase} w-full border-transparent p-2 text-left sm:pr-4`}
                       >
-                        <span className="relative size-10 shrink-0 overflow-hidden rounded-xs ring-1 ring-graphit/15 sm:size-12">
+                        <span className="relative size-10 shrink-0 overflow-hidden rounded-lg ring-1 ring-nuss/15 sm:size-12">
                           {thumb ? <ParquetSvg geometry={thumb} wood={woodId} className="absolute inset-0 size-full" /> : null}
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block text-[0.9375rem] font-semibold leading-tight text-graphit sm:text-base">{item.label}</span>
-                          <span className="mt-0.5 hidden text-sm text-graphit-muted sm:block">{item.short}</span>
+                          <span className="block text-[0.9375rem] font-semibold leading-tight text-nuss sm:text-base">{item.label}</span>
+                          <span className="mt-0.5 hidden text-sm text-nuss-muted sm:block">{item.short}</span>
                         </span>
                         <span
-                          className="hidden size-5 shrink-0 items-center justify-center rounded-full border border-strich-dark group-aria-checked:border-kreide sm:flex"
+                          className="hidden size-5 shrink-0 items-center justify-center rounded-full border border-fuge-dark group-aria-checked:border-kupfer sm:flex"
                           aria-hidden="true"
                         >
-                          <span className="size-2.5 rounded-full bg-kreide opacity-0 group-aria-checked:opacity-100" />
+                          <span className="size-2.5 rounded-full bg-kupfer opacity-0 group-aria-checked:opacity-100" />
                         </span>
                       </button>
                     );
@@ -283,19 +283,19 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                 </div>
               </div>
             ) : (
-              <p className="rounded-xs border border-dashed border-strich-dark/60 p-4 text-pretty leading-relaxed text-graphit-soft">
+              <p className="rounded-lg border border-dashed border-fuge-dark/60 p-4 text-pretty leading-relaxed text-nuss-soft">
                 {material === "laminat" ? "Laminat" : "Vinyl"} liegt fast immer als Diele im Verband. Das Holzbild ist
                 gedruckt, deshalb wählst du unten den Dekor.
               </p>
             )}
 
             <div>
-              <p id="muster-wood-label" className={`${eyebrow} text-graphit-muted`}>
+              <p id="muster-wood-label" className={`${eyebrow} text-nuss-muted`}>
                 Holzton
               </p>
-              <div role="radiogroup" aria-labelledby="muster-wood-label" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+              <div role="radiogroup" aria-labelledby="muster-wood-label" className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5">
                 {WOOD_IDS.map((id) => {
-                  const tone = WOODS[id];
+                  const tone: WoodTone = WOODS[id];
                   const checked = id === woodId;
                   return (
                     <button
@@ -310,13 +310,16 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                       className={`${radioBase} flex-col justify-center gap-2 border-transparent px-2 py-3 text-center`}
                     >
                       <span
-                        className="h-8 w-12 rounded-xs ring-1 ring-graphit/15"
+                        className="h-8 w-12 rounded-lg ring-1 ring-nuss/15"
                         style={{
                           background: `repeating-linear-gradient(100deg, ${tone.fills[0]} 0 5px, ${tone.fills[2]} 5px 7px, ${tone.fills[3]} 7px 11px, ${tone.fills[4]} 11px 12px)`,
                         }}
                         aria-hidden="true"
                       />
-                      <span className="text-sm font-semibold leading-tight text-graphit">{tone.label}</span>
+                      <span className="text-sm font-semibold leading-tight text-nuss">{tone.label}</span>
+                      {tone.favorite ? (
+                        <span className="-mt-1 font-display text-xs italic text-kupfer">mein Lieblingsholz</span>
+                      ) : null}
                       <span className="sr-only">– {tone.note}</span>
                     </button>
                   );
@@ -324,13 +327,13 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
               </div>
             </div>
 
-            <p className="text-sm leading-relaxed text-graphit-muted">
+            <p className="text-sm leading-relaxed text-nuss-muted">
               Die Probe ist eine Illustration. Holzart, Sortierung und Oberfläche schauen wir uns bei der Erstberatung an
               echten Mustern an.
             </p>
           </div>
 
-          <div className="grid min-w-0 gap-3 border-t border-dashed border-strich-dark/60 pt-4 text-pretty leading-relaxed text-graphit-soft sm:grid-cols-2 lg:col-span-7 lg:col-start-6 lg:row-start-2 lg:self-start">
+          <div className="grid min-w-0 gap-3 border-t border-dashed border-fuge-dark/60 pt-4 text-pretty leading-relaxed text-nuss-soft sm:grid-cols-2 lg:col-span-7 lg:col-start-6 lg:row-start-2 lg:self-start">
             <p>{materialInfo.note}</p>
             <p>{isParkett ? `${pattern.description} ${gluedNote}` : "Laminat und Vinyl gibt es fast nur als Diele. Hier siehst du die übliche Diele."}</p>
           </div>

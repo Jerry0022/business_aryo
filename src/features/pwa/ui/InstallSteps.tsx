@@ -5,7 +5,7 @@ export function InstallSteps({ platform, className }: { platform: ManualInstallP
   const guide = INSTALL_GUIDES[platform];
   return (
     <div className={className}>
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-kreide">{guide.device}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-kupfer">{guide.device}</p>
       <ol className="mt-2 list-decimal space-y-1.5 pl-5">
         {guide.steps.map((step) => (
           <li key={step}>{step}</li>

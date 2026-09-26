@@ -34,10 +34,10 @@ const SCENES: readonly Scene[] = [
   },
   {
     id: "laminat",
-    title: "Graues Laminat → Eiche Landhausdiele, natur",
-    intro: "Links graues Laminat, rechts Eiche als Landhausdiele, natur geölt.",
+    title: "Graues Laminat → Ahorn Landhausdiele, natur",
+    intro: "Links graues Laminat, rechts europäischer Ahorn als Landhausdiele, natur geölt, mein Lieblingsholz.",
     before: { kind: "laminate", label: "Graues Laminat" },
-    after: { kind: "wood", label: "Eiche Landhausdiele, natur", pattern: "landhausdiele", wood: "eiche-natur", unit: 10, detail: true },
+    after: { kind: "wood", label: "Ahorn Landhausdiele, natur", pattern: "landhausdiele", wood: "ahorn", unit: 10, detail: true },
   },
 ];
 
@@ -50,7 +50,7 @@ export function BeforeAfter() {
   const scene = SCENES.find((item) => item.id === sceneId) ?? SCENES[0]!;
 
   return (
-    <section id="vergleich" aria-labelledby="vergleich-title" className="scroll-mt-16 border-t border-strich py-20 sm:py-24 xl:scroll-mt-20">
+    <section id="vergleich" aria-labelledby="vergleich-title" className="scroll-mt-16 border-t border-fuge py-20 sm:py-24 xl:scroll-mt-20">
       <div className={container}>
         <SectionHeader
           id="vergleich"
@@ -64,10 +64,10 @@ export function BeforeAfter() {
                   type="button"
                   aria-pressed={item.id === scene.id}
                   onClick={() => setSceneId(item.id)}
-                  className={`min-h-11 rounded-xs border px-3.5 py-2 text-left text-sm font-medium transition-colors ${
+                  className={`min-h-11 rounded-lg border px-3.5 py-2 text-left text-sm font-medium transition-colors ${
                     item.id === scene.id
-                      ? "border-kreide bg-kreide text-white"
-                      : "border-strich-dark bg-blatt text-graphit hover:border-graphit"
+                      ? "border-kupfer bg-kupfer text-creme"
+                      : "border-fuge-dark bg-creme text-nuss hover:border-nuss"
                   }`}
                 >
                   {item.title}
@@ -81,7 +81,7 @@ export function BeforeAfter() {
 
         <Comparison scene={scene} pos={pos} onChange={setPos} />
 
-        <p className="mt-3.5 font-mono text-xs uppercase tracking-[0.08em] text-graphit-muted">
+        <p className="mt-3.5 font-mono text-xs uppercase tracking-[0.08em] text-nuss-muted">
           Illustration. Hier zeige ich bald echte Projekte aus NRW.
         </p>
       </div>
@@ -131,7 +131,7 @@ function Comparison({ scene, pos, onChange }: { scene: Scene; pos: number; onCha
       onPointerCancel={() => {
         drag.current = null;
       }}
-      className="group relative mt-10 [container-type:size] aspect-[4/3] w-full cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-xs bg-[#e7e3dc] ring-1 ring-strich sm:aspect-video lg:aspect-[28/15]"
+      className="group relative mt-10 [container-type:size] aspect-[4/3] w-full cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-lg bg-[#ebe0cf] ring-1 ring-fuge sm:aspect-video lg:aspect-[28/15]"
     >
       <Room floor={scene.after} variant="after" />
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
@@ -139,9 +139,9 @@ function Comparison({ scene, pos, onChange }: { scene: Scene; pos: number; onCha
       </div>
       <Furniture />
 
-      <div className="pointer-events-none absolute inset-y-0 w-0.5 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgb(0_0_0/0.14)]" style={{ left: `${pos}%` }} aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-y-0 w-0.5 -translate-x-1/2 bg-milch shadow-[0_0_0_1px_rgb(0_0_0/0.14)]" style={{ left: `${pos}%` }} aria-hidden="true" />
       <div
-        className="pointer-events-none absolute top-1/2 flex size-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-kreide text-white shadow-[0_4px_14px_rgb(0_0_0/0.3),0_0_0_3px_#fff] group-has-[input:focus-visible]:outline group-has-[input:focus-visible]:outline-[3px] group-has-[input:focus-visible]:outline-offset-[5px] group-has-[input:focus-visible]:outline-kreide sm:size-[52px]"
+        className="pointer-events-none absolute top-1/2 flex size-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-kupfer text-creme shadow-[0_4px_14px_rgb(0_0_0/0.3),0_0_0_3px_#fff] group-has-[input:focus-visible]:outline group-has-[input:focus-visible]:outline-[3px] group-has-[input:focus-visible]:outline-offset-[5px] group-has-[input:focus-visible]:outline-kupfer sm:size-[52px]"
         style={{ left: `${pos}%` }}
         aria-hidden="true"
       >
@@ -150,12 +150,12 @@ function Comparison({ scene, pos, onChange }: { scene: Scene; pos: number; onCha
         </svg>
       </div>
 
-      <div className="pointer-events-none absolute left-2.5 top-2.5 max-w-[46%] bg-graphit/80 px-2.5 py-1.5 font-mono text-[0.6875rem] leading-snug tracking-[0.04em] text-white sm:left-4 sm:top-4 sm:px-3 sm:py-2 sm:text-xs">
-        <span className="block text-strich">VORHER</span>
+      <div className="pointer-events-none absolute left-2.5 top-2.5 max-w-[46%] bg-nuss/80 px-2.5 py-1.5 font-mono text-[0.6875rem] leading-snug tracking-[0.04em] text-white sm:left-4 sm:top-4 sm:px-3 sm:py-2 sm:text-xs">
+        <span className="block text-fuge">VORHER</span>
         <span className="block">{scene.before.label}</span>
       </div>
-      <div className="pointer-events-none absolute right-2.5 top-2.5 max-w-[46%] bg-graphit/80 px-2.5 py-1.5 text-right font-mono text-[0.6875rem] leading-snug tracking-[0.04em] text-white sm:right-4 sm:top-4 sm:px-3 sm:py-2 sm:text-xs">
-        <span className="block text-strich">NACHHER</span>
+      <div className="pointer-events-none absolute right-2.5 top-2.5 max-w-[46%] bg-nuss/80 px-2.5 py-1.5 text-right font-mono text-[0.6875rem] leading-snug tracking-[0.04em] text-white sm:right-4 sm:top-4 sm:px-3 sm:py-2 sm:text-xs">
+        <span className="block text-fuge">NACHHER</span>
         <span className="block">{scene.after.label}</span>
       </div>
 
@@ -207,7 +207,7 @@ function Room({ floor, variant }: { floor: Floor; variant: "before" | "after" })
       </div>
       <div
         className="absolute inset-x-0 top-[53.67%] h-[2%]"
-        style={{ background: before ? "#6b5543" : "#f7f6f2", boxShadow: before ? undefined : "0 1px 0 rgb(0 0 0 / 0.08)" }}
+        style={{ background: before ? "#6b5543" : "#f8f1e4", boxShadow: before ? undefined : "0 1px 0 rgb(0 0 0 / 0.08)" }}
       />
       {before ? <div className="absolute inset-0 bg-[rgb(62_52_40/0.1)]" /> : null}
     </Stage>
@@ -279,11 +279,11 @@ function Wall() {
     <svg viewBox="0 0 1120 600" className="absolute inset-0 size-full" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="ba-wall" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0" stopColor="#ddd8cf" />
-          <stop offset="0.4" stopColor="#e9e5de" />
-          <stop offset="0.66" stopColor="#f3f0ea" />
-          <stop offset="0.76" stopColor="#f6f4ef" />
-          <stop offset="1" stopColor="#e6e1d9" />
+          <stop offset="0" stopColor="#e3d8c6" />
+          <stop offset="0.4" stopColor="#ede3d3" />
+          <stop offset="0.66" stopColor="#f5ede0" />
+          <stop offset="0.76" stopColor="#f8f1e5" />
+          <stop offset="1" stopColor="#e8ddcc" />
         </linearGradient>
         <linearGradient id="ba-sky" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" stopColor="#c9dce6" />
@@ -298,10 +298,10 @@ function Wall() {
       <ellipse cx="315" cy="143" rx="35" ry="25" fill="#b7a58a" />
       <rect x="328" y="136" width="70" height="40" fill="#8e9a85" />
       {/* Window */}
-      <rect x="640" y="46" width="250" height="250" fill="#f8f7f3" />
+      <rect x="640" y="46" width="250" height="250" fill="#f8f1e4" />
       <rect x="650" y="56" width="230" height="230" fill="url(#ba-sky)" />
-      <rect x="760" y="56" width="10" height="230" fill="#f8f7f3" />
-      <rect x="650" y="164" width="230" height="8" fill="#f8f7f3" />
+      <rect x="760" y="56" width="10" height="230" fill="#f8f1e4" />
+      <rect x="650" y="164" width="230" height="8" fill="#f8f1e4" />
     </svg>
   );
 }

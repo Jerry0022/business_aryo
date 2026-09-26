@@ -20,10 +20,10 @@ const OPTIONS = [
 /** Closing band of the Ratgeber index: from reading to the next step. */
 export function RatgeberCta() {
   return (
-    <section aria-labelledby="ratgeber-weiter" className="mt-24 bg-graphit text-blatt">
-      <div className="border-b border-graphit-soft px-6 py-8 sm:px-10">
-        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-kreide-light sm:text-xs">Lieber persönlich?</p>
-        <h2 id="ratgeber-weiter" className="mt-3 max-w-2xl font-semiwide text-2xl font-bold leading-tight text-balance sm:text-3xl">
+    <section aria-labelledby="ratgeber-weiter" className="mt-24 bg-nuss text-creme">
+      <div className="border-b border-nuss-soft px-6 py-8 sm:px-10">
+        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-kupfer-light sm:text-xs">Lieber persönlich?</p>
+        <h2 id="ratgeber-weiter" className="mt-3 font-display max-w-2xl text-2xl font-semibold leading-tight text-balance sm:text-3xl">
           Lesen hilft. Fragen hilft mehr.
         </h2>
       </div>
@@ -31,14 +31,14 @@ export function RatgeberCta() {
         {OPTIONS.map((option, index) => (
           <li
             key={option.title}
-            className={`flex flex-col gap-3 px-6 py-8 sm:px-10 ${index > 0 ? "border-t border-graphit-soft md:border-l md:border-t-0" : ""}`}
+            className={`flex flex-col gap-3 px-6 py-8 sm:px-10 ${index > 0 ? "border-t border-nuss-soft md:border-l md:border-t-0" : ""}`}
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-strich sm:text-xs">{option.eyebrow}</p>
-            <h3 className="font-semiwide text-xl font-bold leading-snug">{option.title}</h3>
-            <p className="max-w-md leading-relaxed text-estrich-deep">{option.text}</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-fuge sm:text-xs">{option.eyebrow}</p>
+            <h3 className="font-display text-xl font-semibold leading-snug">{option.title}</h3>
+            <p className="max-w-md leading-relaxed text-leinen-deep">{option.text}</p>
             <Link
               href={option.link.href}
-              className="mt-3 inline-flex items-center justify-center gap-2.5 self-start rounded-[2px] bg-kreide px-5 py-3.5 font-semibold text-white transition-colors hover:bg-kreide-deep focus-visible:outline-kreide-light"
+              className="mt-3 inline-flex items-center justify-center gap-2.5 self-start rounded-full bg-kupfer px-5 py-3.5 font-semibold text-creme transition-colors hover:bg-kupfer-deep focus-visible:outline-kupfer-light"
             >
               {option.link.label}
               <ArrowRight className="size-4" strokeWidth={1.6} aria-hidden="true" />

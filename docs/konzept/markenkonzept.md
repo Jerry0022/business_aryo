@@ -2,7 +2,7 @@
 
 Ergebnis der Konzept-Session zur Unternehmenswebsite (öffentlicher Teil und Admin-Bereich). Das 3D-Haus für Aryos Account ist ein separates Projekt und nicht Teil dieses Dokuments.
 
-**Stand:** 26.09.2026, umgesetzt in Design-Richtung A „Aufmaß“ (öffentliche Website, Ratgeber, Werkbank). Offene Entscheidungen stehen am Ende.
+**Stand:** 26.09.2026, umgesetzt in Design-Richtung D „Werkstatt“ (öffentliche Website und Ratgeber; die Werkbank bleibt dunkel). Offene Entscheidungen stehen am Ende.
 
 **Verhältnis zur Erstimplementierung** (Branch `claude/amazing-wozniak-41vwku`, Next.js):
 - **Dieses Dokument ist führend** für die öffentliche Website und die Fachlichkeit des Admin-Bereichs: Marke, Inhalte, Aufbau, Geschäftslogik, Preise, Kontingente und Design.
@@ -386,15 +386,16 @@ Klickbare Vorschau: <https://claude.ai/artifact/Hmz3Q3JkUXWexvhzbHaWZx>. Das Art
 
 | Richtung | Charakter | Schrift | Farben |
 |---|---|---|---|
-| **A · Aufmaß** (Empfehlung) | Der Tüftler mit Zollstock: technische Zeichnung, Bemaßungslinien, Aufmaß und Schriftfeld | Archivo (breit) und IBM Plex Mono | Estrich-Grau, Graphit, Kreideblau, Eiche |
+| **A · Aufmaß** (abgelöst) | Der Tüftler mit Zollstock: technische Zeichnung, Bemaßungslinien, Aufmaß und Schriftfeld | Archivo (breit) und IBM Plex Mono | Estrich-Grau, Graphit, Kreideblau, Eiche |
 | **B · Maserung** | Sinnlich und hochwertig: dunkles Nussbaum, große Holzflächen | Gloock und Hanken Grotesk | Nussbaum, Leinöl, geölte Eiche, Moos |
 | **C · Verband** (verworfen) | Modern und grafisch: Verlegemuster als Bildsprache, Vergleich ganz vorn. Verworfen, weil Fischgrät nicht angeboten wird | Bricolage Grotesque und Schibsted Grotesk | Tannengrün, Kalk, helle Eiche, Signalgelb |
+| **D · Werkstatt** (umgesetzt) | Die Werkstatt am Abend: geöltes Leinen statt Weiß, dunkles Nussbaum mit Maserung und Lampenlicht, Kupfer als Akzent. Aus A bleiben Bemaßungslinien, Aufmaß-Karte und Schriftfeld | Fraunces (weiche Serife, kursive Betonungen) und Hanken Grotesk, IBM Plex Mono für Maße | Leinen, Nussbaum, Kupfer, Eiche, Moos und blonder europäischer Ahorn (Aryos Lieblingsholz, u. a. als Button auf Nussbaum und Standard-Holzton im Boden-Explorer) |
 
-Alle drei Richtungen enthalten dieselben Bausteine: Vorher/Nachher-Vergleich, Boden-Check, Kontingent-Anzeige, Einladung zur Sprechstunde und Ratgeber.
+Alle Richtungen enthalten dieselben Bausteine: Vorher/Nachher-Vergleich, Boden-Check, Kontingent-Anzeige, Einladung zur Sprechstunde und Ratgeber.
 
 ## 15. Offene Entscheidungen
 
-1. ~~Welche Design-Richtung?~~ Entschieden: A „Aufmaß“, umgesetzt.
+1. ~~Welche Design-Richtung?~~ Zuerst A „Aufmaß“ umgesetzt, dann durch D „Werkstatt“ abgelöst: A wirkte zu grau und klinisch.
 2. Boden-Pass Plus: Größengrenze für Ausbesserungen, Pflegeintervall, Zielsegmente für Rundum-sorglos.
 3. Termin bei der Handwerkskammer (Fragen siehe Kapitel 10).
 4. Partner-Suche: erster Parkettleger-Meisterbetrieb.

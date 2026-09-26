@@ -14,7 +14,7 @@ export function EmergencyForm() {
       submitLabel="Schaden melden"
       label="Schaden melden"
       successExtra={
-        <a href={PHOTO_MAILTO} className="mt-2 inline-flex font-semibold text-kreide underline underline-offset-4">
+        <a href={PHOTO_MAILTO} className="mt-2 inline-flex font-semibold text-kupfer underline underline-offset-4">
           Fotos per E-Mail schicken
         </a>
       }

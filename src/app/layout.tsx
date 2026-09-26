@@ -1,18 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { Consent } from "@/components/consent/Consent";
 import { siteConfig } from "@/config/site";
 import { CAPTURE_INSTALL_PROMPT_SCRIPT } from "@/features/pwa/capture-script";
 import { ServiceWorkerRegistration } from "@/features/pwa/ui/ServiceWorkerRegistration";
 import "./globals.css";
 
-// Direction A "Aufmaß" (docs/konzept/markenkonzept.md, chapter 14): Archivo with its width axis for
-// display type (`font-wide`), IBM Plex Mono for measurements, labels and numbers.
-const archivo = Archivo({
+// Direction "Werkstatt": Fraunces (soft, optical-size serif) for display type, Hanken Grotesk for
+// text, IBM Plex Mono for measurements, labels and numbers.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-fraunces",
   display: "swap",
-  axes: ["wdth"],
+  style: ["normal", "italic"],
+  axes: ["SOFT", "opsz"],
+});
+
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-hanken",
+  display: "swap",
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -43,7 +50,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#22252a",
+  themeColor: "#231913",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -51,7 +58,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" data-scroll-behavior="smooth" className={`${archivo.variable} ${plexMono.variable}`}>
+    <html lang="de" data-scroll-behavior="smooth" className={`${fraunces.variable} ${hanken.variable} ${plexMono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: CAPTURE_INSTALL_PROMPT_SCRIPT }} />
       </head>

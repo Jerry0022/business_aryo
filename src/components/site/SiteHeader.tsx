@@ -5,12 +5,12 @@ import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore }
 import { siteConfig } from "@/config/site";
 import { NAV_ITEMS, resolveHref } from "./content";
 import { Logo } from "./Logo";
-import { ArrowIcon, buttonPrimary } from "./ui";
+import { ArrowIcon, buttonOnDark } from "./ui";
 
 interface SiteHeaderProps {
   /**
    * "overlay" is the landing page (anchor links stay on the page), "solid" every other page
-   * (anchor links point to "/#…"). The header itself is always solid in the Aufmaß design.
+   * (anchor links point to "/#…"). The header itself is always solid walnut in the Werkstatt design.
    */
   variant?: "overlay" | "solid";
 }
@@ -82,11 +82,11 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
         data-solid="true"
         data-hydrated={hydrated ? "true" : undefined}
         className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ${
-          scrolled || open ? "border-strich bg-blatt/95 backdrop-blur-md" : "border-strich/70 bg-estrich/95 backdrop-blur-sm"
+          scrolled || open ? "border-creme/10 bg-nuss/95 backdrop-blur-md" : "border-transparent bg-nuss"
         }`}
       >
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-8 lg:px-12 xl:h-[76px] xl:px-20">
-          <Logo href={onHome ? "#top" : "/"} onClick={() => close(false)} />
+          <Logo href={onHome ? "#top" : "/"} tone="dark" onClick={() => close(false)} />
 
           <nav aria-label="Hauptnavigation" className="hidden xl:block">
             <ul className="flex items-center gap-1">
@@ -94,7 +94,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
                 <li key={item.label}>
                   <a
                     href={hrefFor(item.href)}
-                    className="whitespace-nowrap rounded-xs px-2.5 py-2 text-[0.9375rem] font-medium text-graphit transition-colors hover:bg-estrich-deep hover:text-graphit"
+                    className="whitespace-nowrap rounded-full px-3 py-2 text-[0.9375rem] font-medium text-leinen-deep transition-colors hover:bg-nuss-raised hover:text-creme"
                   >
                     {item.label}
                   </a>
@@ -107,19 +107,19 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
             <Link
               href="/login"
               prefetch={false}
-              className="hidden whitespace-nowrap rounded-xs px-2 py-2 text-sm font-medium text-graphit underline decoration-graphit/30 underline-offset-4 hover:decoration-graphit xl:inline-flex"
+              className="hidden whitespace-nowrap rounded-full px-2 py-2 text-sm font-medium text-leinen-deep underline decoration-leinen-deep/30 underline-offset-4 hover:decoration-leinen-deep xl:inline-flex"
             >
               Login
             </Link>
             <span className="hidden sm:block">
-              <a href={hrefFor("#boden-check")} className={`${buttonPrimary} whitespace-nowrap !min-h-10 !py-2.5`}>
+              <a href={hrefFor("#boden-check")} className={`${buttonOnDark} whitespace-nowrap !min-h-10 !py-2.5`}>
                 Boden-Check starten
               </a>
             </span>
             <button
               ref={buttonRef}
               type="button"
-              className="inline-flex size-11 items-center justify-center rounded-xs text-graphit transition-colors hover:bg-estrich-deep xl:hidden"
+              className="inline-flex size-11 items-center justify-center rounded-full text-creme transition-colors hover:bg-nuss-raised xl:hidden"
               aria-expanded={open}
               aria-controls={menuId}
               aria-label={open ? "Menü schließen" : "Menü öffnen"}
@@ -135,32 +135,32 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
       <div
         id={menuId}
         hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-blatt text-graphit xl:hidden"
+        className="surface-nuss fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto text-creme xl:hidden"
       >
         <nav aria-label="Mobile Navigation" className="flex min-h-full flex-col px-4 pb-10 pt-4 sm:px-8">
-          <ol className="border-t border-strich">
+          <ol className="border-t border-creme/15">
             {NAV_ITEMS.map((item, index) => (
-              <li key={item.label} className="border-b border-strich">
+              <li key={item.label} className="border-b border-creme/15">
                 <a
                   ref={index === 0 ? firstLinkRef : undefined}
                   href={hrefFor(item.href)}
                   onClick={() => close(false)}
-                  className="group flex items-baseline gap-4 py-4 font-display text-[1.75rem] font-bold leading-tight font-semiwide"
+                  className="group flex items-baseline gap-4 py-4 font-display text-[1.75rem] font-semibold leading-tight"
                 >
-                  <span className="font-mono text-xs font-normal text-kreide">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="font-mono text-xs font-normal text-kupfer-light">{String(index + 1).padStart(2, "0")}</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-1">{item.label}</span>
                 </a>
               </li>
             ))}
           </ol>
           <div className="mt-auto flex flex-col gap-3 pt-10">
-            <a href={hrefFor("#boden-check")} onClick={() => close(false)} className={`${buttonPrimary} !py-4 text-base`}>
+            <a href={hrefFor("#boden-check")} onClick={() => close(false)} className={`${buttonOnDark} !py-4 text-base`}>
               Boden-Check starten
               <ArrowIcon />
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex min-h-11 items-center justify-center rounded-xs border border-graphit/30 px-5 py-3 font-mono text-sm text-graphit"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-creme/25 px-5 py-3 font-mono text-sm text-creme"
             >
               {siteConfig.email}
             </a>
@@ -168,7 +168,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
               href="/login"
               prefetch={false}
               onClick={() => close(false)}
-              className="inline-flex min-h-11 items-center justify-center text-sm font-medium text-graphit underline underline-offset-4"
+              className="inline-flex min-h-11 items-center justify-center text-sm font-medium text-creme underline underline-offset-4"
             >
               Login
             </Link>

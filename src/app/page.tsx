@@ -31,7 +31,7 @@ export default async function HomePage() {
     <>
       <a
         href="#main"
-        className="sr-only z-[70] rounded-xs bg-kreide px-5 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-3"
+        className="sr-only z-[70] rounded-lg bg-kupfer px-5 py-3 font-semibold text-creme focus:not-sr-only focus:fixed focus:left-4 focus:top-3"
       >
         Zum Inhalt springen
       </a>

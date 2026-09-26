@@ -23,35 +23,35 @@ export function ServicesList({ groups, anyPriceShown, vatPercent }: ServicesList
             <section
               key={group.key}
               aria-labelledby={`leistungen-${group.key}`}
-              className="flex flex-col rounded-xs border border-strich bg-blatt"
+              className="flex flex-col rounded-2xl border border-fuge bg-creme"
             >
-              <header className="flex flex-col gap-1 border-b border-strich px-5 py-4 sm:px-6">
-                <p className={`${eyebrow} text-[0.6875rem] text-kreide`}>Pos. {String(groupIndex + 1).padStart(2, "0")}</p>
-                <h3 id={`leistungen-${group.key}`} className="font-display text-2xl font-bold font-semiwide">
+              <header className="flex flex-col gap-1 border-b border-fuge px-5 py-4 sm:px-6">
+                <p className={`${eyebrow} text-[0.6875rem] text-kupfer`}>Pos. {String(groupIndex + 1).padStart(2, "0")}</p>
+                <h3 id={`leistungen-${group.key}`} className="font-display text-2xl font-semibold">
                   {group.label}
                 </h3>
-                <p className="text-graphit-soft">{group.lead}</p>
+                <p className="text-nuss-soft">{group.lead}</p>
               </header>
-              <ul className="divide-y divide-dashed divide-strich">
+              <ul className="divide-y divide-dashed divide-fuge">
                 {group.items.map((item, index) => (
                   <li key={item.id} className="grid gap-2 px-5 py-4 sm:grid-cols-[auto_1fr_auto] sm:gap-x-4 sm:px-6">
-                    <span className="hidden pt-0.5 font-mono text-xs text-graphit-muted sm:block" aria-hidden="true">
+                    <span className="hidden pt-0.5 font-mono text-xs text-nuss-muted sm:block" aria-hidden="true">
                       {String(groupIndex + 1)}.{String(index + 1)}
                     </span>
                     <div className="min-w-0">
-                      <h4 className="font-semibold leading-snug text-graphit">{item.title}</h4>
-                      <p className="mt-1 text-pretty text-[0.95rem] leading-relaxed text-graphit-soft">{item.description}</p>
+                      <h4 className="font-semibold leading-snug text-nuss">{item.title}</h4>
+                      <p className="mt-1 text-pretty text-[0.95rem] leading-relaxed text-nuss-soft">{item.description}</p>
                       {item.viaMasterPartner ? (
-                        <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-kreide">
+                        <p className="mt-2 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-kupfer">
                           Über meinen Meisterpartner
                         </p>
                       ) : null}
                     </div>
                     {item.priceLine || item.discountLine ? (
                       <div className="flex flex-col gap-1 font-mono text-sm sm:items-end sm:text-right">
-                        {item.priceLine ? <span className="whitespace-nowrap text-graphit">{item.priceLine}</span> : null}
+                        {item.priceLine ? <span className="whitespace-nowrap text-nuss">{item.priceLine}</span> : null}
                         {item.discountLine ? (
-                          <span className="text-[0.8125rem] text-kreide">mit Boden-Pass Plus: {item.discountLine}</span>
+                          <span className="text-[0.8125rem] text-kupfer">mit Boden-Pass Plus: {item.discountLine}</span>
                         ) : null}
                       </div>
                     ) : null}
@@ -63,7 +63,7 @@ export function ServicesList({ groups, anyPriceShown, vatPercent }: ServicesList
         </div>
 
         {anyPriceShown ? (
-          <p className="mt-6 font-mono text-xs uppercase tracking-[0.08em] text-graphit-muted">
+          <p className="mt-6 font-mono text-xs uppercase tracking-[0.08em] text-nuss-muted">
             Alle Preise inkl. {vatPercent.toLocaleString("de-DE")} % MwSt.
           </p>
         ) : null}
