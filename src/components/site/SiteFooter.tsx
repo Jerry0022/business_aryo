@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import { InstallAppButton } from "@/features/pwa/ui/InstallAppButton";
 import { NAV_ITEMS } from "./content";
 import { Logo } from "./Logo";
 
@@ -41,6 +42,9 @@ export function SiteFooter({ onHome = false }: { onHome?: boolean }) {
             © {year} {siteConfig.name} · {siteConfig.trade}
           </p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <li className="empty:hidden">
+              <InstallAppButton className="inline-flex items-center gap-1.5 font-semibold text-oak-light transition-colors hover:text-paper" />
+            </li>
             <li>
               <Link href="/impressum" className="transition-colors hover:text-paper">
                 Impressum

@@ -104,6 +104,17 @@ export default function DatenschutzPage() {
         Anfrageformular.
       </p>
 
+      <p id="app">
+        Diese Website lässt sich als App auf Smartphone, Tablet oder Computer installieren. Die Installation übernimmt
+        Ihr Browser bzw. Betriebssystem; dabei werden keine zusätzlichen Daten an diese Website übertragen. Damit
+        Seitenaufrufe ohne Internetverbindung eine Hinweisseite zeigen können, legt ein sogenannter Service Worker eine
+        Offline-Seite im Speicher Ihres Browsers ab. Etwa alle zwei Wochen weist Mini-Aryo auf die App hin; damit dieser
+        Hinweis nicht bei jedem Besuch erscheint, wird der Zeitpunkt des letzten Hinweises im lokalen Speicher Ihres
+        Browsers (Local Storage) abgelegt. Diese Angaben verlassen Ihr Gerät nicht und lassen sich jederzeit über die
+        Browser-Einstellungen („Websitedaten löschen“) entfernen. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG, da die
+        Speicherung für diese von Ihnen genutzten Funktionen erforderlich ist.
+      </p>
+
       <h2>5. Geschützter Login-Bereich</h2>
       <p>
         Über den Link „Login“ erreichen Sie einen geschützten Bereich, der ausschließlich eingeladenen Personen zur

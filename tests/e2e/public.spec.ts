@@ -137,6 +137,68 @@ test.describe("public site", () => {
     await expect(page.getByRole("button", { name: /Mini-Aryo fragen/ })).toBeFocused();
   });
 
+  test("Mini-Aryo brings the app hint only after an interaction and a calm moment", async ({ page }) => {
+    // Playwright contexts are incognito, where Chromium never offers installing – fake its install event.
+    await page.addInitScript(() => {
+      window.addEventListener("load", () => {
+        const event = Object.assign(new Event("beforeinstallprompt", { cancelable: true }), {
+          prompt: async () => {
+            (window as unknown as { __prompted: boolean }).__prompted = true;
+          },
+          userChoice: Promise.resolve({ outcome: "accepted", platform: "web" }),
+        });
+        window.dispatchEvent(event);
+      });
+    });
+    await open(page, "/");
+    const fab = page.getByRole("button", { name: /Mini-Aryo fragen/ });
+    const badge = page.locator(".berater-badge");
+
+    await expect(page.getByRole("contentinfo").getByRole("button", { name: "App installieren" })).toBeAttached();
+    // Without any interaction nothing happens, not even the usual teaser.
+    await page.waitForTimeout(4500);
+    await expect(badge).toHaveCount(0);
+    await expect(page.getByText(/Ich helfe gern/)).toHaveCount(0);
+
+    // Scrolling counts as interaction; the message follows only after 3 s of calm.
+    await page.evaluate(() => window.scrollBy(0, 600));
+    await page.waitForTimeout(1000);
+    await expect(badge).toHaveCount(0);
+    await expect(badge).toBeVisible();
+    await expect(page.getByText(/mich gibt.s jetzt auch als App/)).toBeVisible();
+    await expect(fab).toHaveAccessibleName(/1 neue Nachricht/);
+
+    await fab.click();
+    const chat = page.getByRole("dialog", { name: "Mini-Aryo" });
+    await expect(chat).toContainText("Mich gibt's auch als App!");
+    await expect(badge).toHaveCount(0);
+    await chat.getByRole("button", { name: "Jetzt installieren" }).click();
+    await expect(chat).toContainText("Klasse, die App ist installiert!");
+    expect(await page.evaluate(() => (window as unknown as { __prompted?: boolean }).__prompted)).toBe(true);
+
+    // Two weeks of quiet after that.
+    await page.reload();
+    await expect(page.locator('header[data-hydrated="true"]')).toBeAttached();
+    await page.evaluate(() => window.scrollBy(0, 600));
+    await page.waitForTimeout(4500);
+    await expect(badge).toHaveCount(0);
+  });
+
+  test("the site is an installable app", async ({ request }) => {
+    const manifest = await (await request.get("/manifest.webmanifest")).json();
+    expect(manifest).toMatchObject({ display: "standalone", start_url: "/", lang: "de" });
+    for (const icon of manifest.icons as { src: string; purpose: string }[]) {
+      const response = await request.get(icon.src);
+      expect(response.headers()["content-type"]).toBe("image/png");
+    }
+    expect(manifest.icons.map((icon: { purpose: string }) => icon.purpose)).toContain("maskable");
+
+    const worker = await request.get("/sw.js");
+    expect(worker.headers()["cache-control"]).toContain("no-cache");
+    expect(await worker.text()).toContain("/offline.html");
+    expect(await (await request.get("/offline.html")).text()).toContain("Gerade keine Verbindung");
+  });
+
   test("Mini-Aryo falls back to the e-mail address without an API key", async ({ page, request }) => {
     const response = await request.post("/api/berater", {
       data: { messages: [{ role: "user", content: "Hallo" }] },

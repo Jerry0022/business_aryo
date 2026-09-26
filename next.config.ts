@@ -16,7 +16,18 @@ const nextConfig: NextConfig = {
   // PGlite ships WASM + data files that must be loaded from node_modules at runtime.
   serverExternalPackages: ["@electric-sql/pglite"],
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      {
+        // The service worker must always be fetched fresh so updates reach installed apps.
+        source: "/sw.js",
+        headers: [
+          { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self'" },
+        ],
+      },
+    ];
   },
 };
 
