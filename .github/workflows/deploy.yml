@@ -1,0 +1,78 @@
+name: Deploy to Vercel
+
+# Deploys with the Vercel CLI and a token of the project owner (Aryo's Vercel account).
+# CLI deployments are not subject to the Hobby-plan rule that blocks Git deployments of
+# commits authored by someone other than the account owner.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "create-project = only create the Vercel project (first setup), deploy = production deploy"
+        type: choice
+        options: [deploy, create-project]
+        default: deploy
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_PROJECT: ${{ vars.VERCEL_PROJECT || 'aryo-sabouri' }}
+  VERCEL_SCOPE: ${{ vars.VERCEL_SCOPE }}
+
+jobs:
+  deploy:
+    name: Production deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Check configuration
+        id: config
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::notice title=Deploy skipped::Repository secret VERCEL_TOKEN is not set yet. See docs/DEPLOYMENT.md."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.config.outputs.enabled == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.config.outputs.enabled == 'true'
+        with:
+          node-version: 22
+
+      - name: Install Vercel CLI
+        if: steps.config.outputs.enabled == 'true'
+        run: npm install --global vercel@latest
+
+      - name: Ensure the Vercel project exists
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          scope_args=()
+          if [ -n "$VERCEL_SCOPE" ]; then scope_args=(--scope "$VERCEL_SCOPE"); fi
+          if vercel project inspect "$VERCEL_PROJECT" "${scope_args[@]}" > /dev/null 2>&1; then
+            echo "Project $VERCEL_PROJECT exists."
+          else
+            vercel project add "$VERCEL_PROJECT" "${scope_args[@]}"
+            echo "::notice title=Project created::Connect the Neon database and set BETTER_AUTH_SECRET + ADMIN_SETUP_TOKEN in the Vercel dashboard, then run this workflow again (see docs/DEPLOYMENT.md)."
+          fi
+
+      - name: Deploy to production
+        id: deploy
+        if: steps.config.outputs.enabled == 'true' && (github.event_name == 'push' || inputs.mode == 'deploy')
+        run: |
+          scope_args=()
+          if [ -n "$VERCEL_SCOPE" ]; then scope_args=(--scope "$VERCEL_SCOPE"); fi
+          url=$(vercel deploy --prod --yes --project "$VERCEL_PROJECT" "${scope_args[@]}")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "### Deployed :rocket:" >> "$GITHUB_STEP_SUMMARY"
+          echo "$url" >> "$GITHUB_STEP_SUMMARY"
