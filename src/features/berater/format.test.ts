@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseBlocks, parseSpans } from "./format";
+import { formatCountdown, parseBlocks, parseSpans } from "./format";
 
 describe("chat formatting", () => {
   it("splits paragraphs and lists", () => {
@@ -21,5 +21,13 @@ describe("chat formatting", () => {
       { text: "Hartwachsöl", bold: true },
       { text: " <b>nehmen</b>", bold: false },
     ]);
+  });
+
+  it("formats the rate-limit countdown", () => {
+    expect(formatCountdown(0)).toBe("0:00");
+    expect(formatCountdown(59.2)).toBe("1:00");
+    expect(formatCountdown(90)).toBe("1:30");
+    expect(formatCountdown(3600)).toBe("1:00:00");
+    expect(formatCountdown(3725)).toBe("1:02:05");
   });
 });

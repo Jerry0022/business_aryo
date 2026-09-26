@@ -1,11 +1,11 @@
 "use client";
 
-import { ArrowUp, Mail, RotateCcw, X } from "lucide-react";
+import { ArrowUp, Hourglass, Mail, RotateCcw, X } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { siteConfig } from "@/config/site";
-import { parseBlocks, parseSpans } from "../format";
-import { CHAT_LIMITS, type ChatErrorCode, type ChatMessage } from "../limits";
+import { formatCountdown, parseBlocks, parseSpans } from "../format";
+import { CHAT_LIMITS, QUESTIONS_PER_HOUR, type ChatErrorCode, type ChatMessage } from "../limits";
 import { MiniAryo } from "./MiniAryo";
 
 const SUGGESTIONS = [
@@ -16,7 +16,11 @@ const SUGGESTIONS = [
 ] as const;
 
 class ChatError extends Error {
-  constructor(readonly code: ChatErrorCode) {
+  constructor(
+    readonly code: ChatErrorCode,
+    /** Seconds until asking is possible again (rate limits). */
+    readonly retryAfter?: number,
+  ) {
     super(code);
   }
 }
@@ -25,9 +29,8 @@ const ERROR_TEXT: Record<ChatErrorCode | "network", string> = {
   not_configured: "Mini-Aryo macht gerade Pause.",
   bad_request: "Diese Nachricht konnte ich nicht verarbeiten. Bitte formulieren Sie sie etwas kürzer.",
   forbidden: "Diese Anfrage wurde abgelehnt. Bitte laden Sie die Seite neu.",
-  rate_limited:
-    "Kurz durchatmen: Das waren viele Fragen in kurzer Zeit. Bitte versuchen Sie es in ein paar Minuten wieder.",
-  busy: "Mini-Aryo hat heute schon sehr viele Fragen beantwortet und ist gerade ausgelastet.",
+  rate_limited: `Kurz durchatmen: Sie haben das Limit von ${QUESTIONS_PER_HOUR} Fragen pro Stunde erreicht.`,
+  busy: "Mini-Aryo hat gerade sehr viele Fragen zu beantworten und ist ausgelastet.",
   upstream: "Da ist gerade etwas schiefgelaufen. Bitte versuchen Sie es gleich noch einmal.",
   network: "Keine Verbindung. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
 };
@@ -74,7 +77,7 @@ function Spans({ text }: { text: string }) {
   );
 }
 
-/** Floating service button with Mini-Aryo; opens the floor-advice chat (answered by Grok). */
+/** Floating service button with Mini-Aryo; opens the floor-advice chat (answered by an LLM, see llm.ts). */
 export function BeraterFab() {
   const [open, setOpen] = useState(false);
   const [teaser, setTeaser] = useState(false);
@@ -82,6 +85,11 @@ export function BeraterFab() {
   const [draft, setDraft] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState<ChatErrorCode | "network" | null>(null);
+  /** While rate limited: epoch ms when asking is possible again, plus a ticking clock for the countdown. */
+  const [blockedUntil, setBlockedUntil] = useState<number | null>(null);
+  const [now, setNow] = useState(0);
+  /** Questions left in the current hour, as reported by the API. */
+  const [remaining, setRemaining] = useState<number | null>(null);
 
   const titleId = useId();
   const inputId = useId();
@@ -116,6 +124,27 @@ export function BeraterFab() {
 
   useEffect(() => () => abortRef.current?.abort(), []);
 
+  // Live countdown while rate limited; unlocks the input when it reaches zero.
+  useEffect(() => {
+    if (blockedUntil === null) return;
+    const tick = () => {
+      const current = Date.now();
+      if (current >= blockedUntil) {
+        setBlockedUntil(null);
+        setError(null);
+        setRemaining(null);
+      } else {
+        setNow(current);
+      }
+    };
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, [blockedUntil]);
+
+  const blocked = blockedUntil !== null;
+  const secondsLeft = blocked ? (blockedUntil - now) / 1000 : 0;
+
   // Escape closes the chat wherever focus is (e.g. after a clicked suggestion disappeared).
   useEffect(() => {
     if (!open) return;
@@ -144,7 +173,7 @@ export function BeraterFab() {
 
   const send = async (text: string, previous: ChatMessage[] = messages) => {
     const question = text.trim().slice(0, CHAT_LIMITS.maxInputChars);
-    if (!question || streaming) return;
+    if (!question || streaming || blocked) return;
 
     const history: ChatMessage[] = [...previous, { role: "user", content: question }];
     setMessages([...history, { role: "assistant", content: "" }]);
@@ -169,9 +198,14 @@ export function BeraterFab() {
         signal: controller.signal,
       });
       if (!response.ok || !response.body) {
-        const data = (await response.json().catch(() => null)) as { error?: ChatErrorCode } | null;
-        throw new ChatError(data?.error ?? "upstream");
+        const data = (await response.json().catch(() => null)) as {
+          error?: ChatErrorCode;
+          retryAfter?: number;
+        } | null;
+        throw new ChatError(data?.error ?? "upstream", data?.retryAfter);
       }
+      const left = Number(response.headers.get("X-Chat-Remaining"));
+      setRemaining(Number.isFinite(left) && response.headers.has("X-Chat-Remaining") ? left : null);
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       for (;;) {
@@ -187,6 +221,14 @@ export function BeraterFab() {
     } catch (caught) {
       if (controller.signal.aborted) return;
       setError(caught instanceof ChatError ? caught.code : "network");
+      if (caught instanceof ChatError && caught.retryAfter) {
+        // Rate limited: take the question back into the input so it can be sent once the timer ends.
+        setBlockedUntil(Date.now() + caught.retryAfter * 1000);
+        setNow(Date.now());
+        setMessages((list) => list.slice(0, -2));
+        setDraft(question);
+        return;
+      }
       // Drop an empty or half-written answer; keep the question so it can be retried.
       setMessages((list) => (answer.trim() ? list : list.slice(0, -1)));
     } finally {
@@ -210,7 +252,7 @@ export function BeraterFab() {
   };
 
   const lastUserQuestion = [...messages].reverse().find((m) => m.role === "user")?.content;
-  const canRetry = error && error !== "not_configured" && error !== "busy" && lastUserQuestion;
+  const canRetry = error && !blocked && error !== "not_configured" && error !== "busy" && lastUserQuestion;
 
   return (
     <div className="berater">
@@ -277,7 +319,8 @@ export function BeraterFab() {
                     <button
                       type="button"
                       onClick={() => void send(suggestion)}
-                      className="rounded-full border border-ink/15 bg-white/70 px-3.5 py-2 text-left text-sm font-medium text-ink-soft transition hover:border-copper hover:bg-white"
+                      disabled={blocked}
+                      className="rounded-full border border-ink/15 bg-white/70 px-3.5 py-2 text-left text-sm font-medium text-ink-soft transition hover:border-copper hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {suggestion}
                     </button>
@@ -318,6 +361,17 @@ export function BeraterFab() {
                 className="space-y-2 rounded-2xl border border-copper/40 bg-copper/10 px-4 py-3 text-sm text-ink-soft"
               >
                 <p>{ERROR_TEXT[error]}</p>
+                {blocked ? (
+                  <p className="flex items-center gap-2 font-semibold text-ink">
+                    <Hourglass className="size-4 text-oak-deep" aria-hidden="true" />
+                    <span>
+                      Nächste Frage möglich in{" "}
+                      <span role="timer" aria-live="off" className="tabular-nums">
+                        {formatCountdown(secondsLeft)}
+                      </span>
+                    </span>
+                  </p>
+                ) : null}
                 {error === "not_configured" || error === "busy" ? (
                   <p>
                     Schreiben Sie Aryo gern direkt:{" "}
@@ -349,6 +403,13 @@ export function BeraterFab() {
             <label htmlFor={inputId} className="sr-only">
               Ihre Frage an Mini-Aryo
             </label>
+            {remaining !== null && remaining <= 3 && !blocked ? (
+              <p className="mb-2 px-1 text-xs font-medium text-oak-deep">
+                {remaining === 0
+                  ? "Das war Ihre letzte Frage in dieser Stunde."
+                  : `Noch ${remaining} ${remaining === 1 ? "Frage" : "Fragen"} in dieser Stunde.`}
+              </p>
+            ) : null}
             <div className="flex items-end gap-2 rounded-2xl border border-ink/15 bg-paper px-3 py-2 focus-within:border-copper">
               <textarea
                 ref={inputRef}
@@ -358,12 +419,12 @@ export function BeraterFab() {
                 onKeyDown={onInputKeyDown}
                 maxLength={CHAT_LIMITS.maxInputChars}
                 rows={1}
-                placeholder="Ihre Frage zum Boden …"
+                placeholder={blocked ? `Nächste Frage in ${formatCountdown(secondsLeft)}` : "Ihre Frage zum Boden …"}
                 className="max-h-32 min-h-[2.25rem] flex-1 resize-none bg-transparent py-1.5 text-[0.95rem] leading-snug text-ink outline-none placeholder:text-ink-muted [field-sizing:content]"
               />
               <button
                 type="submit"
-                disabled={streaming || !draft.trim()}
+                disabled={streaming || blocked || !draft.trim()}
                 className="flex size-9 shrink-0 items-center justify-center rounded-full bg-copper text-ink transition hover:bg-oak-light disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Frage senden"
               >

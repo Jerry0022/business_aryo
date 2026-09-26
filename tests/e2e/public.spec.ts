@@ -146,6 +146,32 @@ test.describe("public site", () => {
     await expect(page.getByRole("button", { name: /Mini-Aryo fragen/ })).toBeFocused();
   });
 
+  test("Mini-Aryo shows a live countdown when the hourly limit is reached", async ({ page }) => {
+    await page.route("/api/berater", (route) =>
+      route.fulfill({
+        status: 429,
+        contentType: "application/json",
+        headers: { "Retry-After": "125" },
+        body: JSON.stringify({ error: "rate_limited", retryAfter: 125 }),
+      }),
+    );
+    await open(page, "/");
+    await page.getByRole("button", { name: /Mini-Aryo fragen/ }).click();
+    const chat = page.getByRole("dialog", { name: "Mini-Aryo" });
+    const input = chat.getByLabel("Ihre Frage an Mini-Aryo");
+    await input.fill("Wie oft kann ich Parkett schleifen?");
+    await input.press("Enter");
+
+    const alert = chat.getByRole("alert");
+    await expect(alert).toContainText("10 Fragen pro Stunde");
+    const timer = alert.getByRole("timer");
+    await expect(timer).toHaveText(/^2:0[0-5]$/);
+    const first = await timer.textContent();
+    await expect(timer).not.toHaveText(first ?? "", { timeout: 3000 });
+    await expect(input).toHaveValue("Wie oft kann ich Parkett schleifen?");
+    await expect(chat.getByRole("button", { name: "Frage senden" })).toBeDisabled();
+  });
+
   test("Mini-Aryo falls back to the e-mail address without an API key", async ({ page, request }) => {
     const response = await request.post("/api/berater", {
       data: { messages: [{ role: "user", content: "Hallo" }] },
