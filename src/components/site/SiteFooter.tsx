@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton";
+import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
 import { InstallAppButton } from "@/features/pwa/ui/InstallAppButton";
 import { NAV_ITEMS } from "./content";
@@ -55,6 +57,11 @@ export function SiteFooter({ onHome = false }: { onHome?: boolean }) {
                 Datenschutz
               </Link>
             </li>
+            {analyticsEnabled ? (
+              <li>
+                <CookieSettingsButton className="cursor-pointer transition-colors hover:text-paper" />
+              </li>
+            ) : null}
             <li>
               <Link href="/login" prefetch={false} className="text-paper/55 transition-colors hover:text-paper">
                 Login

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope } from "next/font/google";
+import { Consent } from "@/components/consent/Consent";
 import { siteConfig } from "@/config/site";
 import { CAPTURE_INSTALL_PROMPT_SCRIPT } from "@/features/pwa/capture-script";
 import { ServiceWorkerRegistration } from "@/features/pwa/ui/ServiceWorkerRegistration";
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
+        <Consent />
         <ServiceWorkerRegistration />
       </body>
     </html>

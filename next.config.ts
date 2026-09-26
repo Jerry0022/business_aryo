@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { analyticsConfig } from "./src/config/analytics";
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -15,6 +16,14 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   // PGlite ships WASM + data files that must be loaded from node_modules at runtime.
   serverExternalPackages: ["@electric-sql/pglite"],
+  // PostHog reverse proxy (docs/ANALYTICS.md): the browser only talks to this origin.
+  skipTrailingSlashRedirect: true,
+  async rewrites() {
+    return [
+      { source: `${analyticsConfig.apiPath}/static/:path*`, destination: `${analyticsConfig.assetsHost}/static/:path*` },
+      { source: `${analyticsConfig.apiPath}/:path*`, destination: `${analyticsConfig.ingestHost}/:path*` },
+    ];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },

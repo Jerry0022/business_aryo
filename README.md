@@ -2,7 +2,7 @@
 
 Website of **Aryo Sabouri — Parkett & Boden** plus a private studio:
 
-- **Public site** (`/`): one-page presentation of the parquet business with a generated plank-floor hero, service overview, interactive pattern explorer, process, about, a mailto-based quote form and **Mini-Aryo**, an animated floor-advice chat answered by Groq (or Grok/xAI as fallback, see [docs/MINI-ARYO.md](docs/MINI-ARYO.md)). Installable as an app (PWA) on Android, iOS, Windows and macOS, see [docs/PWA.md](docs/PWA.md). Legal pages: `/impressum`, `/datenschutz`.
+- **Public site** (`/`): one-page presentation of the parquet business with a generated plank-floor hero, service overview, interactive pattern explorer, process, about, a mailto-based quote form and **Mini-Aryo**, an animated floor-advice chat answered by Groq (or Grok/xAI as fallback, see [docs/MINI-ARYO.md](docs/MINI-ARYO.md)). Installable as an app (PWA) on Android, iOS, Windows and macOS, see [docs/PWA.md](docs/PWA.md). Legal pages: `/impressum`, `/datenschutz`. Optional PostHog analytics behind a cookie-consent banner (off until `NEXT_PUBLIC_POSTHOG_KEY` is set).
 - **Studio** (`/studio`, login required): an interactive 3D **dream house** (single-story villa with roof terrace on a mountain above a city) and, for admins, the **user management** plus a **Statistik** link to the site's PostHog analytics (`NEXT_PUBLIC_POSTHOG_PROJECT_ID` makes it open the project directly).
 
 ## Stack
@@ -84,6 +84,7 @@ The time slider and the Tag/Nacht toggle change sun, sky, lighting, interior lam
 
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Vercel (Aryo's account) + Neon setup
 - [docs/GO-LIVE.md](docs/GO-LIVE.md) — open items before the site goes public
+- [docs/ANALYTICS.md](docs/ANALYTICS.md) — PostHog analytics + cookie banner setup
 - [docs/TRAUMHAUS.md](docs/TRAUMHAUS.md) — how to evolve the dream house together
 - [docs/PWA.md](docs/PWA.md) — installing the site as an app, Mini-Aryo's app hint
 
