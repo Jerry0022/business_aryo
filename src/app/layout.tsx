@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope } from "next/font/google";
+import { Consent } from "@/components/consent/Consent";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
@@ -44,7 +45,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de" data-scroll-behavior="smooth" className={`${fraunces.variable} ${manrope.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Consent />
+      </body>
     </html>
   );
 }
