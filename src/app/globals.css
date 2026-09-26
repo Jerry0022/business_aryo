@@ -338,8 +338,9 @@
 }
 
 /* ---- Legal pages ---- */
+/* Aufmaß look: semi-wide headings with a dashed rule, chalk-blue links, dash list markers. */
 .legal-prose {
-  color: var(--color-ink-soft);
+  color: var(--color-graphit-soft);
   font-size: 1.0625rem;
   line-height: 1.75;
   overflow-wrap: break-word;
@@ -348,23 +349,29 @@
 
 .legal-prose h2 {
   margin-top: 3rem;
-  font-family: var(--font-display);
-  font-size: 1.65rem;
-  font-weight: 500;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--color-strich);
+  font-family: var(--font-sans);
+  font-stretch: 112%;
+  font-size: 1.5rem;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.015em;
-  color: var(--color-ink);
+  letter-spacing: -0.005em;
+  color: var(--color-graphit);
+  hyphens: manual;
 }
 
 .legal-prose h2:first-child {
   margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 
 .legal-prose h3 {
   margin-top: 1.75rem;
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
   font-weight: 700;
-  color: var(--color-ink);
+  color: var(--color-graphit);
 }
 
 .legal-prose p,
@@ -377,17 +384,37 @@
   font-style: normal;
 }
 
+.legal-prose strong {
+  font-weight: 600;
+  color: var(--color-graphit);
+}
+
 .legal-prose ul {
-  list-style: disc;
-  padding-left: 1.25rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.legal-prose li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.legal-prose li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 0.75rem;
+  height: 1px;
+  background-color: var(--color-kreide);
 }
 
 .legal-prose li + li {
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
 }
 
 .legal-prose a {
-  color: var(--color-oak-deep);
+  color: var(--color-kreide);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -395,7 +422,7 @@
 }
 
 .legal-prose a:hover {
-  color: var(--color-ink);
+  color: var(--color-kreide-deep);
 }
 
 .time-slider {
