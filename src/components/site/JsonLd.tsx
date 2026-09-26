@@ -1,7 +1,11 @@
 import { siteConfig } from "@/config/site";
-import { SERVICES } from "./content";
+import { defaultServices } from "@/lib/business/services";
 
-/** schema.org data built strictly from siteConfig — fields that are still null are omitted. */
+/**
+ * schema.org data for the business, built strictly from siteConfig and the service catalog.
+ * Fields that are still null are omitted. Services that need a Meister partner are left out of
+ * `knowsAbout`: the owner is a Bodenleger and must not appear to offer Parkettleger work himself.
+ */
 export function businessJsonLd() {
   const base = siteConfig.url.replace(/\/+$/, "");
   const { street, postalCode, city } = siteConfig.address;
@@ -11,15 +15,18 @@ export function businessJsonLd() {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     "@id": `${base}/#business`,
-    name: siteConfig.title,
+    name: siteConfig.name,
+    slogan: siteConfig.claim,
     description: siteConfig.description,
     url: `${base}/`,
     email: siteConfig.email,
     logo: `${base}/icon.svg`,
-    founder: { "@type": "Person", name: siteConfig.name },
-    knowsAbout: SERVICES.map((service) => service.title),
+    founder: { "@type": "Person", name: siteConfig.owner },
+    areaServed: "Nordrhein-Westfalen",
+    knowsAbout: defaultServices()
+      .filter((service) => !service.requiresMasterPartner)
+      .map((service) => service.title),
     ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
-    ...(siteConfig.serviceArea ? { areaServed: siteConfig.serviceArea } : {}),
     ...(siteConfig.vatId ? { vatID: siteConfig.vatId } : {}),
     ...(hasAddress
       ? {

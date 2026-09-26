@@ -1,8 +1,9 @@
 # business_aryo
 
-Website of **Aryo Sabouri — Parkett & Boden** plus a private studio:
+Website of **Maximilian Parkett** (working name; Bodenleger in NRW, owner Aryo Sabouri, claim „Da stehst du drauf.“) plus a private studio with the **Werkbank** admin area. Brand, tone and business rules: [`docs/konzept/markenkonzept.md`](docs/konzept/markenkonzept.md).
 
-- **Public site** (`/`): one-page presentation of the parquet business with a generated plank-floor hero, service overview, interactive pattern explorer, process, about, a mailto-based quote form and **Mini-Aryo**, an animated floor-advice chat answered by Groq (or Grok/xAI as fallback, see [docs/MINI-ARYO.md](docs/MINI-ARYO.md)). Legal pages: `/impressum`, `/datenschutz`. Optional PostHog analytics behind a cookie-consent banner (off until `NEXT_PUBLIC_POSTHOG_KEY` is set).
+- **Public site** (`/`): landing page in design direction A „Aufmaß“ (technical drawing on screed grey) around the question „Wie viel willst du selbst machen?“: live contingent counter from the Werkbank calendar, the three ways (Machen lassen, Selbst machen, Für Profis) plus an emergency entry, the 7-step Boden-Check with Bodenprofil, registration for the monthly Boden-Sprechstunde, services (prices only once set in the Werkbank), subscriptions and applications for projects and partners. Form entries are stored as leads for the Werkbank. **Mini-Aryo**, an animated floor-advice chat answered by Groq (or Grok/xAI as fallback, see [docs/MINI-ARYO.md](docs/MINI-ARYO.md)), is available on the landing page and the legal pages.
+- **Ratgeber** (`/ratgeber`): seven statically generated advice articles in six pillars, content as typed data in `src/content/ratgeber/`, with the interactive Kosten-pro-Jahr-Rechner, `Article` JSON-LD and per-article Open Graph images. Legal pages: `/impressum`, `/datenschutz`. Optional PostHog analytics behind a cookie-consent banner (off until `NEXT_PUBLIC_POSTHOG_KEY` is set, see [docs/ANALYTICS.md](docs/ANALYTICS.md)).
 - **Studio** (`/studio`, login required): an interactive 3D **dream house** (single-story villa with roof terrace on a mountain above a city) and, for admins, the **user management**.
 
 ## Stack
@@ -86,6 +87,10 @@ The time slider and the Tag/Nacht toggle change sun, sky, lighting, interior lam
 - [docs/GO-LIVE.md](docs/GO-LIVE.md) — open items before the site goes public
 - [docs/ANALYTICS.md](docs/ANALYTICS.md) — PostHog analytics + cookie banner setup
 - [docs/TRAUMHAUS.md](docs/TRAUMHAUS.md) — how to evolve the dream house together
+
+## Concept
+
+The brand and business concept for the company website (name, values, positioning, business model, subscriptions, admin area, design directions) lives in [`docs/konzept/markenkonzept.md`](docs/konzept/markenkonzept.md).
 
 ## Claude Code setup
 

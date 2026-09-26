@@ -1,13 +1,17 @@
 "use client";
 
-import { Mail, Menu, X } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { siteConfig } from "@/config/site";
-import { NAV_ITEMS } from "./content";
+import { NAV_ITEMS, resolveHref } from "./content";
 import { Logo } from "./Logo";
+import { ArrowIcon, buttonPrimary } from "./ui";
 
 interface SiteHeaderProps {
-  /** "overlay" starts transparent on top of the dark hero; "solid" is always light. */
+  /**
+   * "overlay" is the landing page (anchor links stay on the page), "solid" every other page
+   * (anchor links point to "/#…"). The header itself is always solid in the Aufmaß design.
+   */
   variant?: "overlay" | "solid";
 }
 
@@ -16,9 +20,19 @@ function subscribeScroll(onChange: () => void) {
   return () => window.removeEventListener("scroll", onChange);
 }
 
-const getScrolled = () => window.scrollY > 24;
+const getScrolled = () => window.scrollY > 8;
 const getServerScrolled = () => false;
 const subscribeNothing = () => () => {};
+
+const DESKTOP_QUERY = "(min-width: 1280px)";
+
+function MenuIcon({ open }: { open: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      {open ? <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /> : <path d="M4 7h16M4 12h16M4 17h10" strokeLinecap="round" />}
+    </svg>
+  );
+}
 
 export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
@@ -34,8 +48,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
   const menuId = useId();
 
   const onHome = variant === "overlay";
-  const hrefFor = (id: string) => (onHome ? `#${id}` : `/#${id}`);
-  const solid = !onHome || scrolled || open;
+  const hrefFor = (href: string) => resolveHref(href, onHome);
 
   const close = useCallback((restoreFocus: boolean) => {
     setOpen(false);
@@ -49,7 +62,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
       if (event.key === "Escape") close(true);
     };
     const onResize = () => {
-      if (window.matchMedia("(min-width: 1024px)").matches) close(false);
+      if (window.matchMedia(DESKTOP_QUERY).matches) close(false);
     };
     const root = document.documentElement;
     const previousOverflow = root.style.overflow;
@@ -66,28 +79,22 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
   return (
     <>
       <header
-        data-solid={solid ? "true" : "false"}
+        data-solid="true"
         data-hydrated={hydrated ? "true" : undefined}
-        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,color] duration-500 ease-out-soft ${
-          solid
-            ? "bg-paper/90 text-ink shadow-[0_1px_0_rgb(23_19_15/0.08)] backdrop-blur-xl"
-            : "bg-transparent text-paper"
+        className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ${
+          scrolled || open ? "border-strich bg-blatt/95 backdrop-blur-md" : "border-strich/70 bg-estrich/95 backdrop-blur-sm"
         }`}
       >
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-5 sm:px-8 lg:h-20 lg:px-12">
-          <Logo tone={solid ? "light" : "dark"} href={onHome ? "#top" : "/"} onClick={() => close(false)} />
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-8 lg:px-12 xl:h-[76px] xl:px-20">
+          <Logo href={onHome ? "#top" : "/"} onClick={() => close(false)} />
 
-          <nav aria-label="Hauptnavigation" className="hidden lg:block">
+          <nav aria-label="Hauptnavigation" className="hidden xl:block">
             <ul className="flex items-center gap-1">
               {NAV_ITEMS.map((item) => (
-                <li key={item.id}>
+                <li key={item.label}>
                   <a
-                    href={hrefFor(item.id)}
-                    className={`relative rounded-full px-4 py-2 text-[0.95rem] font-medium transition-colors ${
-                      solid
-                        ? "text-ink-soft hover:bg-sand hover:text-ink"
-                        : "text-paper/85 hover:bg-paper/10 hover:text-paper"
-                    }`}
+                    href={hrefFor(item.href)}
+                    className="whitespace-nowrap rounded-xs px-2.5 py-2 text-[0.9375rem] font-medium text-graphit transition-colors hover:bg-estrich-deep hover:text-graphit"
                   >
                     {item.label}
                   </a>
@@ -96,25 +103,29 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-2">
-            <a
-              href={hrefFor("kontakt")}
-              className="hidden items-center rounded-full bg-copper px-5 py-2.5 text-sm font-semibold text-ink shadow-[0_8px_24px_-12px_rgb(216_113_44/0.9)] transition hover:bg-oak-light sm:inline-flex"
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link
+              href="/login"
+              prefetch={false}
+              className="hidden whitespace-nowrap rounded-xs px-2 py-2 text-sm font-medium text-graphit underline decoration-graphit/30 underline-offset-4 hover:decoration-graphit xl:inline-flex"
             >
-              Angebot anfragen
-            </a>
+              Login
+            </Link>
+            <span className="hidden sm:block">
+              <a href={hrefFor("#boden-check")} className={`${buttonPrimary} whitespace-nowrap !min-h-10 !py-2.5`}>
+                Boden-Check starten
+              </a>
+            </span>
             <button
               ref={buttonRef}
               type="button"
-              className={`inline-flex size-11 items-center justify-center rounded-full transition-colors lg:hidden ${
-                solid ? "text-ink hover:bg-sand" : "text-paper hover:bg-paper/10"
-              }`}
+              className="inline-flex size-11 items-center justify-center rounded-xs text-graphit transition-colors hover:bg-estrich-deep xl:hidden"
               aria-expanded={open}
               aria-controls={menuId}
               aria-label={open ? "Menü schließen" : "Menü öffnen"}
               onClick={() => setOpen((value) => !value)}
             >
-              {open ? <X className="size-6" aria-hidden="true" /> : <Menu className="size-6" aria-hidden="true" />}
+              <MenuIcon open={open} />
             </button>
           </div>
         </div>
@@ -124,41 +135,43 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
       <div
         id={menuId}
         hidden={!open}
-        className="site-menu site-light fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-paper text-ink lg:hidden"
+        className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-blatt text-graphit xl:hidden"
       >
-        <nav aria-label="Mobile Navigation" className="flex min-h-full flex-col px-5 pb-10 pt-6 sm:px-8">
-          <ol className="divide-y divide-ink/10 border-y border-ink/10">
+        <nav aria-label="Mobile Navigation" className="flex min-h-full flex-col px-4 pb-10 pt-4 sm:px-8">
+          <ol className="border-t border-strich">
             {NAV_ITEMS.map((item, index) => (
-              <li key={item.id}>
+              <li key={item.label} className="border-b border-strich">
                 <a
                   ref={index === 0 ? firstLinkRef : undefined}
-                  href={hrefFor(item.id)}
+                  href={hrefFor(item.href)}
                   onClick={() => close(false)}
-                  className="group flex items-baseline gap-4 py-4 font-display text-[2rem] leading-tight tracking-[-0.01em] text-ink"
+                  className="group flex items-baseline gap-4 py-4 font-display text-[1.75rem] font-bold leading-tight font-semiwide"
                 >
-                  <span className="font-sans text-xs font-semibold tabular-nums text-oak-deep">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                  <span className="font-mono text-xs font-normal text-kreide">{String(index + 1).padStart(2, "0")}</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-1">{item.label}</span>
                 </a>
               </li>
             ))}
           </ol>
           <div className="mt-auto flex flex-col gap-3 pt-10">
-            <a
-              href={hrefFor("kontakt")}
-              onClick={() => close(false)}
-              className="inline-flex items-center justify-center rounded-full bg-copper px-6 py-4 text-base font-semibold text-ink"
-            >
-              Angebot anfragen
+            <a href={hrefFor("#boden-check")} onClick={() => close(false)} className={`${buttonPrimary} !py-4 text-base`}>
+              Boden-Check starten
+              <ArrowIcon />
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-6 py-4 text-base font-medium text-ink"
+              className="inline-flex min-h-11 items-center justify-center rounded-xs border border-graphit/30 px-5 py-3 font-mono text-sm text-graphit"
             >
-              <Mail className="size-4" aria-hidden="true" />
               {siteConfig.email}
             </a>
+            <Link
+              href="/login"
+              prefetch={false}
+              onClick={() => close(false)}
+              className="inline-flex min-h-11 items-center justify-center text-sm font-medium text-graphit underline underline-offset-4"
+            >
+              Login
+            </Link>
           </div>
         </nav>
       </div>
