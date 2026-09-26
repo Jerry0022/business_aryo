@@ -23,6 +23,7 @@ coverage/
 .claude/plans/
 .claude/settings.local.json
 .claude/*.log
+graphify-out/
 
 # OS / editor
 .DS_Store
