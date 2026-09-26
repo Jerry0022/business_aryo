@@ -11,12 +11,12 @@ export function generateStaticParams() {
   return ARTICLES.map((article) => ({ slug: article.slug }));
 }
 
-// Aufmaß colours (see globals.css): screed grey, graphite, chalk-line blue, oak.
-const ESTRICH = "#e4e3de";
-const BLATT = "#f7f7f4";
-const GRAPHIT = "#22252a";
-const MUTED = "#5b5e64";
-const KREIDE = "#2d5ba8";
+// Werkstatt colours (see globals.css): linen, walnut, copper, oak.
+const LEINEN = "#efe6d6";
+const CREME = "#f8f1e4";
+const NUSS = "#231913";
+const MUTED = "#6b5646";
+const KUPFER = "#9a4418";
 const EICHE = "#c0894a";
 const EICHE_DEEP = "#a8713a";
 
@@ -36,17 +36,17 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         width: "100%",
         height: "100%",
         padding: "64px 72px",
-        background: ESTRICH,
-        color: GRAPHIT,
+        background: LEINEN,
+        color: NUSS,
       }}
     >
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ display: "flex", fontSize: 24, letterSpacing: 3, color: KREIDE }}>{eyebrow}</div>
+        <div style={{ display: "flex", fontSize: 24, letterSpacing: 3, color: KUPFER }}>{eyebrow}</div>
         {/* dimension line */}
         <div style={{ display: "flex", position: "relative", width: 640, height: 26, marginTop: 34 }}>
-          <div style={{ position: "absolute", left: 0, top: 0, width: 2, height: 26, background: KREIDE }} />
-          <div style={{ position: "absolute", right: 0, top: 0, width: 2, height: 26, background: KREIDE }} />
-          <div style={{ position: "absolute", left: 0, right: 0, top: 12, height: 2, background: KREIDE }} />
+          <div style={{ position: "absolute", left: 0, top: 0, width: 2, height: 26, background: KUPFER }} />
+          <div style={{ position: "absolute", right: 0, top: 0, width: 2, height: 26, background: KUPFER }} />
+          <div style={{ position: "absolute", left: 0, right: 0, top: 12, height: 2, background: KUPFER }} />
         </div>
         <div
           style={{
@@ -69,7 +69,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             <div style={{ position: "absolute", left: 0, top: 4, width: 36, height: 11, background: EICHE }} />
             <div style={{ position: "absolute", left: 14, top: 21, width: 36, height: 11, background: EICHE_DEEP }} />
             <div style={{ position: "absolute", left: 0, top: 38, width: 36, height: 11, background: EICHE }} />
-            <div style={{ position: "absolute", left: 58, top: 4, width: 3, height: 45, background: KREIDE }} />
+            <div style={{ position: "absolute", left: 58, top: 4, width: 3, height: 45, background: KUPFER }} />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", fontSize: 30, fontWeight: 800, letterSpacing: 2 }}>
@@ -84,8 +84,8 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           style={{
             display: "flex",
             padding: "12px 20px",
-            background: BLATT,
-            border: `2px solid ${GRAPHIT}`,
+            background: CREME,
+            border: `2px solid ${NUSS}`,
             fontSize: 26,
             fontWeight: 700,
           }}

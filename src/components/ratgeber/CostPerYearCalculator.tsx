@@ -61,18 +61,18 @@ export function CostPerYearCalculator() {
       aria-labelledby={`${id}-title`}
       data-calculator=""
       data-ready={hydrated ? "true" : undefined}
-      className="mt-8 border border-strich bg-blatt"
+      className="mt-8 overflow-hidden rounded-2xl border border-fuge bg-creme"
     >
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-strich px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-graphit-muted">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-fuge px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-nuss-muted">
         <span>Rechner</span>
         <span aria-hidden="true">Preis ÷ Jahre + Pflege</span>
       </div>
 
       <div className="p-5 sm:p-6">
-        <h3 id={`${id}-title`} className="font-semiwide text-xl font-bold text-graphit">
+        <h3 id={`${id}-title`} className="font-display text-xl font-semibold text-nuss">
           Kosten pro m² und Jahr
         </h3>
-        <p className="mt-2 text-[0.95rem] leading-relaxed text-graphit-soft">
+        <p className="mt-2 text-[0.95rem] leading-relaxed text-nuss-soft">
           Preis und Lebensdauer reichen, Pflege ist optional. Die grauen Beispielwerte in den Feldern sind nur
           Platzhalter, keine Preise von mir.
         </p>
@@ -82,16 +82,16 @@ export function CostPerYearCalculator() {
             const input = inputs[index] ?? EMPTY;
             const result = results[index];
             return (
-              <fieldset key={floor.key} className="min-w-0 border border-strich bg-white/60 p-4">
-                <legend className="px-1.5 font-mono text-xs font-medium uppercase tracking-[0.1em] text-kreide">
+              <fieldset key={floor.key} className="min-w-0 border border-fuge bg-milch/60 p-4">
+                <legend className="px-1.5 font-mono text-xs font-medium uppercase tracking-[0.1em] text-kupfer">
                   {floor.label}
-                  {floor.optional ? <span className="text-graphit-muted normal-case tracking-normal"> (optional)</span> : null}
+                  {floor.optional ? <span className="text-nuss-muted normal-case tracking-normal"> (optional)</span> : null}
                 </legend>
 
                 <div className="space-y-3.5">
                   <div>
-                    <label htmlFor={`${id}-${floor.key}-name`} className="block text-sm text-graphit-soft">
-                      Bezeichnung <span className="text-graphit-muted">(optional)</span>
+                    <label htmlFor={`${id}-${floor.key}-name`} className="block text-sm text-nuss-soft">
+                      Bezeichnung <span className="text-nuss-muted">(optional)</span>
                     </label>
                     <input
                       id={`${id}-${floor.key}-name`}
@@ -101,7 +101,7 @@ export function CostPerYearCalculator() {
                       value={input.name}
                       placeholder={floor.namePlaceholder}
                       onChange={(event) => update(index, "name", event.target.value)}
-                      className="mt-1.5 h-11 w-full rounded-[2px] border border-strich bg-white px-3 text-[0.95rem] text-graphit placeholder:text-strich-dark"
+                      className="mt-1.5 h-11 w-full rounded-lg border border-fuge bg-milch px-3 text-[0.95rem] text-nuss placeholder:text-fuge-dark"
                     />
                   </div>
 
@@ -111,10 +111,10 @@ export function CostPerYearCalculator() {
                     const error = blurred[errorKey] ? result?.errors[field.key] : undefined;
                     return (
                       <div key={field.key}>
-                        <label htmlFor={fieldId} className="block text-sm text-graphit-soft">
+                        <label htmlFor={fieldId} className="block text-sm text-nuss-soft">
                           {field.label}
                           <span className="sr-only"> in {field.unit}</span>
-                          {field.optional ? <span className="text-graphit-muted"> (optional)</span> : null}
+                          {field.optional ? <span className="text-nuss-muted"> (optional)</span> : null}
                         </label>
                         <div className="relative mt-1.5">
                           <input
@@ -128,13 +128,13 @@ export function CostPerYearCalculator() {
                             aria-describedby={error ? `${fieldId}-error` : undefined}
                             onChange={(event) => update(index, field.key, event.target.value)}
                             onBlur={() => setBlurred((current) => ({ ...current, [errorKey]: true }))}
-                            className={`h-11 w-full rounded-[2px] border bg-white pl-3 pr-16 font-mono text-[0.95rem] tabular-nums text-graphit placeholder:font-sans placeholder:text-strich-dark ${
-                              error ? "border-[#b3261e]" : "border-strich"
+                            className={`h-11 w-full rounded-lg border bg-milch pl-3 pr-16 font-mono text-[0.95rem] tabular-nums text-nuss placeholder:font-sans placeholder:text-fuge-dark ${
+                              error ? "border-[#b3261e]" : "border-fuge"
                             }`}
                           />
                           <span
                             aria-hidden="true"
-                            className="pointer-events-none absolute inset-y-0 right-3 flex items-center font-mono text-xs text-graphit-muted"
+                            className="pointer-events-none absolute inset-y-0 right-3 flex items-center font-mono text-xs text-nuss-muted"
                           >
                             {field.unit}
                           </span>
@@ -153,21 +153,21 @@ export function CostPerYearCalculator() {
           })}
         </form>
 
-        <div className="mt-8 border-t border-dashed border-strich pt-6">
-          <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-graphit-muted sm:text-xs">
+        <div className="mt-8 border-t border-dashed border-fuge pt-6">
+          <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-nuss-muted sm:text-xs">
             Ergebnis · Euro pro m² und Jahr
           </h4>
 
           {complete.length === 0 ? (
-            <p className="mt-3 text-[0.95rem] leading-relaxed text-graphit-soft">
+            <p className="mt-3 text-[0.95rem] leading-relaxed text-nuss-soft">
               Trag bei mindestens einem Boden Preis und Lebensdauer ein. Für einen Vergleich brauchst du zwei.
             </p>
           ) : (
             <>
               {showCare ? (
-                <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-1.5 text-sm text-graphit-soft" aria-label="Legende">
+                <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-1.5 text-sm text-nuss-soft" aria-label="Legende">
                   <li className="flex items-center gap-2">
-                    <span aria-hidden="true" className="inline-block size-3 rounded-[2px] bg-kreide" />
+                    <span aria-hidden="true" className="inline-block size-3 rounded-[2px] bg-kupfer" />
                     Anschaffung pro Jahr (Preis ÷ Lebensdauer)
                   </li>
                   <li className="flex items-center gap-2">
@@ -185,23 +185,23 @@ export function CostPerYearCalculator() {
                   return (
                     <li key={FLOORS[index]?.key ?? index} data-floor={FLOORS[index]?.key}>
                       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
-                        <span className="font-semibold text-graphit">{result.label}</span>
-                        <span className="font-mono text-[0.95rem] text-graphit">
+                        <span className="font-semibold text-nuss">{result.label}</span>
+                        <span className="font-mono text-[0.95rem] text-nuss">
                           <span data-total="">{formatEuro(totalPerYear)}</span>
-                          <span className="text-graphit-muted"> pro m² und Jahr</span>
+                          <span className="text-nuss-muted"> pro m² und Jahr</span>
                         </span>
                       </div>
-                      <div aria-hidden="true" className="mt-2 flex h-5 w-full items-stretch border-l border-graphit">
-                        <span className="block h-full bg-kreide" style={{ width: `${purchaseWidth}%` }} />
+                      <div aria-hidden="true" className="mt-2 flex h-5 w-full items-stretch border-l border-nuss">
+                        <span className="block h-full bg-kupfer" style={{ width: `${purchaseWidth}%` }} />
                         {carePerYear > 0 ? (
                           <span
-                            className="block h-full rounded-r-[2px] border-l-2 border-blatt bg-eiche"
+                            className="block h-full rounded-r-[2px] border-l-2 border-creme bg-eiche"
                             style={{ width: `${careWidth}%` }}
                           />
                         ) : null}
                       </div>
                       {carePerYear > 0 ? (
-                        <p className="mt-1.5 font-mono text-xs text-graphit-muted">
+                        <p className="mt-1.5 font-mono text-xs text-nuss-muted">
                           {formatEuro(purchasePerYear)} Anschaffung + {formatEuro(carePerYear)} Pflege
                         </p>
                       ) : null}
@@ -212,14 +212,14 @@ export function CostPerYearCalculator() {
             </>
           )}
 
-          <p role="status" className="mt-5 text-[0.95rem] font-medium leading-relaxed text-graphit">
+          <p role="status" className="mt-5 text-[0.95rem] font-medium leading-relaxed text-nuss">
             {verdict(complete.map((entry) => entry.result))}
           </p>
         </div>
 
-        <div className="mt-6 border-l-2 border-eiche bg-estrich/60 px-4 py-3.5 text-[0.95rem] leading-relaxed text-graphit-soft">
+        <div className="mt-6 border-l-2 border-eiche bg-leinen/60 px-4 py-3.5 text-[0.95rem] leading-relaxed text-nuss-soft">
           <p>
-            <strong className="font-semibold text-graphit">Ehrlich gesagt:</strong> Die Lebensdauer ist die wackligste
+            <strong className="font-semibold text-nuss">Ehrlich gesagt:</strong> Die Lebensdauer ist die wackligste
             Zahl in dieser Rechnung. Sie hängt davon ab, wie der Boden genutzt und gepflegt wird. Parkett lässt sich je
             nach Nutzschicht mehrmals abschleifen und hält dann länger, jeder Schliff kostet aber Geld. Laminat und Vinyl
             lassen sich nicht abschleifen. Das Ergebnis ist eine Rechenhilfe, kein Angebot.
@@ -230,7 +230,7 @@ export function CostPerYearCalculator() {
           <button
             type="button"
             onClick={reset}
-            className="mt-5 inline-flex items-center rounded-[2px] border border-strich-dark px-4 py-2.5 text-sm font-medium text-graphit transition-colors hover:border-graphit hover:bg-estrich"
+            className="mt-5 inline-flex items-center rounded-full border border-fuge-dark px-4 py-2.5 text-sm font-medium text-nuss transition-colors hover:border-nuss hover:bg-leinen"
           >
             Eingaben löschen
           </button>

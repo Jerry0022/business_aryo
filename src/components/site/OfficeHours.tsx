@@ -31,17 +31,17 @@ export function OfficeHours({ officeHours, voucherConditions, voucherValue, foun
         </SectionHeader>
 
         <div className={`${card} mt-12 grid lg:grid-cols-[5fr_7fr]`}>
-          <div className="flex flex-col gap-5 border-b border-strich p-5 sm:p-8 lg:border-b-0 lg:border-r">
+          <div className="flex flex-col gap-5 border-b border-fuge p-5 sm:p-8 lg:border-b-0 lg:border-r">
             {officeHours.length > 0 ? (
               <fieldset>
-                <legend className={`${eyebrow} mb-4 text-graphit-muted`}>Termin wählen</legend>
+                <legend className={`${eyebrow} mb-4 text-nuss-muted`}>Termin wählen</legend>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                   {officeHours.map((hour, index) => {
                     const label = officeHourLabel(hour.startsAt);
                     return (
                       <label
                         key={hour.startsAt}
-                        className="group relative flex cursor-pointer flex-col gap-1 rounded-xs border border-strich bg-white/60 p-4 transition-colors hover:border-graphit has-[:checked]:border-kreide has-[:checked]:bg-kreide/[0.06] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-kreide"
+                        className="group relative flex cursor-pointer flex-col gap-1 rounded-lg border border-fuge bg-milch/60 p-4 transition-colors hover:border-nuss has-[:checked]:border-kupfer has-[:checked]:bg-kupfer/[0.06] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-kupfer"
                       >
                         <input
                           type="radio"
@@ -52,21 +52,21 @@ export function OfficeHours({ officeHours, voucherConditions, voucherValue, foun
                           className="sr-only"
                         />
                         <span className="flex items-baseline justify-between gap-3">
-                          <span className="font-display text-[2.25rem] font-extrabold leading-none tracking-[-0.02em] text-kreide font-wide">
+                          <span className="font-display text-[2.25rem] font-semibold leading-none tracking-[-0.02em] text-kupfer">
                             {label.dayMonth}
                           </span>
                           <span
-                            className="flex size-5 shrink-0 items-center justify-center rounded-full border border-strich-dark group-has-[:checked]:border-kreide"
+                            className="flex size-5 shrink-0 items-center justify-center rounded-full border border-fuge-dark group-has-[:checked]:border-kupfer"
                             aria-hidden="true"
                           >
-                            <span className="size-2.5 rounded-full bg-kreide opacity-0 group-has-[:checked]:opacity-100" />
+                            <span className="size-2.5 rounded-full bg-kupfer opacity-0 group-has-[:checked]:opacity-100" />
                           </span>
                         </span>
-                        <span className="font-semibold text-graphit">
+                        <span className="font-semibold text-nuss">
                           {label.weekday} · {label.time} Uhr
                         </span>
-                        <span className="text-pretty text-sm leading-snug text-graphit-soft">{hour.topic}</span>
-                        <span className="mt-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-graphit-muted">
+                        <span className="text-pretty text-sm leading-snug text-nuss-soft">{hour.topic}</span>
+                        <span className="mt-1 font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-nuss-muted">
                           {hour.durationMinutes} Min. + Fragen
                         </span>
                       </label>
@@ -75,7 +75,7 @@ export function OfficeHours({ officeHours, voucherConditions, voucherValue, foun
                 </div>
               </fieldset>
             ) : (
-              <p className="text-graphit-soft">Die nächsten Termine stehen gleich wieder hier.</p>
+              <p className="text-nuss-soft">Die nächsten Termine stehen gleich wieder hier.</p>
             )}
           </div>
 
@@ -83,11 +83,11 @@ export function OfficeHours({ officeHours, voucherConditions, voucherValue, foun
             <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-start">
               <div className="flex flex-col gap-3">
                 {current ? (
-                  <h3 className="text-balance font-display text-[1.625rem] font-bold leading-tight font-semiwide sm:text-[1.875rem]">
+                  <h3 className="text-balance font-display text-[1.625rem] font-semibold leading-tight sm:text-[1.875rem]">
                     {current.topic}
                   </h3>
                 ) : null}
-                <p className="text-pretty leading-relaxed text-graphit-soft">
+                <p className="text-pretty leading-relaxed text-nuss-soft">
                   Die Kamera zeigt meine Werkbank: Hände, Holz und Werkzeug. Kein Verkaufsgespräch, dafür Antworten auf
                   deine Fragen.
                 </p>
@@ -99,7 +99,7 @@ export function OfficeHours({ officeHours, voucherConditions, voucherValue, foun
               <PublicForm action={registerForOfficeHour} submitLabel="Platz sichern" label="Für die Boden-Sprechstunde anmelden">
                 <input type="hidden" name="officeHourId" value={current.id ?? ""} />
                 <input type="hidden" name="startsAt" value={current.startsAt} />
-                <p className="font-mono text-xs uppercase tracking-[0.08em] text-graphit-muted" aria-live="polite">
+                <p className="font-mono text-xs uppercase tracking-[0.08em] text-nuss-muted" aria-live="polite">
                   Gewählt: {officeHourLabel(current.startsAt).long}
                 </p>
                 <div className="grid gap-4 sm:grid-cols-[2fr_3fr]">
@@ -110,24 +110,24 @@ export function OfficeHours({ officeHours, voucherConditions, voucherValue, foun
                   name="newsletter"
                   label="Schick mir auch den Newsletter mit neuen Ratgebern und Terminen. Abmelden geht jederzeit."
                 />
-                <p className="text-sm leading-relaxed text-graphit-muted">
+                <p className="text-sm leading-relaxed text-nuss-muted">
                   Deine Anmeldung bestätigst du per E-Mail. Den Link zur Sprechstunde bekommst du danach.
                 </p>
               </PublicForm>
             ) : null}
 
-            <div className="flex flex-col gap-3 border-t border-dashed border-strich pt-5">
-              <h4 className={`${eyebrow} text-kreide`}>Gutschein für die Erstberatung</h4>
-              <p className="text-pretty leading-relaxed text-graphit-soft">
+            <div className="flex flex-col gap-3 border-t border-dashed border-fuge pt-5">
+              <h4 className={`${eyebrow} text-kupfer`}>Gutschein für die Erstberatung</h4>
+              <p className="text-pretty leading-relaxed text-nuss-soft">
                 Nach der Sprechstunde bekommst du einen Gutschein für die Erstberatung vor Ort
                 {voucherValue ? ` über ${voucherValue}` : ""}.
                 {voucherConditions.length > 0 ? " Er gilt nur, wenn" : ""}
               </p>
               {voucherConditions.length > 0 ? (
-                <ul className="flex flex-col gap-1.5 text-[0.95rem] text-graphit-soft">
+                <ul className="flex flex-col gap-1.5 text-[0.95rem] text-nuss-soft">
                   {voucherConditions.map((condition, index) => (
                     <li key={condition} className="flex gap-3">
-                      <span className="pt-0.5 font-mono text-xs text-kreide" aria-hidden="true">
+                      <span className="pt-0.5 font-mono text-xs text-kupfer" aria-hidden="true">
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <span className="text-pretty">
@@ -139,7 +139,7 @@ export function OfficeHours({ officeHours, voucherConditions, voucherValue, foun
                 </ul>
               ) : null}
               {live && founding.open ? (
-                <p className="font-mono text-xs uppercase leading-relaxed tracking-[0.06em] text-graphit-muted">
+                <p className="font-mono text-xs uppercase leading-relaxed tracking-[0.06em] text-nuss-muted">
                   Gründungskontingent: noch {founding.free} von {founding.total} Erstberatungen bis {formatDateKey(founding.deadline)}.
                   Dafür darf ich Vorher-Nachher-Fotos deines Bodens zeigen.
                 </p>
@@ -161,7 +161,7 @@ function WorkbenchCamera() {
       role="img"
       aria-label="Skizze: Blick der Werkbank-Kamera auf Holz, Zollstock und Bleistift"
     >
-      <rect x="0" y="0" width="200" height="140" fill="#3a3d43" />
+      <rect x="0" y="0" width="200" height="140" fill="#46372c" />
       <g>
         <rect x="10" y="22" width="180" height="26" fill="#b07a42" />
         <rect x="10" y="48" width="180" height="26" fill="#c0894a" />
@@ -177,22 +177,22 @@ function WorkbenchCamera() {
         />
       </g>
       <g transform="rotate(-18 100 70)">
-        <rect x="34" y="60" width="130" height="12" fill="#f7f7f4" stroke="#22252a" strokeWidth="0.6" />
+        <rect x="34" y="60" width="130" height="12" fill="#f8f1e4" stroke="#231913" strokeWidth="0.6" />
         <path
           d="M47 60v4M60 60v6M73 60v4M86 60v6M99 60v4M112 60v6M125 60v4M138 60v6M151 60v4"
-          stroke="#22252a"
+          stroke="#231913"
           strokeWidth="0.7"
         />
-        <path d="M99 60v12" stroke="#2d5ba8" strokeWidth="1" />
+        <path d="M99 60v12" stroke="#9a4418" strokeWidth="1" />
       </g>
       <g transform="rotate(24 140 104)">
-        <rect x="104" y="100" width="62" height="6" fill="#22252a" />
-        <path d="M166 100l8 3-8 3z" fill="#e4e3de" />
+        <rect x="104" y="100" width="62" height="6" fill="#231913" />
+        <path d="M166 100l8 3-8 3z" fill="#efe6d6" />
       </g>
-      <g stroke="#f7f7f4" strokeWidth="2" fill="none">
+      <g stroke="#f8f1e4" strokeWidth="2" fill="none">
         <path d="M8 18V8h10M182 8h10v10M192 122v10h-10M18 132H8v-10" />
       </g>
-      <g fontFamily="var(--font-plex-mono), ui-monospace, monospace" fontSize="8" fill="#f7f7f4" letterSpacing="0.8">
+      <g fontFamily="var(--font-plex-mono), ui-monospace, monospace" fontSize="8" fill="#f8f1e4" letterSpacing="0.8">
         <circle cx="152" cy="17.5" r="3" fill="#e5484d" />
         <text x="159" y="20.5">LIVE</text>
         <text x="24" y="20.5">WERKBANK</text>

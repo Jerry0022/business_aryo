@@ -74,7 +74,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <>
       <SiteHeader variant="solid" />
-      <main id="main" className="bg-estrich pb-20 pt-28 text-graphit sm:pb-28 sm:pt-32 lg:pt-36">
+      <main id="main" className="bg-leinen pb-20 pt-28 text-nuss sm:pb-28 sm:pt-32 lg:pt-36">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-8">
           <Breadcrumb
             items={[
@@ -88,15 +88,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <header className="max-w-4xl">
               <Link
                 href={`/ratgeber#${pillar.key}`}
-                className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-kreide underline decoration-transparent underline-offset-4 transition-colors hover:decoration-kreide sm:text-xs"
+                className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-kupfer underline decoration-transparent underline-offset-4 transition-colors hover:decoration-kupfer sm:text-xs"
               >
                 Thema {String(pillar.number).padStart(2, "0")} · {pillar.label}
               </Link>
-              <h1 className="mt-4 font-wide text-[clamp(2rem,5.6vw,3.75rem)] font-extrabold leading-[1.02] tracking-[-0.015em] text-balance">
+              <h1 className="mt-4 font-display text-[clamp(2rem,5.6vw,3.75rem)] font-medium leading-[1.02] tracking-[-0.015em] text-balance">
                 {article.title}
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-graphit-soft sm:text-xl">{article.teaser}</p>
-              <p className="mt-7 flex flex-wrap gap-x-6 gap-y-1 font-mono text-xs uppercase tracking-[0.1em] text-graphit-muted">
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-nuss-soft sm:text-xl">{article.teaser}</p>
+              <p className="mt-7 flex flex-wrap gap-x-6 gap-y-1 font-mono text-xs uppercase tracking-[0.1em] text-nuss-muted">
                 <span>{article.readingMinutes} Min. Lesezeit</span>
                 <span>
                   Stand <time dateTime={article.updated}>{formatArticleDate(article.updated)}</time>
@@ -126,15 +126,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </div>
           </article>
 
-          <section aria-labelledby="weiterlesen" className="mt-24 border-t border-graphit pt-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-kreide sm:text-xs">Ratgeber</p>
+          <section aria-labelledby="weiterlesen" className="mt-24 border-t border-nuss pt-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-kupfer sm:text-xs">Ratgeber</p>
             <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-              <h2 id="weiterlesen" className="font-semiwide text-[1.875rem] font-extrabold leading-tight sm:text-4xl">
+              <h2 id="weiterlesen" className="font-display text-[1.875rem] font-semibold leading-tight sm:text-4xl">
                 Weiterlesen
               </h2>
               <Link
                 href="/ratgeber"
-                className="font-medium text-kreide underline decoration-kreide/40 underline-offset-4 transition-colors hover:text-kreide-deep"
+                className="font-medium text-kupfer underline decoration-kupfer/40 underline-offset-4 transition-colors hover:text-kupfer-deep"
               >
                 Alle Artikel
               </Link>

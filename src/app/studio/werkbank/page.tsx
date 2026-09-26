@@ -356,7 +356,7 @@ function Attention({ data }: { data: OverviewData }) {
             const Icon = item.tone === "info" ? Info : item.tone === "warn" ? Clock : TriangleAlert;
             return (
               <li key={`${item.text}-${index}`} className="flex items-start gap-3 px-4 py-3 sm:px-5">
-                <Icon className={cx("mt-0.5 size-4 shrink-0", item.tone === "crit" ? "text-red-300" : item.tone === "warn" ? "text-amber-300" : "text-kreide-light")} aria-hidden />
+                <Icon className={cx("mt-0.5 size-4 shrink-0", item.tone === "crit" ? "text-red-300" : item.tone === "warn" ? "text-amber-300" : "text-kupfer-light")} aria-hidden />
                 <p className="min-w-0 flex-1 text-sm">{item.text}</p>
                 {item.ref ? (
                   <OpenRecord kind={item.ref.kind as RecordKind} id={item.ref.id} className={buttonClass("secondary", "sm")}>

@@ -70,7 +70,7 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
   const next = nextOfficeHour ? officeHourLabel(nextOfficeHour.startsAt) : null;
 
   return (
-    <section id="boden-check" aria-labelledby="boden-check-title" className="scroll-mt-16 bg-estrich-deep py-20 sm:py-24 xl:scroll-mt-20">
+    <section id="boden-check" aria-labelledby="boden-check-title" className="scroll-mt-16 bg-leinen-deep py-20 sm:py-24 xl:scroll-mt-20">
       <div className={container}>
         <SectionHeader id="boden-check" label="Boden-Check" title="In 7 Schritten zu deinem Boden.">
           <p>
@@ -79,11 +79,11 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
           </p>
         </SectionHeader>
 
-        <div className="mt-10 grid overflow-hidden rounded-xs border border-strich bg-blatt lg:grid-cols-[280px_minmax(0,1fr)]">
-          <aside className="hidden flex-col gap-6 border-r border-strich px-5 py-8 lg:flex" aria-label="Schritte">
+        <div className="mt-10 grid overflow-hidden rounded-2xl border border-fuge bg-creme lg:grid-cols-[280px_minmax(0,1fr)]">
+          <aside className="hidden flex-col gap-6 border-r border-fuge px-5 py-8 lg:flex" aria-label="Schritte">
             <div className="flex flex-col gap-1.5 px-3">
-              <p className="font-display text-2xl font-bold font-semiwide">Boden-Check</p>
-              <p className={`${eyebrow} text-graphit-muted`}>
+              <p className="font-display text-2xl font-semibold">Boden-Check</p>
+              <p className={`${eyebrow} text-nuss-muted`}>
                 {answeredSteps} von {TOTAL} beantwortet
               </p>
             </div>
@@ -97,16 +97,16 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
                       type="button"
                       onClick={() => goTo(index)}
                       aria-current={active ? "step" : undefined}
-                      className={`flex min-h-11 w-full items-center gap-3 rounded-xs px-3 py-2 text-left text-[0.95rem] transition-colors ${
-                        active ? "bg-kreide font-semibold text-white" : "text-graphit hover:bg-estrich"
+                      className={`flex min-h-11 w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[0.95rem] transition-colors ${
+                        active ? "bg-kupfer font-semibold text-creme" : "text-nuss hover:bg-leinen"
                       }`}
                     >
-                      <span className={`w-6 font-mono text-xs ${active ? "text-white" : "text-graphit-muted"}`}>
+                      <span className={`w-6 font-mono text-xs ${active ? "text-white" : "text-nuss-muted"}`}>
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <span className="flex-1">{item.label}</span>
                       {done ? (
-                        <span className={active ? "text-white" : "text-kreide"}>
+                        <span className={active ? "text-white" : "text-kupfer"}>
                           <CheckIcon />
                           <span className="sr-only">(beantwortet)</span>
                         </span>
@@ -116,30 +116,30 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
                 );
               })}
             </ol>
-            <p className="mt-auto px-3 text-sm leading-relaxed text-graphit-muted">Kein Konto nötig. Dein Bodenprofil kommt per E-Mail.</p>
+            <p className="mt-auto px-3 text-sm leading-relaxed text-nuss-muted">Kein Konto nötig. Dein Bodenprofil kommt per E-Mail.</p>
           </aside>
 
           <div className="flex min-w-0 flex-col gap-6 p-5 sm:p-8 lg:px-12 lg:py-9">
             <div className="flex gap-1.5" aria-hidden="true">
               {FLOOR_CHECK_STEPS.map((item, index) => (
-                <span key={item.key} className={`h-1 flex-1 ${isResult || index <= step ? "bg-kreide" : "bg-strich"}`} />
+                <span key={item.key} className={`h-1 flex-1 ${isResult || index <= step ? "bg-kupfer" : "bg-fuge"}`} />
               ))}
             </div>
 
             {!isResult ? (
               <div className="flex flex-1 flex-col gap-5">
-                <p className={`${eyebrow} text-graphit-muted`}>
+                <p className={`${eyebrow} text-nuss-muted`}>
                   Schritt {step + 1} von {TOTAL} · {current.label}
                 </p>
                 <h3
                   ref={headingRef}
                   tabIndex={-1}
                   id="boden-check-question"
-                  className="max-w-2xl scroll-mt-28 text-balance font-display text-[clamp(1.625rem,4vw,2.25rem)] font-bold leading-[1.12] outline-none font-semiwide"
+                  className="max-w-2xl scroll-mt-28 text-balance font-display text-[clamp(1.625rem,4vw,2.25rem)] font-medium leading-[1.12] outline-none"
                 >
                   {current.question}
                 </h3>
-                <p className="max-w-2xl text-pretty leading-relaxed text-graphit-muted">{current.hint}</p>
+                <p className="max-w-2xl text-pretty leading-relaxed text-nuss-muted">{current.hint}</p>
                 <div role="group" aria-labelledby="boden-check-question" className="flex flex-wrap gap-2.5">
                   {current.options.map((option, index) => {
                     const pressed = picked.includes(option);
@@ -150,10 +150,10 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
                         type="button"
                         aria-pressed={pressed}
                         onClick={() => toggle(current.key, option, current.multiple)}
-                        className={`inline-flex min-h-11 items-center gap-2.5 rounded-xs border px-4 py-2.5 text-[0.95rem] font-medium transition-colors ${
+                        className={`inline-flex min-h-11 items-center gap-2.5 rounded-lg border px-4 py-2.5 text-[0.95rem] font-medium transition-colors ${
                           pressed
-                            ? "border-kreide bg-kreide text-white"
-                            : "border-strich-dark bg-white text-graphit hover:border-graphit"
+                            ? "border-kupfer bg-kupfer text-creme"
+                            : "border-fuge-dark bg-milch text-nuss hover:border-nuss"
                         }`}
                       >
                         {swatch ? (
@@ -168,7 +168,7 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
                     );
                   })}
                 </div>
-                <p className="text-sm text-graphit-muted">{current.multiple ? "Mehrfachauswahl möglich." : "Eine Antwort."}</p>
+                <p className="text-sm text-nuss-muted">{current.multiple ? "Mehrfachauswahl möglich." : "Eine Antwort."}</p>
 
                 {current.key === "zeitplan" ? (
                   <div className="max-w-64">
@@ -185,11 +185,11 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
                   </div>
                 ) : null}
 
-                <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-strich pt-5">
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-fuge pt-5">
                   <button type="button" onClick={() => goTo(step - 1)} disabled={step === 0} className={`${buttonSecondary} disabled:opacity-40`}>
                     Zurück
                   </button>
-                  <span className="order-last w-full font-mono text-xs text-graphit-muted sm:order-none sm:w-auto">
+                  <span className="order-last w-full font-mono text-xs text-nuss-muted sm:order-none sm:w-auto">
                     {picked.length === 0 ? "Nichts gewählt" : picked.length === 1 ? "1 ausgewählt" : `${picked.length} ausgewählt`}
                   </span>
                   <button
@@ -204,32 +204,32 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
               </div>
             ) : (
               <div className="flex flex-col gap-5">
-                <p className={`${eyebrow} text-graphit-muted`}>Dein Bodenprofil · Vorschau</p>
+                <p className={`${eyebrow} text-nuss-muted`}>Dein Bodenprofil · Vorschau</p>
                 <h3
                   ref={headingRef}
                   tabIndex={-1}
-                  className="scroll-mt-28 font-display text-[clamp(1.625rem,4vw,2.125rem)] font-bold leading-[1.12] outline-none font-semiwide"
+                  className="scroll-mt-28 font-display text-[clamp(1.625rem,4vw,2.125rem)] font-medium leading-[1.12] outline-none"
                 >
                   Drei Böden, die zu dir passen.
                 </h3>
                 <ol className="grid gap-3.5 md:grid-cols-3" aria-label="Empfehlungen">
                   {recommendations.map((item, index) => (
-                    <li key={item.name} className="flex flex-col gap-2.5 rounded-xs border border-strich bg-white p-4 sm:p-5">
-                      <p className={`${eyebrow} text-[0.6875rem] text-kreide`}>{RECOMMENDATION_TAGS[index]}</p>
-                      <h4 className="font-display text-lg font-bold leading-snug">{item.name}</h4>
-                      <p className="text-pretty text-sm leading-relaxed text-graphit-soft">{item.why}</p>
+                    <li key={item.name} className="flex flex-col gap-2.5 rounded-lg border border-fuge bg-milch p-4 sm:p-5">
+                      <p className={`${eyebrow} text-[0.6875rem] text-kupfer`}>{RECOMMENDATION_TAGS[index]}</p>
+                      <h4 className="font-display text-lg font-semibold leading-snug">{item.name}</h4>
+                      <p className="text-pretty text-sm leading-relaxed text-nuss-soft">{item.why}</p>
                       {item.viaMasterPartner ? (
-                        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-graphit-muted">
+                        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-nuss-muted">
                           Verlegung über Meisterpartner
                         </p>
                       ) : null}
-                      <p className="mt-auto border-t border-dashed border-strich pt-2.5 text-[0.8125rem] leading-snug text-graphit">
+                      <p className="mt-auto border-t border-dashed border-fuge pt-2.5 text-[0.8125rem] leading-snug text-nuss">
                         {item.care}
                       </p>
                     </li>
                   ))}
                 </ol>
-                <p className="max-w-2xl text-pretty leading-relaxed text-graphit-soft">
+                <p className="max-w-2xl text-pretty leading-relaxed text-nuss-soft">
                   Das ausführliche Profil mit Vor- und Nachteilen schicke ich dir per E-Mail.
                   {next ? ` Danach lade ich dich zur nächsten Boden-Sprechstunde ein: ${next.long}.` : ""}
                 </p>
@@ -239,13 +239,13 @@ export function FloorCheck({ nextOfficeHour }: { nextOfficeHour: PublicOfficeHou
                   submitLabel="Bodenprofil per E-Mail schicken"
                   label="Bodenprofil per E-Mail schicken"
                   resetOnSuccess={false}
-                  className="border-t border-strich pt-6"
+                  className="border-t border-fuge pt-6"
                   actions={
                     <>
                       <button type="button" onClick={() => goTo(TOTAL - 1)} className={buttonSecondary}>
                         Zurück
                       </button>
-                      <button type="button" onClick={restart} className="min-h-11 px-3 text-[0.95rem] text-graphit-muted underline underline-offset-4 hover:text-graphit">
+                      <button type="button" onClick={restart} className="min-h-11 px-3 text-[0.95rem] text-nuss-muted underline underline-offset-4 hover:text-nuss">
                         Neu starten
                       </button>
                     </>

@@ -75,7 +75,7 @@ export const TONE_CLASSES: Record<Tone, string> = {
   ok: "bg-emerald-400/10 text-emerald-300 ring-emerald-400/20",
   warn: "bg-amber-400/10 text-amber-300 ring-amber-400/25",
   crit: "bg-red-400/10 text-red-300 ring-red-400/25",
-  info: "bg-kreide-light/10 text-kreide-light ring-kreide-light/25",
+  info: "bg-kupfer-light/10 text-kupfer-light ring-kupfer-light/25",
 };
 
 export function Badge({ tone = "neutral", children, className }: { tone?: Tone; children: React.ReactNode; className?: string }) {
@@ -178,7 +178,7 @@ export function EmptyState({
 const BANNER_TONES = {
   crit: "border-red-400/30 bg-red-500/10 text-red-100",
   warn: "border-amber-400/30 bg-amber-400/10 text-amber-100",
-  info: "border-kreide-light/25 bg-kreide/15 text-studio-text",
+  info: "border-kupfer-light/25 bg-kupfer/15 text-studio-text",
   ok: "border-emerald-400/25 bg-emerald-400/10 text-emerald-100",
 } as const;
 
@@ -219,7 +219,7 @@ export function Meter({
 }) {
   const scale = Math.max(max, value, target ?? 0, 1);
   const width = Math.min(100, (value / scale) * 100);
-  const colors = { oak: "bg-oak", ok: "bg-emerald-400", crit: "bg-red-400", info: "bg-kreide-light" };
+  const colors = { oak: "bg-oak", ok: "bg-emerald-400", crit: "bg-red-400", info: "bg-kupfer-light" };
   return (
     <div
       role="meter"

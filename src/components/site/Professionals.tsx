@@ -34,7 +34,7 @@ export function Professionals({ partnerSlots }: { partnerSlots: number }) {
   };
 
   return (
-    <section id="profis" aria-labelledby="profis-title" className="scroll-mt-16 bg-estrich-deep py-20 sm:py-24 xl:scroll-mt-20">
+    <section id="profis" aria-labelledby="profis-title" className="scroll-mt-16 bg-leinen-deep py-20 sm:py-24 xl:scroll-mt-20">
       <div className={container}>
         <SectionHeader id="profis" label="Für Profis und Großprojekte" title="Bewerbung statt Anfrage.">
           <p>
@@ -43,8 +43,8 @@ export function Professionals({ partnerSlots }: { partnerSlots: number }) {
           </p>
         </SectionHeader>
 
-        <div className="mt-10 rounded-xs border border-strich bg-blatt">
-          <div role="tablist" aria-label="Art der Bewerbung" className="grid grid-cols-2 border-b border-strich">
+        <div className="mt-10 rounded-2xl border border-fuge bg-creme">
+          <div role="tablist" aria-label="Art der Bewerbung" className="grid grid-cols-2 border-b border-fuge">
             {TABS.map((item) => {
               const selected = item.id === tab;
               return (
@@ -62,14 +62,14 @@ export function Professionals({ partnerSlots }: { partnerSlots: number }) {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setTab(item.id)}
                   onKeyDown={onKeyDown}
-                  className={`flex flex-col items-start gap-1 border-b-2 px-4 py-4 text-left transition-colors first:border-r first:border-r-strich sm:px-8 sm:py-5 ${
-                    selected ? "border-b-kreide bg-blatt" : "border-b-transparent bg-estrich/50 hover:bg-estrich"
+                  className={`flex flex-col items-start gap-1 border-b-2 px-4 py-4 text-left transition-colors first:border-r first:border-r-fuge sm:px-8 sm:py-5 ${
+                    selected ? "border-b-kupfer bg-creme" : "border-b-transparent bg-leinen/50 hover:bg-leinen"
                   }`}
                 >
-                  <span className={`font-display text-lg font-bold leading-tight font-semiwide sm:text-xl ${selected ? "text-graphit" : "text-graphit-soft"}`}>
+                  <span className={`font-display text-lg font-semibold leading-tight sm:text-xl ${selected ? "text-nuss" : "text-nuss-soft"}`}>
                     {item.label}
                   </span>
-                  <span className="hidden font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-graphit-muted sm:block">{item.short}</span>
+                  <span className="hidden font-mono text-[0.6875rem] uppercase tracking-[0.08em] text-nuss-muted sm:block">{item.short}</span>
                 </button>
               );
             })}
@@ -83,14 +83,14 @@ export function Professionals({ partnerSlots }: { partnerSlots: number }) {
             className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[2fr_3fr] lg:gap-12"
           >
             <div className="flex flex-col gap-4">
-              <h3 className="font-display text-2xl font-bold font-semiwide">Partnerbetrieb werden</h3>
-              <ul className="flex flex-col gap-3 text-graphit-soft">
-                <li className="border-l-2 border-kreide pl-3 font-semibold text-graphit">Ich werbe keine Kunden ab.</li>
-                <li className="border-l-2 border-strich pl-3">Auf Wunsch arbeite ich in deinem Namen.</li>
-                <li className="border-l-2 border-strich pl-3">
+              <h3 className="font-display text-2xl font-semibold">Partnerbetrieb werden</h3>
+              <ul className="flex flex-col gap-3 text-nuss-soft">
+                <li className="border-l-2 border-kupfer pl-3 font-semibold text-nuss">Ich werbe keine Kunden ab.</li>
+                <li className="border-l-2 border-fuge pl-3">Auf Wunsch arbeite ich in deinem Namen.</li>
+                <li className="border-l-2 border-fuge pl-3">
                   Du bekommst Projekte vermittelt, die ich nicht selbst übernehme, dazu Material und Planung.
                 </li>
-                <li className="border-l-2 border-strich pl-3">
+                <li className="border-l-2 border-fuge pl-3">
                   Ich nehme höchstens {partnerSlots} Partnerbetriebe in NRW auf. Nach der Bewerbung folgt ein kurzes
                   Aufnahmegespräch.
                 </li>
@@ -119,12 +119,12 @@ export function Professionals({ partnerSlots }: { partnerSlots: number }) {
             className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[2fr_3fr] lg:gap-12"
           >
             <div className="flex flex-col gap-4">
-              <h3 className="font-display text-2xl font-bold font-semiwide">Großprojekt bewerben</h3>
-              <p className="text-pretty leading-relaxed text-graphit-soft">
+              <h3 className="font-display text-2xl font-semibold">Großprojekt bewerben</h3>
+              <p className="text-pretty leading-relaxed text-nuss-soft">
                 Für Bauherren, Architektur, Hausverwaltungen und Gewerbe mit Flächen ab etwa 60 m². Du überspringst
                 Boden-Check und Sprechstunde und bekommst direkt einen Rückruf.
               </p>
-              <p className={`${eyebrow} text-kreide`}>Rückruf innerhalb von 48 Stunden</p>
+              <p className={`${eyebrow} text-kupfer`}>Rückruf innerhalb von 48 Stunden</p>
             </div>
             <PublicForm action={submitProjectApplication} submitLabel="Projekt bewerben" label="Großprojekt bewerben">
               <div className="grid gap-4 sm:grid-cols-2">

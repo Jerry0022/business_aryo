@@ -257,13 +257,13 @@ export function ServiceCatalogEditor({ services, settings, hasMasterPartner }: {
                 type="button"
                 aria-pressed={previewGroup === group.key}
                 onClick={() => setPreviewGroup(group.key)}
-                className={cx("shrink-0 rounded-md px-2.5 py-1 text-xs font-medium", previewGroup === group.key ? "bg-blatt text-graphit" : "text-studio-muted hover:text-studio-text")}
+                className={cx("shrink-0 rounded-md px-2.5 py-1 text-xs font-medium", previewGroup === group.key ? "bg-creme text-nuss" : "text-studio-muted hover:text-studio-text")}
               >
                 {group.label}
               </button>
             ))}
           </div>
-          <div className="bg-blatt p-4 text-graphit">
+          <div className="bg-creme p-4 text-nuss">
             {(() => {
               const group = SERVICE_GROUPS.find((item) => item.key === previewGroup)!;
               const shown = current.filter((item) => item.groupKey === group.key && isServiceShown(item, hasMasterPartner));
@@ -271,26 +271,26 @@ export function ServiceCatalogEditor({ services, settings, hasMasterPartner }: {
               return (
                 <>
                   <p className="font-display text-lg font-semibold">{group.label}</p>
-                  <p className="text-sm text-graphit-muted">{group.lead}</p>
-                  <ul className="mt-3 divide-y divide-strich">
+                  <p className="text-sm text-nuss-muted">{group.lead}</p>
+                  <ul className="mt-3 divide-y divide-fuge">
                     {shown.map((item) => {
                       const line = publicPriceLine(item, priceOptions);
                       const discount = item.id === "verlegung" ? subscriptionDiscountLine(item, settings.pricing.subscriptionDiscountPercent, priceOptions) : null;
                       return (
                         <li key={item.id} className="py-2.5">
                           <p className="font-semibold">{item.title}</p>
-                          <p className="text-sm text-graphit-muted">{item.description}</p>
+                          <p className="text-sm text-nuss-muted">{item.description}</p>
                           {line ? <p className="mt-1 font-mono text-sm font-semibold text-eiche-deep">{line}</p> : null}
-                          {discount ? <p className="font-mono text-sm font-semibold text-kreide-deep">mit Boden-Pass Plus: {discount}</p> : null}
-                          {line ? <p className="text-[0.7rem] text-graphit-muted">{gross ? `inkl. ${settings.pricing.vatPercent} % MwSt.` : "zzgl. MwSt."}</p> : null}
-                          {item.requiresMasterPartner ? <p className="text-[0.7rem] text-graphit-muted">über meinen Meisterpartner</p> : null}
+                          {discount ? <p className="font-mono text-sm font-semibold text-kupfer-deep">mit Boden-Pass Plus: {discount}</p> : null}
+                          {line ? <p className="text-[0.7rem] text-nuss-muted">{gross ? `inkl. ${settings.pricing.vatPercent} % MwSt.` : "zzgl. MwSt."}</p> : null}
+                          {item.requiresMasterPartner ? <p className="text-[0.7rem] text-nuss-muted">über meinen Meisterpartner</p> : null}
                         </li>
                       );
                     })}
                   </ul>
-                  {shown.length === 0 ? <p className="mt-2 text-sm text-graphit-muted">In dieser Gruppe erscheint gerade nichts.</p> : null}
+                  {shown.length === 0 ? <p className="mt-2 text-sm text-nuss-muted">In dieser Gruppe erscheint gerade nichts.</p> : null}
                   {hidden.length > 0 ? (
-                    <p className="mt-3 flex items-center gap-1.5 text-xs text-graphit-muted">
+                    <p className="mt-3 flex items-center gap-1.5 text-xs text-nuss-muted">
                       <EyeOff className="size-3.5" aria-hidden /> ausgeblendet: {hidden.map((item) => item.title).join(", ")}
                     </p>
                   ) : null}

@@ -373,22 +373,22 @@ export default function DatenschutzPage() {
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {cookieOverview.map((cookie) => (
-              <div key={cookie.name} className="rounded-xs border border-strich bg-blatt p-4 text-[0.95rem] leading-snug">
+              <div key={cookie.name} className="rounded-2xl border border-fuge bg-creme p-4 text-[0.95rem] leading-snug">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <code className="font-mono text-[0.85rem] font-semibold text-graphit [overflow-wrap:anywhere]">
+                  <code className="font-mono text-[0.85rem] font-semibold text-nuss [overflow-wrap:anywhere]">
                     {cookie.name}
                   </code>
                   <span
-                    className={`rounded-xs px-2 py-0.5 font-mono text-[0.7rem] uppercase tracking-[0.08em] ${
-                      cookie.consent ? "bg-eiche/20 text-graphit" : "bg-kreide/10 text-kreide-deep"
+                    className={`rounded-lg px-2 py-0.5 font-mono text-[0.7rem] uppercase tracking-[0.08em] ${
+                      cookie.consent ? "bg-eiche/20 text-nuss" : "bg-kupfer/10 text-kupfer-deep"
                     }`}
                   >
                     {cookie.consent ? "nur mit Einwilligung" : "notwendig"}
                   </span>
                 </div>
-                <div className="mt-2 text-graphit-soft">{cookie.purpose}</div>
-                <div className="mt-2 text-sm text-graphit-muted">
-                  <strong className="text-graphit-soft">Dauer:</strong> {cookie.duration}
+                <div className="mt-2 text-nuss-soft">{cookie.purpose}</div>
+                <div className="mt-2 text-sm text-nuss-muted">
+                  <strong className="text-nuss-soft">Dauer:</strong> {cookie.duration}
                 </div>
               </div>
             ))}
@@ -417,7 +417,7 @@ export default function DatenschutzPage() {
           <p>
             Deine Einwilligung ist freiwillig. Du kannst sie jederzeit mit Wirkung für die Zukunft widerrufen oder
             erneut erteilen, über den Link „Cookie-Einstellungen“ im Seitenfuß oder direkt hier:{" "}
-            <CookieSettingsButton className="cursor-pointer font-semibold text-kreide underline underline-offset-4" />.
+            <CookieSettingsButton className="cursor-pointer font-semibold text-kupfer underline underline-offset-4" />.
             Nach einem Widerruf werden die Statistik-Cookies aus deinem Browser entfernt.
           </p>
         </>

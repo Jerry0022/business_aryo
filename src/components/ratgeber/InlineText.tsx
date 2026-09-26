@@ -17,7 +17,7 @@ export function InlineText({ text }: { text: string }) {
 function renderPart(part: string, key: number): ReactNode {
   if (part.startsWith("**") && part.endsWith("**")) {
     return (
-      <strong key={key} className="font-semibold text-graphit">
+      <strong key={key} className="font-semibold text-nuss">
         {part.slice(2, -2)}
       </strong>
     );
@@ -29,7 +29,7 @@ function renderPart(part: string, key: number): ReactNode {
       <Link
         key={key}
         href={href ?? "/"}
-        className="font-medium text-kreide underline decoration-kreide/40 decoration-1 underline-offset-[3px] transition-colors hover:text-kreide-deep hover:decoration-kreide-deep"
+        className="font-medium text-kupfer underline decoration-kupfer/40 decoration-1 underline-offset-[3px] transition-colors hover:text-kupfer-deep hover:decoration-kupfer-deep"
       >
         {label}
       </Link>

@@ -125,15 +125,15 @@ export function PublicForm({
         </div>
 
         {state.status === "success" && state.message ? (
-          <div className="mt-5 rounded-xs border-l-4 border-kreide bg-kreide/10 px-4 py-3">
-            <p role="status" className="font-medium text-graphit">
+          <div className="mt-5 rounded-lg border-l-4 border-kupfer bg-kupfer/10 px-4 py-3">
+            <p role="status" className="font-medium text-nuss">
               {state.message}
             </p>
             {successExtra}
           </div>
         ) : null}
         {state.status === "error" && state.message ? (
-          <p role="alert" className="mt-5 rounded-xs border-l-4 border-[#a3261d] bg-[#a3261d]/8 px-4 py-3 font-medium text-[#8c1f17]">
+          <p role="alert" className="mt-5 rounded-lg border-l-4 border-[#a3261d] bg-[#a3261d]/8 px-4 py-3 font-medium text-[#8c1f17]">
             {state.message}
           </p>
         ) : null}
@@ -146,9 +146,9 @@ export function PublicForm({
 
 export function PrivacyNote() {
   return (
-    <p className="mt-5 text-sm leading-relaxed text-graphit-muted">
+    <p className="mt-5 text-sm leading-relaxed text-nuss-muted">
       Ich speichere deine Angaben, um deine Anfrage zu bearbeiten. Mehr in der{" "}
-      <Link href="/datenschutz" className="underline decoration-1 underline-offset-2 hover:text-graphit">
+      <Link href="/datenschutz" className="underline decoration-1 underline-offset-2 hover:text-nuss">
         Datenschutzerklärung
       </Link>
       .
@@ -158,9 +158,9 @@ export function PrivacyNote() {
 
 // ---- Fields ------------------------------------------------------------------------------------
 
-const labelClass = "text-sm font-medium text-graphit-soft";
+const labelClass = "text-sm font-medium text-nuss-soft";
 const controlClass =
-  "w-full rounded-xs border border-strich-dark bg-white px-3 text-[0.95rem] text-graphit placeholder:text-graphit-muted/80 aria-[invalid=true]:border-[#a3261d] aria-[invalid=true]:bg-[#fdf6f5]";
+  "w-full rounded-lg border border-fuge-dark bg-milch px-3 text-[0.95rem] text-nuss placeholder:text-nuss-muted/80 aria-[invalid=true]:border-[#a3261d] aria-[invalid=true]:bg-[#fdf6f5]";
 const errorClass = "text-sm font-medium text-[#8c1f17]";
 
 function describedBy(...ids: (string | false | undefined)[]): string | undefined {
@@ -210,7 +210,7 @@ export function TextField({
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <label htmlFor={id} className={labelClass}>
         {label}
-        {required ? null : <span className="font-normal text-graphit-muted"> (optional)</span>}
+        {required ? null : <span className="font-normal text-nuss-muted"> (optional)</span>}
       </label>
       <input
         id={id}
@@ -228,7 +228,7 @@ export function TextField({
         className={`${controlClass} h-11`}
       />
       {hint ? (
-        <p id={hintId} className="text-sm text-graphit-muted">
+        <p id={hintId} className="text-sm text-nuss-muted">
           {hint}
         </p>
       ) : null}
@@ -265,7 +265,7 @@ export function SelectField({
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <label htmlFor={id} className={labelClass}>
         {label}
-        {required ? null : <span className="font-normal text-graphit-muted"> (optional)</span>}
+        {required ? null : <span className="font-normal text-nuss-muted"> (optional)</span>}
       </label>
       <select
         id={id}
@@ -292,7 +292,7 @@ export function SelectField({
         })}
       </select>
       {hint ? (
-        <p id={hintId} className="text-sm text-graphit-muted">
+        <p id={hintId} className="text-sm text-nuss-muted">
           {hint}
         </p>
       ) : null}
@@ -329,7 +329,7 @@ export function TextAreaField({
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <label htmlFor={id} className={labelClass}>
         {label}
-        {required ? null : <span className="font-normal text-graphit-muted"> (optional)</span>}
+        {required ? null : <span className="font-normal text-nuss-muted"> (optional)</span>}
       </label>
       <textarea
         id={id}
@@ -343,7 +343,7 @@ export function TextAreaField({
         className={`${controlClass} min-h-28 resize-y py-2.5 leading-relaxed`}
       />
       {hint ? (
-        <p id={hintId} className="text-sm text-graphit-muted">
+        <p id={hintId} className="text-sm text-nuss-muted">
           {hint}
         </p>
       ) : null}
@@ -372,9 +372,9 @@ export function CheckboxField({ name, label, value, className = "" }: CheckboxFi
         name={name}
         type="checkbox"
         value={value}
-        className="mt-0.5 size-5 shrink-0 cursor-pointer rounded-xs border-strich-dark accent-kreide"
+        className="mt-0.5 size-5 shrink-0 cursor-pointer rounded-xs border-fuge-dark accent-kupfer"
       />
-      <label htmlFor={id} className="cursor-pointer text-[0.95rem] leading-snug text-graphit-soft">
+      <label htmlFor={id} className="cursor-pointer text-[0.95rem] leading-snug text-nuss-soft">
         {label}
       </label>
     </div>
