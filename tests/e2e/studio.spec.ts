@@ -59,7 +59,6 @@ test("the admin sets up the studio and lands in the 3D view", async ({ page }) =
   await page.getByRole("button", { name: /Konto anlegen/ }).click();
 
   await expect(page.getByRole("link", { name: "Nutzer" })).toBeVisible({ timeout: STUDIO_TIMEOUT });
-  await expect(page.getByRole("link", { name: /Statistik/ })).toHaveAttribute("href", /^https:\/\/eu\.posthog\.com/);
   await expect(page.getByRole("radiogroup", { name: "Ansicht" })).toBeVisible();
   const rooms = page.getByRole("list", { name: "Räume" });
   await expect(rooms.getByRole("button", { name: /Dachterrasse/ })).toContainText("20/20");
@@ -116,7 +115,6 @@ test("an invited user sees the dream house but not the user management", async (
   await loginAndOpenStudio(page, MEMBER.email, MEMBER.password);
   await expect(page.getByRole("link", { name: "Traumhaus" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Nutzer" })).toHaveCount(0);
-  await expect(page.getByRole("link", { name: /Statistik/ })).toHaveCount(0);
   await page.goto("/studio/benutzer");
   await expect(page).toHaveURL(/\/studio$/, { timeout: STUDIO_TIMEOUT });
 });

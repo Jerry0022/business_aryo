@@ -16,7 +16,7 @@ Bietet ein Chromium-Browser keinen Dialog an, ist die App meist schon installier
 
 ## Wo die Installation angeboten wird
 
-- **Footer:** „App installieren“, neben Impressum und Datenschutz.
+- **Footer:** „App installieren“ im Feld „Zugang“, neben „Login“.
 - **Mini-Aryo:** Etwa alle zwei Wochen hat der Chat-Button eine neue Nachricht. Sie kommt nie sofort, sondern erst, wenn der Besucher mit der Seite interagiert hat (Scrollen, Klicken, Tippen) und danach **3 Sekunden** nichts davon getan hat. Solange ein Eingabefeld fokussiert oder der Tab im Hintergrund ist, wartet sie weiter. Dann wackelt der Button, zeigt ein Badge „1“ und eine kurze Sprechblase. Im Chat steht die Nachricht mit „Jetzt installieren“ bzw. der passenden Anleitung. Der Zeitpunkt liegt in `localStorage` (`aryo:app-hint-shown-at`).
 
 ## Dateien

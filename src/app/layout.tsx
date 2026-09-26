@@ -1,22 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { Consent } from "@/components/consent/Consent";
 import { siteConfig } from "@/config/site";
 import { CAPTURE_INSTALL_PROMPT_SCRIPT } from "@/features/pwa/capture-script";
 import { ServiceWorkerRegistration } from "@/features/pwa/ui/ServiceWorkerRegistration";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// Direction A "Aufmaß" (docs/konzept/markenkonzept.md, chapter 14): Archivo with its width axis for
+// display type (`font-wide`), IBM Plex Mono for measurements, labels and numbers.
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-archivo",
   display: "swap",
-  axes: ["SOFT", "opsz"],
+  axes: ["wdth"],
 });
 
-const manrope = Manrope({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-plex-mono",
   display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -36,11 +39,11 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   // Home-screen app on iPhone & iPad (the manifest in app/manifest.ts covers all other platforms).
-  appleWebApp: { capable: true, title: "Aryo Parkett", statusBarStyle: "black" },
+  appleWebApp: { capable: true, title: siteConfig.name, statusBarStyle: "black" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#17130f",
+  themeColor: "#22252a",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -48,7 +51,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" data-scroll-behavior="smooth" className={`${fraunces.variable} ${manrope.variable}`}>
+    <html lang="de" data-scroll-behavior="smooth" className={`${archivo.variable} ${plexMono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: CAPTURE_INSTALL_PROMPT_SCRIPT }} />
       </head>

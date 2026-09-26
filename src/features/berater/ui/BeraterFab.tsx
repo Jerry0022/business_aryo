@@ -42,12 +42,12 @@ class ChatError extends Error {
 
 const ERROR_TEXT: Record<ChatErrorCode | "network", string> = {
   not_configured: "Mini-Aryo macht gerade Pause.",
-  bad_request: "Diese Nachricht konnte ich nicht verarbeiten. Bitte formulieren Sie sie etwas kürzer.",
-  forbidden: "Diese Anfrage wurde abgelehnt. Bitte laden Sie die Seite neu.",
-  rate_limited: `Kurz durchatmen: Sie haben das Limit von ${QUESTIONS_PER_HOUR} Fragen pro Stunde erreicht.`,
+  bad_request: "Diese Nachricht konnte ich nicht verarbeiten. Bitte formulier sie etwas kürzer.",
+  forbidden: "Diese Anfrage wurde abgelehnt. Bitte lade die Seite neu.",
+  rate_limited: `Kurz durchatmen: Du hast das Limit von ${QUESTIONS_PER_HOUR} Fragen pro Stunde erreicht.`,
   busy: "Mini-Aryo hat gerade sehr viele Fragen zu beantworten und ist ausgelastet.",
-  upstream: "Da ist gerade etwas schiefgelaufen. Bitte versuchen Sie es gleich noch einmal.",
-  network: "Keine Verbindung. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+  upstream: "Da ist gerade etwas schiefgelaufen. Bitte versuch es gleich noch einmal.",
+  network: "Keine Verbindung. Bitte prüf deine Internetverbindung und versuch es erneut.",
 };
 
 const subscribeNever = () => () => undefined;
@@ -74,20 +74,20 @@ function AppHintMessage() {
   };
 
   return (
-    <div className="max-w-[88%] space-y-2.5 rounded-2xl rounded-tl-md bg-sand px-4 py-3 text-[0.95rem] leading-relaxed text-ink-soft">
+    <div className="max-w-[88%] space-y-2.5 rounded-2xl rounded-tl-md bg-estrich px-4 py-3 text-[0.95rem] leading-relaxed text-graphit-soft">
       <p>
-        <strong className="font-semibold text-ink">Übrigens:</strong> Mich gibt&apos;s auch als App! Einmal
-        installiert, sind Sie mit einem Tipp hier – ohne App-Store, ohne Anmeldung.
+        <strong className="font-semibold text-graphit">Übrigens:</strong> Mich gibt&apos;s auch als App! Einmal
+        installiert, bist du mit einem Tipp hier. Ohne App-Store, ohne Anmeldung.
       </p>
       {install.installed || choice === "accepted" ? (
-        <p className="font-semibold text-ink">Klasse, die App ist installiert!</p>
+        <p className="font-semibold text-graphit">Klasse, die App ist installiert!</p>
       ) : choice === "dismissed" ? (
         <p>Alles klar – vielleicht ein andermal.</p>
       ) : install.canPrompt ? (
         <button
           type="button"
           onClick={() => void onInstall()}
-          className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-paper transition hover:bg-walnut"
+          className="inline-flex items-center gap-2 rounded-full bg-kreide px-4 py-2 text-sm font-semibold text-blatt transition hover:bg-kreide-deep"
         >
           <Download className="size-4" aria-hidden="true" />
           Jetzt installieren
@@ -130,7 +130,7 @@ function Spans({ text }: { text: string }) {
     <>
       {parseSpans(text).map((span, i) =>
         span.bold ? (
-          <strong key={i} className="font-semibold text-ink">
+          <strong key={i} className="font-semibold text-graphit">
             {span.text}
           </strong>
         ) : (
@@ -353,17 +353,17 @@ export function BeraterFab() {
           role="dialog"
           aria-modal="false"
           aria-labelledby={titleId}
-          className="berater-panel site-light fixed inset-x-3 bottom-3 top-20 z-30 flex flex-col overflow-hidden rounded-[1.75rem] bg-paper text-ink shadow-[0_40px_90px_-30px_rgb(23_19_15/0.7)] ring-1 ring-ink/10 sm:inset-x-auto sm:bottom-[7.25rem] sm:right-7 sm:top-auto sm:h-[min(38rem,calc(100svh-9.5rem))] sm:w-[25rem]"
+          className="berater-panel site-light fixed inset-x-3 bottom-3 top-20 z-30 flex flex-col overflow-hidden rounded-[1.75rem] bg-blatt text-graphit shadow-[0_40px_90px_-30px_rgb(23_19_15/0.7)] ring-1 ring-graphit/10 sm:inset-x-auto sm:bottom-[7.25rem] sm:right-7 sm:top-auto sm:h-[min(38rem,calc(100svh-9.5rem))] sm:w-[25rem]"
         >
-          <header className="flex items-center gap-3 bg-ink px-4 py-3 text-paper">
-            <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-walnut ring-2 ring-copper/70">
+          <header className="flex items-center gap-3 bg-graphit px-4 py-3 text-blatt">
+            <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-graphit-soft ring-2 ring-kreide/70">
               <MiniAryo working={streaming} className="absolute inset-0 size-full" />
             </span>
             <div className="min-w-0 flex-1">
               <h2 id={titleId} className="font-display text-xl font-medium leading-tight">
                 Mini-Aryo
               </h2>
-              <p className="text-xs text-paper/70">
+              <p className="text-xs text-blatt/70">
                 {streaming ? "schleift an einer Antwort …" : "KI-Bodenberater · Parkett & mehr"}
               </p>
             </div>
@@ -371,7 +371,7 @@ export function BeraterFab() {
               <button
                 type="button"
                 onClick={reset}
-                className="flex size-9 items-center justify-center rounded-full text-paper/70 transition hover:bg-paper/10 hover:text-paper"
+                className="flex size-9 items-center justify-center rounded-full text-blatt/70 transition hover:bg-blatt/10 hover:text-blatt"
                 aria-label="Neues Gespräch"
                 title="Neues Gespräch"
               >
@@ -381,7 +381,7 @@ export function BeraterFab() {
             <button
               type="button"
               onClick={close}
-              className="flex size-9 items-center justify-center rounded-full text-paper/70 transition hover:bg-paper/10 hover:text-paper"
+              className="flex size-9 items-center justify-center rounded-full text-blatt/70 transition hover:bg-blatt/10 hover:text-blatt"
               aria-label="Chat schließen"
             >
               <X className="size-5" aria-hidden="true" />
@@ -393,13 +393,13 @@ export function BeraterFab() {
             className="flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-5"
             aria-live="polite"
           >
-            <div className="max-w-[88%] space-y-2 rounded-2xl rounded-tl-md bg-sand px-4 py-3 text-[0.95rem] leading-relaxed text-ink-soft">
+            <div className="max-w-[88%] space-y-2 rounded-2xl rounded-tl-md bg-estrich px-4 py-3 text-[0.95rem] leading-relaxed text-graphit-soft">
               <p>
-                Hallo! Ich bin <strong className="font-semibold text-ink">Mini-Aryo</strong>, der digitale Helfer von
-                Aryo Sabouri. Fragen Sie mich alles rund um Parkett, Dielen, Vinyl, Pflege und Renovierung.
+                Hallo! Ich bin <strong className="font-semibold text-graphit">Mini-Aryo</strong>, der digitale Helfer von
+                Maximilian Parkett. Frag mich alles rund um Parkett, Dielen, Vinyl, Pflege und Renovierung.
               </p>
-              <p className="text-sm text-ink-muted">
-                Ich bin eine KI und kann mich irren – für ein verbindliches Angebot schaut sich Aryo Ihren Boden
+              <p className="text-sm text-graphit-muted">
+                Ich bin eine KI und kann mich irren – für ein verbindliches Angebot schaut sich Aryo deinen Boden
                 persönlich an.
               </p>
             </div>
@@ -414,7 +414,7 @@ export function BeraterFab() {
                       type="button"
                       onClick={() => void send(suggestion)}
                       disabled={blocked}
-                      className="rounded-full border border-ink/15 bg-white/70 px-3.5 py-2 text-left text-sm font-medium text-ink-soft transition hover:border-copper hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                      className="rounded-full border border-graphit/15 bg-white/70 px-3.5 py-2 text-left text-sm font-medium text-graphit-soft transition hover:border-kreide hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {suggestion}
                     </button>
@@ -427,14 +427,14 @@ export function BeraterFab() {
               message.role === "user" ? (
                 <div
                   key={index}
-                  className="ml-auto w-fit max-w-[85%] whitespace-pre-line rounded-2xl rounded-tr-md bg-ink px-4 py-3 text-[0.95rem] leading-relaxed text-paper"
+                  className="ml-auto w-fit max-w-[85%] whitespace-pre-line rounded-2xl rounded-tr-md bg-graphit px-4 py-3 text-[0.95rem] leading-relaxed text-blatt"
                 >
                   {message.content}
                 </div>
               ) : (
                 <div
                   key={index}
-                  className="max-w-[88%] space-y-2.5 rounded-2xl rounded-tl-md bg-sand px-4 py-3 text-[0.95rem] leading-relaxed text-ink-soft"
+                  className="max-w-[88%] space-y-2.5 rounded-2xl rounded-tl-md bg-estrich px-4 py-3 text-[0.95rem] leading-relaxed text-graphit-soft"
                 >
                   {message.content ? (
                     <MessageText text={message.content} />
@@ -452,12 +452,12 @@ export function BeraterFab() {
             {error ? (
               <div
                 role="alert"
-                className="space-y-2 rounded-2xl border border-copper/40 bg-copper/10 px-4 py-3 text-sm text-ink-soft"
+                className="space-y-2 rounded-2xl border border-kreide/40 bg-kreide/10 px-4 py-3 text-sm text-graphit-soft"
               >
                 <p>{ERROR_TEXT[error]}</p>
                 {blocked ? (
-                  <p className="flex items-center gap-2 font-semibold text-ink">
-                    <Hourglass className="size-4 text-oak-deep" aria-hidden="true" />
+                  <p className="flex items-center gap-2 font-semibold text-graphit">
+                    <Hourglass className="size-4 text-kreide" aria-hidden="true" />
                     <span>
                       Nächste Frage möglich in{" "}
                       <span role="timer" aria-live="off" className="tabular-nums">
@@ -468,9 +468,9 @@ export function BeraterFab() {
                 ) : null}
                 {error === "not_configured" || error === "busy" ? (
                   <p>
-                    Schreiben Sie Aryo gern direkt:{" "}
+                    Schreib Aryo gern direkt:{" "}
                     <a
-                      className="font-semibold text-oak-deep underline underline-offset-2"
+                      className="font-semibold text-kreide underline underline-offset-2"
                       href={`mailto:${siteConfig.email}`}
                     >
                       {siteConfig.email}
@@ -484,7 +484,7 @@ export function BeraterFab() {
                       const previous = messages.at(-1)?.role === "user" ? messages.slice(0, -1) : messages;
                       void send(lastUserQuestion, previous);
                     }}
-                    className="font-semibold text-oak-deep underline underline-offset-2"
+                    className="font-semibold text-kreide underline underline-offset-2"
                   >
                     Erneut versuchen
                   </button>
@@ -493,18 +493,18 @@ export function BeraterFab() {
             ) : null}
           </div>
 
-          <form onSubmit={onSubmit} className="border-t border-ink/10 bg-white/60 px-3 pb-3 pt-3">
+          <form onSubmit={onSubmit} className="border-t border-graphit/10 bg-white/60 px-3 pb-3 pt-3">
             <label htmlFor={inputId} className="sr-only">
-              Ihre Frage an Mini-Aryo
+              Deine Frage an Mini-Aryo
             </label>
             {remaining !== null && remaining <= 3 && !blocked ? (
-              <p className="mb-2 px-1 text-xs font-medium text-oak-deep">
+              <p className="mb-2 px-1 text-xs font-medium text-kreide">
                 {remaining === 0
-                  ? "Das war Ihre letzte Frage in dieser Stunde."
+                  ? "Das war deine letzte Frage in dieser Stunde."
                   : `Noch ${remaining} ${remaining === 1 ? "Frage" : "Fragen"} in dieser Stunde.`}
               </p>
             ) : null}
-            <div className="flex items-end gap-2 rounded-2xl border border-ink/15 bg-paper px-3 py-2 focus-within:border-copper">
+            <div className="flex items-end gap-2 rounded-2xl border border-graphit/15 bg-blatt px-3 py-2 focus-within:border-kreide">
               <textarea
                 ref={inputRef}
                 id={inputId}
@@ -513,29 +513,29 @@ export function BeraterFab() {
                 onKeyDown={onInputKeyDown}
                 maxLength={CHAT_LIMITS.maxInputChars}
                 rows={1}
-                placeholder={blocked ? `Nächste Frage in ${formatCountdown(secondsLeft)}` : "Ihre Frage zum Boden …"}
-                className="max-h-32 min-h-[2.25rem] flex-1 resize-none bg-transparent py-1.5 text-[0.95rem] leading-snug text-ink outline-none placeholder:text-ink-muted [field-sizing:content]"
+                placeholder={blocked ? `Nächste Frage in ${formatCountdown(secondsLeft)}` : "Deine Frage zum Boden …"}
+                className="max-h-32 min-h-[2.25rem] flex-1 resize-none bg-transparent py-1.5 text-[0.95rem] leading-snug text-graphit outline-none placeholder:text-graphit-muted [field-sizing:content]"
               />
               <button
                 type="submit"
                 disabled={streaming || blocked || !draft.trim()}
-                className="flex size-9 shrink-0 items-center justify-center rounded-full bg-copper text-ink transition hover:bg-oak-light disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex size-9 shrink-0 items-center justify-center rounded-full bg-kreide text-graphit transition hover:bg-kreide-light disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Frage senden"
               >
                 <ArrowUp className="size-4" strokeWidth={2.5} aria-hidden="true" />
               </button>
             </div>
-            <p className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-[0.72rem] leading-snug text-ink-muted">
+            <p className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-[0.72rem] leading-snug text-graphit-muted">
               <span>
                 KI-Antworten ohne Gewähr ·{" "}
-                <Link href="/datenschutz#mini-aryo" className="underline underline-offset-2 hover:text-ink">
+                <Link href="/datenschutz#mini-aryo" className="underline underline-offset-2 hover:text-graphit">
                   Datenschutz
                 </Link>
               </span>
               <Link
                 href="/#kontakt"
                 onClick={close}
-                className="inline-flex items-center gap-1 font-semibold text-oak-deep hover:text-ink"
+                className="inline-flex items-center gap-1 font-semibold text-kreide hover:text-graphit"
               >
                 <Mail className="size-3.5" aria-hidden="true" />
                 Angebot anfragen
@@ -549,15 +549,15 @@ export function BeraterFab() {
         <button
           type="button"
           onClick={toggle}
-          className="berater-teaser fixed bottom-[6.25rem] right-5 z-30 max-w-[15rem] rounded-2xl rounded-br-md bg-paper px-4 py-3 text-left text-sm font-medium text-ink shadow-[0_20px_40px_-20px_rgb(23_19_15/0.6)] ring-1 ring-ink/10 sm:right-7"
+          className="berater-teaser fixed bottom-[6.25rem] right-5 z-30 max-w-[15rem] rounded-2xl rounded-br-md bg-blatt px-4 py-3 text-left text-sm font-medium text-graphit shadow-[0_20px_40px_-20px_rgb(23_19_15/0.6)] ring-1 ring-graphit/10 sm:right-7"
         >
-          Psst – mich gibt&apos;s jetzt auch als App! Tippen Sie auf mich.
+          Psst, mich gibt&apos;s jetzt auch als App! Tipp auf mich.
         </button>
       ) : teaser && !open ? (
         <button
           type="button"
           onClick={toggle}
-          className="berater-teaser fixed bottom-[6.25rem] right-5 z-30 max-w-[15rem] rounded-2xl rounded-br-md bg-paper px-4 py-3 text-left text-sm font-medium text-ink shadow-[0_20px_40px_-20px_rgb(23_19_15/0.6)] ring-1 ring-ink/10 sm:right-7"
+          className="berater-teaser fixed bottom-[6.25rem] right-5 z-30 max-w-[15rem] rounded-2xl rounded-br-md bg-blatt px-4 py-3 text-left text-sm font-medium text-graphit shadow-[0_20px_40px_-20px_rgb(23_19_15/0.6)] ring-1 ring-graphit/10 sm:right-7"
         >
           Fragen zu Parkett oder Boden? Ich helfe gern!
         </button>
@@ -578,13 +578,13 @@ export function BeraterFab() {
               ? "Mini-Aryo schließen"
               : `Mini-Aryo fragen – KI-Bodenberater öffnen${appHint === "unread" ? " (1 neue Nachricht)" : ""}`
           }
-          className="berater-fab relative block size-[4.5rem] overflow-hidden rounded-full bg-walnut shadow-[0_18px_40px_-14px_rgb(23_19_15/0.8)] ring-2 ring-copper transition duration-300 ease-out-soft hover:-translate-y-0.5 hover:ring-oak-light"
+          className="berater-fab relative block size-[4.5rem] overflow-hidden rounded-full bg-graphit-soft shadow-[0_18px_40px_-14px_rgb(23_19_15/0.8)] ring-2 ring-kreide transition duration-300 ease-out-soft hover:-translate-y-0.5 hover:ring-kreide-light"
         >
           <MiniAryo working={streaming} className="absolute inset-0 size-full translate-y-[5%] scale-[1.4]" />
         </button>
         {appHint === "unread" && !open ? (
           <span
-            className="berater-badge pointer-events-none absolute -right-0.5 -top-0.5 flex size-6 items-center justify-center rounded-full bg-copper text-xs font-bold text-ink ring-2 ring-paper"
+            className="berater-badge pointer-events-none absolute -right-0.5 -top-0.5 flex size-6 items-center justify-center rounded-full bg-kreide text-xs font-bold text-blatt ring-2 ring-blatt"
             aria-hidden="true"
           >
             1

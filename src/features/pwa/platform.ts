@@ -59,25 +59,25 @@ export const INSTALL_GUIDES: Record<ManualInstallPlatform, InstallGuide> = {
   ios: {
     device: "iPhone & iPad",
     steps: [
-      "Tippen Sie auf das Teilen-Symbol (Quadrat mit Pfeil nach oben) – je nach Browser zuerst auf „…“.",
-      "Wählen Sie „Zum Home-Bildschirm“ (ggf. etwas nach unten scrollen).",
-      "Mit „Hinzufügen“ bestätigen – fertig.",
+      "Tippe auf das Teilen-Symbol (Quadrat mit Pfeil nach oben), je nach Browser zuerst auf „…“.",
+      "Wähle „Zum Home-Bildschirm“ (ggf. etwas nach unten scrollen).",
+      "Mit „Hinzufügen“ bestätigen, fertig.",
     ],
   },
   "mac-safari": {
     device: "Mac mit Safari",
     steps: [
-      "Klicken Sie in der Menüleiste auf „Ablage“ (oder auf das Teilen-Symbol).",
-      "Wählen Sie „Zum Dock hinzufügen …“.",
-      "Mit „Hinzufügen“ bestätigen – die App liegt dann im Dock.",
+      "Klicke in der Menüleiste auf „Ablage“ (oder auf das Teilen-Symbol).",
+      "Wähle „Zum Dock hinzufügen …“.",
+      "Mit „Hinzufügen“ bestätigen, dann liegt die App im Dock.",
     ],
   },
   "android-firefox": {
     device: "Android mit Firefox",
     steps: [
-      "Tippen Sie auf das Menü (⋮).",
-      "Wählen Sie „Installieren“ bzw. „Zum Startbildschirm hinzufügen“.",
-      "Bestätigen – das App-Symbol erscheint auf dem Startbildschirm.",
+      "Tippe auf das Menü (⋮).",
+      "Wähle „Installieren“ bzw. „Zum Startbildschirm hinzufügen“.",
+      "Bestätigen, dann erscheint das App-Symbol auf dem Startbildschirm.",
     ],
   },
 };

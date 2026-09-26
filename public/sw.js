@@ -1,7 +1,7 @@
 // Service worker for the installable app (see src/features/pwa). It deliberately caches nothing but a
 // self-contained offline page: every page load still goes to the network, so content, login and the
 // Mini-Aryo chat always stay current.
-const CACHE = "aryo-offline-v1";
+const CACHE = "aryo-offline-v2";
 const OFFLINE_URL = "/offline.html";
 
 self.addEventListener("install", (event) => {

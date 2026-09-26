@@ -1,22 +1,26 @@
 import { ImageResponse } from "next/og";
-import { LOGO_PLANKS } from "@/components/site/logo-data";
+import { LOGO_CHALK, LOGO_DIMENSION_PATH, LOGO_PLANK_SIZE, LOGO_PLANKS } from "@/components/site/logo-data";
 
 export type AppIconVariant = "any" | "maskable" | "apple";
 
+const SCREED = "#e4e3de";
+/** Visual centre of the logo mark (planks x 1–29 plus the dimension line up to x 36, y 3–27). */
+const MARK_CENTER = { x: 18.5, y: 15 } as const;
+/** `maskable` keeps the mark inside the 80 % safe circle; `apple` leaves room for iOS' rounded corners. */
+const MARK_SCALE: Record<AppIconVariant, number> = { any: 0.8, apple: 0.72, maskable: 0.66 };
+
 /**
- * Logo mark as app icon. `any` keeps the rounded tile of the favicon; `maskable` and `apple` fill the whole
- * square (the OS applies its own mask) and shrink the planks into the safe zone.
+ * Logo mark as app icon on screed grey. `any` keeps the rounded tile of the favicon; `maskable` and `apple`
+ * fill the whole square (the OS applies its own mask).
  */
 export function appIconSvg(variant: AppIconVariant): string {
-  const scale = variant === "any" ? 1 : variant === "maskable" ? 0.78 : 0.86;
-  const offset = 16 * (1 - scale);
-  const tile = variant === "any" ? `rx="7"` : "";
+  const tile = variant === "any" ? `rx="6"` : "";
   const planks = LOGO_PLANKS.map(
-    ([points, fill]) =>
-      `<polygon points="${points}" fill="${fill}" stroke="#17130f" stroke-width="0.6" stroke-linejoin="round"/>`,
+    ([x, y, fill]) =>
+      `<rect x="${x}" y="${y}" width="${LOGO_PLANK_SIZE.width}" height="${LOGO_PLANK_SIZE.height}" fill="${fill}"/>`,
   ).join("");
-  // The planks sit slightly above centre in the 32×32 logo; nudge them down to balance the icon.
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" ${tile} fill="#17130f"/><g transform="translate(${offset} ${offset + 0.1 * scale}) scale(${scale})">${planks}</g></svg>`;
+  const mark = `<g transform="translate(18 18) scale(${MARK_SCALE[variant]}) translate(${-MARK_CENTER.x} ${-MARK_CENTER.y})">${planks}<path d="${LOGO_DIMENSION_PATH}" stroke="${LOGO_CHALK}" stroke-width="1.5" fill="none"/></g>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36"><rect width="36" height="36" ${tile} fill="${SCREED}"/>${mark}</svg>`;
 }
 
 export function appIconResponse(variant: AppIconVariant, size: number): ImageResponse {

@@ -1,86 +1,120 @@
-import { siteConfig } from "@/config/site";
+import { defaultServices } from "@/lib/business/services";
 import type { PatternId } from "./parquet/geometry";
+import type { WoodTone } from "./parquet/woods";
 
-export const NAV_ITEMS = [
-  { id: "leistungen", label: "Leistungen" },
-  { id: "muster", label: "Muster" },
-  { id: "ablauf", label: "Ablauf" },
-  { id: "ueber-mich", label: "Über mich" },
-  { id: "kontakt", label: "Kontakt" },
-] as const;
+// Static copy of the public site. Brand, tone and business rules: docs/konzept/markenkonzept.md.
+// Everything that changes with the business (prices, contingents, dates) comes from the data layer
+// in src/lib/business and is passed in as props, never written down here.
 
-export type ServiceIcon =
-  | "planks"
-  | "sanding"
-  | "oil"
-  | "repair"
-  | "stairs"
-  | "vinyl"
-  | "skirting"
-  | "advice"
-  | "furniture";
-
-export interface Service {
-  id: string;
-  title: string;
-  text: string;
-  icon: ServiceIcon;
+export interface NavItem {
+  label: string;
+  /** "#section" on the landing page, or an absolute path. */
+  href: string;
 }
 
-export const SERVICES: readonly Service[] = [
+export const NAV_ITEMS: readonly NavItem[] = [
+  { label: "Machen lassen", href: "#wege" },
+  { label: "Selbst machen", href: "#wege" },
+  { label: "Für Profis", href: "#profis" },
+  { label: "Ratgeber", href: "/ratgeber" },
+  { label: "Sprechstunde", href: "#sprechstunde" },
+];
+
+/** Resolves a nav href for the current page: anchors need the "/" prefix outside the landing page. */
+export function resolveHref(href: string, onHome: boolean): string {
+  if (!href.startsWith("#")) return href;
+  return onHome ? href : `/${href}`;
+}
+
+/**
+ * Services the business offers itself (used for structured data). Work that needs the Meister
+ * partner is left out on purpose, it is never claimed as the owner's own trade.
+ */
+export const SERVICES: readonly { id: string; title: string; text: string }[] = defaultServices()
+  .filter((item) => !item.requiresMasterPartner)
+  .map((item) => ({ id: item.id, title: item.title, text: item.description }));
+
+// ---- Werte (concept chapter 3) -------------------------------------------------------------------
+
+export const VALUES = [
   {
-    id: "verlegen",
-    title: "Parkett verlegen",
-    text: "Von der breiten Landhausdiele bis zum Schiffsboden: Ich bereite den Untergrund sorgfältig vor und verlege Ihren Boden mit exakten Fugen und sauberen Anschlüssen – verklebt oder schwimmend, passend zu Raum und Nutzung.",
-    icon: "planks",
+    name: "Sorgfalt bis zur letzten Fuge",
+    means: "Übergänge, Sockelleisten und Schwellen entscheiden, ob ein Boden gut aussieht.",
+    not: "Perfektionismus, der den Termin sprengt.",
   },
   {
-    id: "schleifen",
-    title: "Schleifen & Versiegeln",
-    text: "Kratzer, Flecken und Laufstraßen verschwinden. Staubarm geschliffen und versiegelt, sieht Ihr Boden wieder aus wie am ersten Tag.",
-    icon: "sanding",
+    name: "Ehrlich beraten",
+    means: "Ich empfehle, was passt, nicht was am meisten kostet. Auch mal: „Brauchst du nicht.“",
+    not: "Billigangebote um jeden Preis.",
   },
   {
-    id: "oelen",
-    title: "Ölen & Pflegen",
-    text: "Geölte Oberflächen wirken natürlich und lassen sich später partiell ausbessern. Dazu gibt es ehrliche Tipps für die Pflege im Alltag.",
-    icon: "oil",
+    name: "Aus Liebe zum Naturmaterial",
+    means: "Ich verstehe das Material und kann es dir erklären. Auf jeden Boden bin ich stolz.",
+    not: "Romantik ohne Fachwissen.",
   },
   {
-    id: "dielen",
-    title: "Altbau-Dielen & Reparatur",
-    text: "Alte Dielen mit Geschichte: Ich tausche beschädigte Stücke, schließe Fugen und bringe knarrende Böden wieder zur Ruhe.",
-    icon: "repair",
+    name: "Bodenständig",
+    means: "Nahbar, direkt, pragmatisch. Egal ob Studentenbude oder Villa.",
+    not: "Hemdsärmelig.",
+  },
+] as const;
+
+// ---- Die drei Wege (concept chapter 6) ---------------------------------------------------------
+
+export const WAYS = [
+  {
+    eyebrow: "Vollleistung",
+    title: "Machen lassen",
+    text: "Ich plane, liefere und verlege. Du hast einen Ansprechpartner von der ersten Frage bis zur letzten Sockelleiste.",
+    items: ["Planung und Aufmaß", "Material", "Verlegung", "Boden-Pass"],
+    link: { label: "Boden-Check starten", href: "#boden-check" },
   },
   {
-    id: "treppen",
-    title: "Treppen",
-    text: "Holztreppen schleifen, ausbessern und neu versiegeln – mit sauberen Kanten und einer Oberfläche, die dem täglichen Auf und Ab standhält.",
-    icon: "stairs",
+    eyebrow: "Mit Einweisung",
+    title: "Selbst machen",
+    text: "Du verlegst. Ich zeig dir, wie: das richtige Material, Profi-Werkzeug zum Leihen und eine Einweisung bei dir vor Ort.",
+    items: ["Material", "Profi-Werkzeug leihen", "Einweisung vor Ort", "Rückendeckung"],
+    link: { label: "Was du bekommst", href: "#leistungen" },
   },
   {
-    id: "design",
-    title: "Design- & Vinylböden",
-    text: "Pflegeleicht, robust und fußwarm – ideal für Küche, Flur oder die Renovierung zwischen zwei Mietern. Präzise auf ebenem Untergrund verlegt.",
-    icon: "vinyl",
+    eyebrow: "Für Betriebe",
+    title: "Für Profis",
+    text: "Für Handwerksbetriebe, Bauträger und Hausverwaltungen. Du bewirbst dich, wir schauen, ob es passt. Ich werbe keine Kunden ab.",
+    items: ["Material für Betriebe", "Werkzeug", "Planungshilfe", "Rundum-sorglos-Pflege"],
+    link: { label: "Als Partner bewerben", href: "#profis" },
+  },
+] as const;
+
+// ---- 3D-Boden-Explorer -------------------------------------------------------------------------
+
+export type MaterialId = "parkett" | "laminat" | "vinyl";
+
+export interface MaterialInfo {
+  id: MaterialId;
+  label: string;
+  short: string;
+  /** Honest one-liner, including the downsides. */
+  note: string;
+}
+
+export const MATERIALS: readonly MaterialInfo[] = [
+  {
+    id: "parkett",
+    label: "Parkett",
+    short: "Echtholz",
+    note: "Echtholz, fußwarm und je nach Aufbau mehrfach abschleifbar. Holz arbeitet mit dem Raumklima, das gehört dazu.",
   },
   {
-    id: "leisten",
-    title: "Sockelleisten & Übergänge",
-    text: "Der letzte Schliff entscheidet: passende Leisten, saubere Profile zu Fliesen und Türen, Übergänge ohne Stolperkanten.",
-    icon: "skirting",
+    id: "laminat",
+    label: "Laminat",
+    short: "Holzoptik",
+    note: "Kein Naturmaterial: ein Foto von Holz auf einer Trägerplatte. Robust, günstig und schnell verlegt. Abschleifen geht nicht.",
   },
   {
-    id: "beratung",
-    title: "Beratung & Bemusterung",
-    text: "Welches Holz, welche Optik, welche Oberfläche? Ich berate Sie vor Ort – ehrlich, mit Blick auf Ihren Alltag und Ihr Budget.",
-    icon: "advice",
-  },
-  {
-    id: "moebelmontage",
-    title: "Möbelmontage",
-    text: "Schränke, Regale, Betten oder Küchenmöbel: Ich baue Ihre Möbel sorgfältig auf, richte sie aus und befestige sie sicher an der Wand – gern direkt, wenn der neue Boden liegt.",
-    icon: "furniture",
+    id: "vinyl",
+    label: "Vinyl",
+    short: "Wasserfest",
+    note: "Vinyl ist kein Naturmaterial, aber im Bad oft die bessere Wahl: wasserfest, leise und pflegeleicht.",
   },
 ];
 
@@ -89,81 +123,81 @@ export interface PatternInfo {
   label: string;
   short: string;
   description: string;
-  /** Plank width used for the live preview. */
+  /** Plank width used for the flat preview. */
   unit: number;
+  /** Glued patterns need a Parkettleger-Meisterbetrieb. */
+  glued: boolean;
 }
 
 export const PATTERNS: readonly PatternInfo[] = [
   {
-    id: "landhausdiele",
-    label: "Landhausdiele",
-    short: "Großzügig",
-    description:
-      "Breite, lange Dielen mit ruhigem Fugenbild und sichtbarer Maserung – natürlich, wohnlich und großzügig.",
-    unit: 18,
-  },
-  {
     id: "schiffsboden",
     label: "Schiffsboden",
     short: "Wilder Verband",
-    description: "Lange, schmale Stäbe in versetzten Reihen – unaufgeregt und ideal, um Räume optisch zu strecken.",
+    description: "Lange, schmale Stäbe in versetzten Reihen. Unaufgeregt und gut, um einen Raum optisch zu strecken.",
     unit: 18,
+    glued: false,
+  },
+  {
+    id: "landhausdiele",
+    label: "Landhausdiele",
+    short: "Großzügig",
+    description: "Breite, lange Dielen mit ruhigem Fugenbild und sichtbarer Maserung. Gibt es auch als Fertigparkett zum Klicken.",
+    unit: 18,
+    glued: false,
   },
 ];
 
-const CRLF = "\r\n";
+// ---- Vorher/Nachher ----------------------------------------------------------------------------
 
-export function mailtoHref(subject: string, body: string): string {
-  return `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
+/** Grey laminate for the before/after comparison ("vorher"). Not a wood, so not part of WOODS. */
+export const GREY_LAMINATE: WoodTone = {
+  label: "Graues Laminat",
+  note: "kühl, glatt, gleichförmig",
+  fills: ["#a4a19c", "#aaa7a2", "#9f9c97", "#a7a49f", "#a19e99", "#a9a6a1"],
+  seam: "#6f6c68",
+  grainDark: "#7d7a75",
+  grainLight: "#c4c1bc",
+  knot: "#8a8782",
+  swatch: ["#aaa7a2", "#9f9c97"],
+};
 
-/** Pre-filled quote request used by the hero CTA. */
-export const QUOTE_MAILTO = mailtoHref(
-  "Angebotsanfrage Parkett",
-  [
-    "Hallo Herr Sabouri,",
-    "",
-    "ich interessiere mich für ein Angebot.",
-    "",
-    "Ort / PLZ:",
-    "Fläche (ca. m²):",
-    "Gewünschte Leistung:",
-    "",
-    "Kurz zum Vorhaben:",
-    "",
-    "",
-    "Viele Grüße",
-  ].join(CRLF),
-);
+// ---- Formulare ---------------------------------------------------------------------------------
 
-export interface QuoteRequest {
-  name: string;
-  place: string;
-  area: string;
-  service: string;
-  message: string;
-}
+/** Must match the enum in submitPartnerApplication (src/lib/business/public-actions.ts). */
+export const PARTNER_NEEDS = [
+  "Material",
+  "Werkzeug",
+  "Planung",
+  "Unterstützung auf der Baustelle",
+  "Meister-Arbeiten übernehmen",
+] as const;
 
-export function quoteRequestHref({ name, place, area, service, message }: QuoteRequest): string {
-  const subject = ["Angebotsanfrage", service || "Parkett", place].filter(Boolean).join(" – ");
-  const lines = [
-    "Hallo Herr Sabouri,",
-    "",
-    "ich interessiere mich für ein Angebot.",
-    "",
-    `Name: ${name || "–"}`,
-    `Ort / PLZ: ${place || "–"}`,
-    `Fläche: ${area ? `ca. ${area} m²` : "–"}`,
-    `Leistung: ${service || "–"}`,
-    "",
-    message ? message : "",
-    "",
-    "Viele Grüße",
-    name,
-  ];
-  return mailtoHref(subject, lines.join(CRLF).trim());
-}
+/** Must match the enum in submitProjectApplication. */
+export const PROJECT_ROLES = ["Privat", "Bauherr", "Architektur", "Hausverwaltung", "Gewerbe"] as const;
 
-export function telHref(phone: string): string {
-  return `tel:${phone.replace(/[^\d+]/g, "")}`;
-}
+/** Must match the enum in submitEmergencyRequest. */
+export const DAMAGE_TYPES = ["Wasserschaden", "Kratzer oder Dellen", "Stumpfe Stellen", "Etwas anderes"] as const;
+
+// ---- Ratgeber ----------------------------------------------------------------------------------
+
+export const GUIDE_TEASERS = [
+  {
+    href: "/ratgeber/hund-kinder-rotwein",
+    pillar: "Was kann passieren?",
+    title: "Was passiert, wenn dein Hund jeden Tag drüber rennt?",
+    text: "Krallen, Wassernapf, Toben: welche Oberflächen das wegstecken und welche nicht.",
+  },
+  {
+    href: "/ratgeber/fussbodenheizung-und-holz",
+    pillar: "Welcher Boden wofür?",
+    title: "Fußbodenheizung und Holz: Geht das?",
+    text: "Ja, mit dem richtigen Aufbau. Worauf du bei Holzart, Stärke und Verlegung achten musst.",
+  },
+  {
+    href: "/ratgeber/kosten-pro-jahr",
+    pillar: "Wert und Geld",
+    title: "Kosten pro Jahr statt pro Quadratmeter",
+    text: "Ein Boden, der doppelt so lange hält, darf mehr kosten. So rechnest du ehrlich.",
+  },
+] as const;

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PATTERNS, SERVICES } from "@/components/site/content";
 import { siteConfig } from "@/config/site";
+import { defaultServices } from "@/lib/business/services";
 import { buildSystemPrompt, EXCLUDED_WORK } from "./system-prompt";
 
 // Work the business is not allowed to offer (Meisterpflicht) — must never be promised on the site.
@@ -9,6 +10,8 @@ const FORBIDDEN = /fischgr|chevron|tafelparkett|würfelparkett/i;
 describe("excluded work", () => {
   it("is not offered anywhere in the services or pattern explorer", () => {
     for (const service of SERVICES) expect(`${service.title} ${service.text}`).not.toMatch(FORBIDDEN);
+    // Including the work that only shows up once a Meister partner is active.
+    for (const item of defaultServices()) expect(`${item.title} ${item.description}`).not.toMatch(FORBIDDEN);
     for (const pattern of PATTERNS) {
       expect(`${pattern.id} ${pattern.label} ${pattern.short} ${pattern.description}`).not.toMatch(FORBIDDEN);
     }

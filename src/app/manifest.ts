@@ -6,15 +6,15 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
     name: siteConfig.title,
-    short_name: "Aryo Parkett",
+    short_name: siteConfig.name,
     description: siteConfig.description,
     lang: "de",
     dir: "ltr",
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#17130f",
-    theme_color: "#17130f",
+    background_color: "#e4e3de",
+    theme_color: "#22252a",
     categories: ["business", "lifestyle"],
     icons: [
       { src: "/app-icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
@@ -22,8 +22,9 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: "/app-icons/maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
     shortcuts: [
-      { name: "Angebot anfragen", short_name: "Anfrage", url: "/#kontakt" },
-      { name: "Muster entdecken", short_name: "Muster", url: "/#muster" },
+      { name: "Boden-Check", short_name: "Boden-Check", url: "/#boden-check" },
+      { name: "Ratgeber", short_name: "Ratgeber", url: "/ratgeber" },
+      { name: "Kontakt", short_name: "Kontakt", url: "/#kontakt" },
     ],
   };
 }

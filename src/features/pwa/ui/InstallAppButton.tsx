@@ -44,7 +44,7 @@ export function InstallAppButton({ className }: { className?: string }) {
           onClick={(event) => {
             if (event.target === dialogRef.current) setGuideOpen(false);
           }}
-          className="site-light m-auto w-[min(26rem,calc(100vw-2rem))] rounded-[1.5rem] bg-paper p-0 text-ink shadow-2xl ring-1 ring-ink/10 backdrop:bg-ink/60 backdrop:backdrop-blur-sm"
+          className="m-auto w-[min(26rem,calc(100vw-2rem))] rounded-[1.5rem] bg-blatt p-0 text-graphit shadow-2xl ring-1 ring-graphit/10 backdrop:bg-graphit/60 backdrop:backdrop-blur-sm"
         >
           <div className="p-6">
             <div className="flex items-start justify-between gap-4">
@@ -54,16 +54,16 @@ export function InstallAppButton({ className }: { className?: string }) {
               <button
                 type="button"
                 onClick={() => setGuideOpen(false)}
-                className="-mr-1.5 -mt-1 rounded-full p-1.5 text-ink-muted transition hover:bg-ink/5 hover:text-ink"
+                className="-mr-1.5 -mt-1 rounded-full p-1.5 text-graphit-muted transition hover:bg-graphit/5 hover:text-graphit"
                 aria-label="Schließen"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>
             </div>
-            <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-              Mit einem Tipp auf das App-Symbol sind Sie direkt hier – ohne App-Store, ohne Anmeldung.
+            <p className="mt-2 text-sm leading-relaxed text-graphit-muted">
+              Mit einem Tipp auf das App-Symbol bist du direkt hier. Ohne App-Store, ohne Anmeldung.
             </p>
-            <InstallSteps platform={install.platform} className="mt-5 text-[0.95rem] leading-relaxed text-ink-soft" />
+            <InstallSteps platform={install.platform} className="mt-5 text-[0.95rem] leading-relaxed text-graphit-soft" />
           </div>
         </dialog>
       ) : null}
