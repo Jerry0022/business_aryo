@@ -34,7 +34,8 @@ async function loginAndOpenStudio(page: Page, email: string, password: string) {
 test("the studio requires a login", async ({ page }) => {
   await page.goto("/studio");
   await expect(page).toHaveURL(/\/login$/);
-  await expect(page.getByRole("link", { name: "Studio einrichten" })).toBeVisible();
+  // First database access of the run (embedded PGlite start-up) can be slow on CI runners.
+  await expect(page.getByRole("link", { name: "Studio einrichten" })).toBeVisible({ timeout: STUDIO_TIMEOUT });
 });
 
 test("the setup rejects a wrong code", async ({ page }) => {
@@ -128,7 +129,8 @@ test("the admin deletes the user", async ({ page }) => {
 test("signing out returns to the login", async ({ page }) => {
   await loginAndOpenStudio(page, ADMIN.email, ADMIN.password);
   await page.getByRole("button", { name: "Abmelden" }).click();
-  await expect(page).toHaveURL(/\/login$/);
+  // The client-side redirect waits for the main thread, which the WebGL scene may block on CI.
+  await expect(page).toHaveURL(/\/login$/, { timeout: STUDIO_TIMEOUT });
   await page.goto("/studio");
   await expect(page).toHaveURL(/\/login$/);
 });
