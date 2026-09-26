@@ -1,5 +1,16 @@
-# No tech stack yet — add dependency/build/cache rules when one is chosen
-# (https://www.toptal.com/developers/gitignore/api/{stack}).
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# Runtime / cache
+.data/
+.eslintcache
 
 # Environment / secrets — NEVER commit
 .env
@@ -11,8 +22,11 @@
 credentials.json
 service-account*.json
 
-# Test coverage
+# Test output
 coverage/
+playwright-report/
+test-results/
+blob-report/
 
 # Vercel — local project link created by `vercel link`
 .vercel/
