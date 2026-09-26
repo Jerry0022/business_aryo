@@ -1,10 +1,11 @@
 "use client";
 
-import { Box, LogOut, UserCog, Users } from "lucide-react";
+import { Box, ChartLine, ExternalLink, LogOut, UserCog, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { posthogDashboardUrl } from "@/lib/posthog-dashboard";
 
 const LINKS = [
   { href: "/studio", label: "Traumhaus", icon: Box, adminOnly: false },
@@ -47,6 +48,21 @@ export function StudioNav({ userName, isAdmin }: { userName: string; isAdmin: bo
             </Link>
           );
         })}
+        {isAdmin ? (
+          // The website's visitor statistics live in PostHog – easy to forget, so it sits right here.
+          <a
+            href={posthogDashboardUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-studio-muted transition hover:bg-white/5 hover:text-studio-text"
+            aria-label="Statistik – Website-Besucher in PostHog (öffnet in neuem Tab)"
+            title="Besucherstatistik der Website in PostHog"
+          >
+            <ChartLine className="size-4" aria-hidden />
+            <span className="hidden sm:inline">Statistik</span>
+            <ExternalLink className="hidden size-3 opacity-60 sm:block" aria-hidden />
+          </a>
+        ) : null}
       </nav>
       <span className="hidden max-w-[16ch] truncate text-sm text-studio-muted lg:inline" title={userName}>
         {userName}
