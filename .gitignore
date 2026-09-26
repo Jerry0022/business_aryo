@@ -14,6 +14,9 @@ service-account*.json
 # Test coverage
 coverage/
 
+# Vercel — local project link created by `vercel link`
+.vercel/
+
 # AI tooling — session state (never track)
 .claude/worktrees/
 .claude/todos/
