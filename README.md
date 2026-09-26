@@ -2,7 +2,7 @@
 
 Website of **Aryo Sabouri — Parkett & Boden** plus a private studio:
 
-- **Public site** (`/`): one-page presentation of the parquet business with a generated herringbone hero, service overview, interactive pattern explorer, process, about and a mailto-based quote form. Legal pages: `/impressum`, `/datenschutz`. Optional PostHog analytics behind a cookie-consent banner (off until `NEXT_PUBLIC_POSTHOG_KEY` is set).
+- **Public site** (`/`): one-page presentation of the parquet business with a generated plank-floor hero, service overview, interactive pattern explorer, process, about, a mailto-based quote form and **Mini-Aryo**, an animated floor-advice chat answered by Groq (or Grok/xAI as fallback, see [docs/MINI-ARYO.md](docs/MINI-ARYO.md)). Legal pages: `/impressum`, `/datenschutz`. Optional PostHog analytics behind a cookie-consent banner (off until `NEXT_PUBLIC_POSTHOG_KEY` is set).
 - **Studio** (`/studio`, login required): an interactive 3D **dream house** (single-story villa with roof terrace on a mountain above a city) and, for admins, the **user management**.
 
 ## Stack
@@ -50,6 +50,7 @@ src/
   components/site/     public website sections (parquet SVG generators in parquet/)
   components/auth/     login + first-admin setup forms
   components/studio/   studio shell, user management, account settings
+  features/berater/    Mini-Aryo chat: system prompt, LLM providers (Groq/xAI), rate limit, SSE parser, FAB + panel UI
   features/house/      3D dream house
     data/              floor plan (plan.ts) and rooms with ≤ 20 items each (rooms.ts)
     models/            procedural model catalog, materials, geometry builder

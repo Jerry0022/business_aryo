@@ -1,7 +1,7 @@
-import { Droplets, Hammer, Layers, MessagesSquare, PanelBottom, Sparkles, type LucideProps } from "lucide-react";
+import { Droplets, Hammer, Layers, MessagesSquare, PanelBottom, Sofa, Sparkles, type LucideProps } from "lucide-react";
 import type { ServiceIcon as ServiceIconName } from "./content";
 
-function HerringboneIcon(props: LucideProps) {
+function PlanksIcon(props: LucideProps) {
   const { strokeWidth = 1.75, className, ...rest } = props;
   return (
     <svg
@@ -14,10 +14,9 @@ function HerringboneIcon(props: LucideProps) {
       className={className}
       {...rest}
     >
-      <path d="m12 3 6 6-2 2-6-6z" />
-      <path d="m10 5-6 6 2 2 6-6" />
-      <path d="m12 9 6 6-2 2-6-6" />
-      <path d="m10 11-6 6 2 2 6-6" />
+      <rect x="3" y="4" width="18" height="16" rx="1.5" />
+      <path d="M3 9.33h18M3 14.67h18" />
+      <path d="M12 4v5.33M7 9.33v5.34M16 14.67V20" />
     </svg>
   );
 }
@@ -43,7 +42,7 @@ function StairsIcon(props: LucideProps) {
 }
 
 const ICONS: Record<ServiceIconName, (props: LucideProps) => React.ReactNode> = {
-  herringbone: HerringboneIcon,
+  planks: PlanksIcon,
   sanding: Sparkles,
   oil: Droplets,
   repair: Hammer,
@@ -51,6 +50,7 @@ const ICONS: Record<ServiceIconName, (props: LucideProps) => React.ReactNode> = 
   vinyl: Layers,
   skirting: PanelBottom,
   advice: MessagesSquare,
+  furniture: Sofa,
 };
 
 export function ServiceIcon({ name, ...props }: LucideProps & { name: ServiceIconName }) {

@@ -12,6 +12,9 @@ Alles Technische ist fertig und getestet. Vor der öffentlichen Freischaltung fe
 - [ ] **Datenschutzerklärung:** Anbieterangaben zu Vercel, Neon, Google (Gmail) und PostHog einmal gegenprüfen.
 - [ ] **PostHog** (optional): Key in Vercel setzen, „Discard client IP data“ aktivieren, DPA abschließen, siehe [ANALYTICS.md](ANALYTICS.md).
 - [x] Anschrift im Impressum (Florusstraße 9, 53225 Bonn)
+- [x] **Keine Fischgrät- und Tafelparkett-Versprechen** (Meisterpflicht): aus Leistungen, Muster-Explorer, Grafiken, Logo/Favicon und Mini-Aryo-Prompt entfernt; ein Unit-Test (`src/features/berater/system-prompt.test.ts`) verhindert, dass sie zurückkommen.
+- [x] **Mini-Aryo (KI-Chat):** läuft über Groq (`GROQ_API_KEY` in Vercel gesetzt), siehe [MINI-ARYO.md](MINI-ARYO.md).
+- [ ] Datenverarbeitungsvertrag (DPA) mit Groq prüfen/abschließen.
 
 ## Betrieb
 - [ ] Vercel + Neon einrichten, siehe [DEPLOYMENT.md](DEPLOYMENT.md)

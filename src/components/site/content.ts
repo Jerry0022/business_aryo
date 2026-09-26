@@ -9,7 +9,16 @@ export const NAV_ITEMS = [
   { id: "kontakt", label: "Kontakt" },
 ] as const;
 
-export type ServiceIcon = "herringbone" | "sanding" | "oil" | "repair" | "stairs" | "vinyl" | "skirting" | "advice";
+export type ServiceIcon =
+  | "planks"
+  | "sanding"
+  | "oil"
+  | "repair"
+  | "stairs"
+  | "vinyl"
+  | "skirting"
+  | "advice"
+  | "furniture";
 
 export interface Service {
   id: string;
@@ -22,8 +31,8 @@ export const SERVICES: readonly Service[] = [
   {
     id: "verlegen",
     title: "Parkett verlegen",
-    text: "Vom klassischen Fischgrät bis zur breiten Landhausdiele: Ich bereite den Untergrund sorgfältig vor und verlege Ihren Boden mit exakten Fugen und sauberen Anschlüssen – verklebt oder schwimmend, passend zu Raum und Nutzung.",
-    icon: "herringbone",
+    text: "Von der breiten Landhausdiele bis zum Schiffsboden: Ich bereite den Untergrund sorgfältig vor und verlege Ihren Boden mit exakten Fugen und sauberen Anschlüssen – verklebt oder schwimmend, passend zu Raum und Nutzung.",
+    icon: "planks",
   },
   {
     id: "schleifen",
@@ -64,8 +73,14 @@ export const SERVICES: readonly Service[] = [
   {
     id: "beratung",
     title: "Beratung & Bemusterung",
-    text: "Welches Holz, welches Muster, welche Oberfläche? Ich berate Sie vor Ort – ehrlich, mit Blick auf Ihren Alltag und Ihr Budget.",
+    text: "Welches Holz, welche Optik, welche Oberfläche? Ich berate Sie vor Ort – ehrlich, mit Blick auf Ihren Alltag und Ihr Budget.",
     icon: "advice",
+  },
+  {
+    id: "moebelmontage",
+    title: "Möbelmontage",
+    text: "Schränke, Regale, Betten oder Küchenmöbel: Ich baue Ihre Möbel sorgfältig auf, richte sie aus und befestige sie sicher an der Wand – gern direkt, wenn der neue Boden liegt.",
+    icon: "furniture",
   },
 ];
 
@@ -80,29 +95,6 @@ export interface PatternInfo {
 
 export const PATTERNS: readonly PatternInfo[] = [
   {
-    id: "fischgraet",
-    label: "Fischgrät",
-    short: "Der Klassiker",
-    description:
-      "Rechtwinklig versetzte Stäbe, die wie Gräten ineinandergreifen – lebendig, zeitlos und wie gemacht für Altbau und Wohnzimmer.",
-    unit: 18,
-  },
-  {
-    id: "chevron",
-    label: "Französisches Fischgrät",
-    short: "Chevron",
-    description:
-      "Schräg auf Gehrung geschnittene Stäbe treffen sich auf einer geraden Linie – grafisch, ruhig und besonders elegant.",
-    unit: 17,
-  },
-  {
-    id: "schiffsboden",
-    label: "Schiffsboden",
-    short: "Wilder Verband",
-    description: "Lange, schmale Stäbe in versetzten Reihen – unaufgeregt und ideal, um Räume optisch zu strecken.",
-    unit: 18,
-  },
-  {
     id: "landhausdiele",
     label: "Landhausdiele",
     short: "Großzügig",
@@ -111,11 +103,10 @@ export const PATTERNS: readonly PatternInfo[] = [
     unit: 18,
   },
   {
-    id: "tafelparkett",
-    label: "Würfel / Tafelparkett",
-    short: "Mit Charakter",
-    description:
-      "Quadratische Felder, deren Richtung von Feld zu Feld wechselt – ein handwerkliches Muster mit viel Charakter.",
+    id: "schiffsboden",
+    label: "Schiffsboden",
+    short: "Wilder Verband",
+    description: "Lange, schmale Stäbe in versetzten Reihen – unaufgeregt und ideal, um Räume optisch zu strecken.",
     unit: 18,
   },
 ];

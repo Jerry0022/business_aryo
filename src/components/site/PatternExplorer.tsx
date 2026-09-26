@@ -50,7 +50,7 @@ function useRadioKeys<T extends string>(ids: readonly T[], value: T, onChange: (
 }
 
 export function PatternExplorer() {
-  const [patternId, setPatternId] = useState<PatternId>("fischgraet");
+  const [patternId, setPatternId] = useState<PatternId>(PATTERNS[0]!.id);
   const [woodId, setWoodId] = useState<WoodId>("eiche-natur");
   const pattern = PATTERNS.find((p) => p.id === patternId) ?? PATTERNS[0]!;
   const wood = WOODS[woodId];

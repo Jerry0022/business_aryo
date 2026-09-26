@@ -67,7 +67,7 @@
 }
 
 /* === auth + studio === */
-.auth-herringbone {
+.auth-lattice {
   background-image:
     repeating-linear-gradient(45deg, transparent 0 22px, rgba(222, 178, 124, 0.9) 22px 23px),
     repeating-linear-gradient(-45deg, transparent 0 22px, rgba(222, 178, 124, 0.9) 22px 23px);
@@ -391,4 +391,220 @@
   border-radius: 999px;
   background: var(--color-paper);
   border: 3px solid var(--color-oak);
+}
+
+/* === Mini-Aryo (floor-advice chat, src/features/berater) === */
+/* The sander buzzes in short bursts while idle and continuously while an answer streams in. */
+
+.aryo .aryo-dust circle {
+  opacity: 0;
+}
+
+.berater-typing span {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--color-oak-deep, #8a5a2b);
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .aryo .aryo-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: aryo-blink 5.2s infinite;
+  }
+
+  .aryo .aryo-head {
+    transform-box: view-box;
+    transform-origin: 60px 86px;
+    animation: aryo-nod 6s ease-in-out infinite;
+  }
+
+  .aryo .aryo-sander {
+    animation: aryo-buzz-burst 6s linear infinite;
+  }
+
+  .aryo .aryo-dust circle {
+    animation: aryo-dust-burst 6s ease-out infinite;
+  }
+
+  .aryo .aryo-dust circle:nth-child(2) {
+    --aryo-drift: 5px;
+    animation-delay: 0.25s;
+  }
+
+  .aryo .aryo-dust circle:nth-child(3) {
+    --aryo-drift: -4px;
+    animation-delay: 0.5s;
+  }
+
+  .aryo .aryo-dust circle:nth-child(4) {
+    --aryo-drift: 3px;
+    animation-delay: 0.7s;
+  }
+
+  .aryo .aryo-dust circle:nth-child(5) {
+    --aryo-drift: -2px;
+    animation-delay: 0.9s;
+  }
+
+  .aryo[data-working="true"] .aryo-sander {
+    animation: aryo-buzz 0.13s linear infinite;
+  }
+
+  .aryo[data-working="true"] .aryo-head {
+    animation-duration: 2.4s;
+  }
+
+  .aryo[data-working="true"] .aryo-dust circle {
+    animation-name: aryo-dust;
+    animation-duration: 1.1s;
+  }
+
+  .berater-panel {
+    animation: berater-open 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: 100% 100%;
+  }
+
+  .berater-teaser {
+    animation: berater-open 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: 100% 100%;
+  }
+
+  .berater-typing span {
+    animation: berater-dot 1s ease-in-out infinite;
+  }
+
+  .berater-typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .berater-typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes aryo-blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  95.5% {
+    transform: scaleY(0.12);
+  }
+}
+
+@keyframes aryo-nod {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  30% {
+    rotate: -3deg;
+  }
+  65% {
+    rotate: 2deg;
+  }
+}
+
+@keyframes aryo-buzz {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 0.8px -0.5px;
+  }
+  50% {
+    translate: -0.7px 0.4px;
+  }
+  75% {
+    translate: 0.5px 0.6px;
+  }
+}
+
+@keyframes aryo-buzz-burst {
+  0%,
+  30%,
+  100% {
+    translate: 0 0;
+  }
+  3%,
+  11%,
+  19%,
+  27% {
+    translate: 0.8px -0.5px;
+  }
+  5%,
+  13%,
+  21% {
+    translate: -0.7px 0.4px;
+  }
+  7%,
+  15%,
+  23% {
+    translate: 0.5px 0.6px;
+  }
+  9%,
+  17%,
+  25% {
+    translate: -2px 0;
+  }
+}
+
+@keyframes aryo-dust {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    translate: var(--aryo-drift, -3px) -16px;
+  }
+}
+
+@keyframes aryo-dust-burst {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  4% {
+    opacity: 0.95;
+  }
+  24% {
+    opacity: 0;
+    translate: var(--aryo-drift, -3px) -16px;
+  }
+  100% {
+    opacity: 0;
+    translate: var(--aryo-drift, -3px) -16px;
+  }
+}
+
+@keyframes berater-open {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes berater-dot {
+  0%,
+  100% {
+    translate: 0 0;
+    opacity: 0.35;
+  }
+  50% {
+    translate: 0 -3px;
+    opacity: 0.9;
+  }
 }

@@ -5,7 +5,7 @@ import { ParquetSvg } from "./parquet/ParquetSvg";
 import { SectionHeading } from "./SectionHeading";
 import { ServiceIcon } from "./ServiceIcon";
 
-const featureFloor = buildParquet("chevron", { width: 720, height: 520, unit: 22, seed: 5 });
+const featureFloor = buildParquet("landhausdiele", { width: 720, height: 520, unit: 16, seed: 5 });
 const sandingFloor = buildParquet("schiffsboden", { width: 400, height: 140, unit: 17, seed: 9 });
 
 /** Before/after illustration for sanding: worn, scratched boards on the left, fresh finish on the right. */
@@ -56,6 +56,14 @@ function SandingVisual() {
       </span>
     </div>
   );
+}
+
+/** Widens the last card so the grid (featured card = 2 cells) ends without a gap at 2 and 3 columns. */
+function lastCardSpan(restCount: number): string {
+  const cells = 2 + restCount;
+  const sm = cells % 2 === 1 ? "sm:col-span-2" : "";
+  const lg = cells % 3 === 1 ? "lg:col-span-3" : cells % 3 === 2 ? "lg:col-span-2" : sm ? "lg:col-span-1" : "";
+  return `${sm} ${lg}`.trim();
 }
 
 export function Services() {
@@ -127,7 +135,7 @@ export function Services() {
             <li
               key={service.id}
               className={`site-reveal group relative flex flex-col rounded-card border border-ink/10 bg-white/50 p-7 transition duration-500 ease-out-soft hover:-translate-y-1 hover:border-oak/40 hover:bg-white/80 hover:shadow-[0_24px_48px_-28px_rgb(86_53_33/0.45)] sm:p-8 ${
-                index === rest.length - 1 ? "sm:col-span-2 lg:col-span-1" : ""
+                index === rest.length - 1 ? lastCardSpan(rest.length) : ""
               }`}
             >
               <div className="flex items-start justify-between">

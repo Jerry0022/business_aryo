@@ -39,6 +39,7 @@ test("the studio requires a login", async ({ page }) => {
 
 test("the setup rejects a wrong code", async ({ page }) => {
   await page.goto("/einrichten");
+  await page.getByLabel("E-Mail").fill(ADMIN.email);
   await page.getByLabel("Passwort", { exact: true }).fill(ADMIN.password);
   await page.getByLabel("Passwort wiederholen").fill(ADMIN.password);
   await page.getByLabel("Einrichtungscode").fill("falsch");
@@ -48,7 +49,9 @@ test("the setup rejects a wrong code", async ({ page }) => {
 
 test("the admin sets up the studio and lands in the 3D view", async ({ page }) => {
   await page.goto("/einrichten");
-  await expect(page.getByLabel("E-Mail")).toHaveValue(ADMIN.email);
+  // The admin address is never prefilled: /einrichten is reachable without login.
+  await expect(page.getByLabel("E-Mail")).toHaveValue("");
+  await page.getByLabel("E-Mail").fill(ADMIN.email);
   await page.getByLabel("Passwort", { exact: true }).fill(ADMIN.password);
   await page.getByLabel("Passwort wiederholen").fill(ADMIN.password);
   await page.getByLabel("Einrichtungscode").fill(SETUP_TOKEN);

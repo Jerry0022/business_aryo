@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { BeraterFab } from "@/features/berater/ui/BeraterFab";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 
@@ -30,6 +31,7 @@ export function LegalLayout({ eyebrow, title, intro, children }: LegalLayoutProp
         </article>
       </main>
       <SiteFooter />
+      <BeraterFab />
     </>
   );
 }

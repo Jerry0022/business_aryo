@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-// Herringbone with exactly one plank missing — the page that "isn't there".
-const floor = buildParquet("fischgraet", { width: 560, height: 400, unit: 22, seed: 404, gap: { i: 0, j: 0 } });
+// Plank floor with exactly one board missing — the page that "isn't there".
+const floor = buildParquet("schiffsboden", { width: 560, height: 400, unit: 22, seed: 404, gap: { x: 280, y: 200 } });
 
 export default function NotFound() {
   return (

@@ -4,11 +4,13 @@ import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton"
 import { LegalLayout, Placeholder } from "@/components/site/LegalLayout";
 import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
+import { QUESTIONS_PER_HOUR } from "@/features/berater/limits";
+import { getLlmConfig } from "@/features/berater/llm";
 import { CONSENT_COOKIE } from "@/lib/consent";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
-  description: `Wie ${siteConfig.name} – ${siteConfig.trade} mit personenbezogenen Daten umgeht: Hosting, Kontakt per E-Mail, Login-Bereich, Cookies, Webanalyse und Ihre Rechte.`,
+  description: `Wie ${siteConfig.name} – ${siteConfig.trade} mit personenbezogenen Daten umgeht: Hosting, Kontakt per E-Mail, KI-Bodenberater, Login-Bereich, Cookies, Webanalyse und Ihre Rechte.`,
   alternates: { canonical: "/datenschutz" },
 };
 
@@ -36,6 +38,7 @@ const cookieOverview = [
 export default function DatenschutzPage() {
   const { street, postalCode, city, country } = siteConfig.address;
   const { email } = siteConfig;
+  const llm = getLlmConfig();
   return (
     <LegalLayout
       eyebrow="Rechtliches"
@@ -44,14 +47,15 @@ export default function DatenschutzPage() {
         analyticsEnabled ? (
           <p>
             Kurz gesagt: Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre
-            Anfrage oder den geschützten Login-Bereich nötig ist. Eine Nutzungsstatistik mit PostHog läuft
-            ausschließlich, wenn Sie ausdrücklich zustimmen. Werbe-Cookies und Social-Media-Plugins gibt es nicht.
+            Anfrage, den freiwilligen KI-Bodenberater oder den geschützten Login-Bereich nötig ist. Eine
+            Nutzungsstatistik mit PostHog läuft ausschließlich, wenn Sie ausdrücklich zustimmen. Werbe-Cookies und
+            Social-Media-Plugins gibt es nicht.
           </p>
         ) : (
           <p>
             Kurz gesagt: Diese Website verzichtet auf Tracking, Analyse-Tools, Werbe-Cookies und eingebundene Inhalte
-            Dritter. Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre Anfrage
-            oder den geschützten Login-Bereich nötig ist.
+            Dritter. Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre Anfrage,
+            den freiwilligen KI-Bodenberater oder den geschützten Login-Bereich nötig ist.
           </p>
         )
       }
@@ -110,7 +114,35 @@ export default function DatenschutzPage() {
         Aufbewahrungspflichten (etwa für Angebote und Rechnungen) entgegenstehen.
       </p>
 
-      <h2>4. Geschützter Login-Bereich</h2>
+      <h2 id="mini-aryo">4. KI-Bodenberater „Mini-Aryo“</h2>
+      <p>
+        Unten rechts auf der Website können Sie freiwillig den Chat „Mini-Aryo“ öffnen und Fragen rund um Böden stellen.
+        Die Antworten erzeugt ein KI-Sprachmodell automatisch; sie können fehlerhaft sein und ersetzen keine Beratung
+        vor Ort. Solange Sie keine Frage absenden, werden keine Daten übertragen.
+      </p>
+      <p>
+        Wenn Sie eine Frage absenden, werden Ihre Frage und der bisherige Gesprächsverlauf über den Server dieser
+        Website an die Programmierschnittstelle des KI-Anbieters {llm?.provider.company ?? "Groq, Inc. (USA)"}{" "}
+        übermittelt, dort verarbeitet und die Antwort an Ihren Browser zurückgesendet. Dabei findet eine Übermittlung in
+        die USA statt; sie erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Der
+        Gesprächsverlauf wird auf dem Server dieser Website nicht gespeichert und ist in Ihrem Browser nur so lange
+        vorhanden, bis Sie die Seite schließen oder neu laden. Welche Daten der KI-Anbieter wie lange speichert, richtet
+        sich nach dessen Datenschutzbestimmungen.
+      </p>
+      <p>
+        Zum Schutz vor Missbrauch und unverhältnismäßigen Kosten sind höchstens {QUESTIONS_PER_HOUR} Fragen pro Stunde
+        möglich. Dazu wird aus Ihrer IP-Adresse ein pseudonymer Prüfwert (gesalzener Hash) gebildet; gespeichert werden
+        nur dieser Wert und ein Zähler, die IP-Adresse selbst nicht.
+        {llm?.provider.id === "xai"
+          ? " Derselbe Prüfwert wird dem KI-Anbieter als anonyme Kennung zur Missbrauchserkennung übermittelt."
+          : ""}{" "}
+        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Fragen und an
+        einem sicheren, wirtschaftlichen Betrieb). Bitte geben Sie im Chat keine personenbezogenen Daten wie Namen,
+        Adressen oder Telefonnummern ein – für eine persönliche Anfrage nutzen Sie bitte E-Mail oder das
+        Anfrageformular.
+      </p>
+
+      <h2>5. Geschützter Login-Bereich</h2>
       <p>
         Über den Link „Login“ erreichen Sie einen geschützten Bereich, der ausschließlich eingeladenen Personen zur
         Verfügung steht. Eine öffentliche Registrierung gibt es nicht. Für eingeladene Nutzerinnen und Nutzer werden
@@ -134,7 +166,9 @@ export default function DatenschutzPage() {
         auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).
       </p>
 
-      <h2 id="cookies" className="scroll-mt-28">5. Cookies und Einwilligung</h2>
+      <h2 id="cookies" className="scroll-mt-28">
+        6. Cookies und Einwilligung
+      </h2>
       {analyticsEnabled ? (
         <>
           <p>
@@ -143,7 +177,10 @@ export default function DatenschutzPage() {
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {cookieOverview.map((cookie) => (
-              <div key={cookie.name} className="rounded-card border border-ink/10 bg-sand/40 p-4 text-[0.95rem] leading-snug">
+              <div
+                key={cookie.name}
+                className="rounded-card border border-ink/10 bg-sand/40 p-4 text-[0.95rem] leading-snug"
+              >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <code className="font-semibold text-ink [overflow-wrap:anywhere]">{cookie.name}</code>
                   <span
@@ -164,14 +201,14 @@ export default function DatenschutzPage() {
           <h3>Technisch notwendige Cookies</h3>
           <p>
             Die als „notwendig“ markierten Cookies sind für den Betrieb der Website bzw. den von Ihnen gewünschten
-            Dienst unbedingt erforderlich; eine Einwilligung ist dafür nicht nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6
-            Abs. 1 lit. b und f DSGVO). Die Login-Cookies werden erst gesetzt, wenn Sie sich anmelden.
+            Dienst unbedingt erforderlich; eine Einwilligung ist dafür nicht nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs.
+            1 lit. b und f DSGVO). Die Login-Cookies werden erst gesetzt, wenn Sie sich anmelden.
           </p>
           <h3>Statistik-Cookies (nur mit Einwilligung)</h3>
           <p>
             Nur wenn Sie im Cookie-Hinweis auf „Einverstanden“ klicken, speichert PostHog ein Cookie bzw. einen
             Local-Storage-Eintrag. Er enthält eine zufällig erzeugte Kennung, mit der wiederholte Besuche desselben
-            Browsers erkannt werden. Details dazu in Abschnitt 7. Rechtsgrundlage ist Ihre Einwilligung (§ 25 Abs. 1
+            Browsers erkannt werden. Details dazu in Abschnitt 8. Rechtsgrundlage ist Ihre Einwilligung (§ 25 Abs. 1
             TDDDG, Art. 6 Abs. 1 lit. a DSGVO).
           </p>
           <h3>Browser-Erweiterungen für Cookie-Hinweise</h3>
@@ -199,7 +236,7 @@ export default function DatenschutzPage() {
         </p>
       )}
 
-      <h2>6. Schriftarten</h2>
+      <h2>7. Schriftarten</h2>
       <p>
         Die verwendeten Schriftarten sind lokal in diese Website eingebunden und werden zusammen mit ihr über den oben
         genannten Hoster ausgeliefert. Beim Aufruf der Seiten findet keine Verbindung zu Servern von Google oder anderen
@@ -208,7 +245,9 @@ export default function DatenschutzPage() {
 
       {analyticsEnabled ? (
         <>
-          <h2 id="webanalyse" className="scroll-mt-28">7. Webanalyse mit PostHog</h2>
+          <h2 id="webanalyse" className="scroll-mt-28">
+            8. Webanalyse mit PostHog
+          </h2>
           <p>
             Sofern Sie eingewilligt haben, nutze ich den Analysedienst PostHog der PostHog Inc., 2261 Market Street
             #4008, San Francisco, CA 94114, USA. PostHog hilft mir zu verstehen, welche Seiten und Inhalte gefragt sind
@@ -223,7 +262,7 @@ export default function DatenschutzPage() {
             <li>Ladezeiten und technische Leistungswerte der Seite</li>
             <li>Gerätetyp, Browser, Betriebssystem, Bildschirmgröße und Spracheinstellung</li>
             <li>ungefährer Standort (Land, Region, Stadt), abgeleitet aus der IP-Adresse</li>
-            <li>eine zufällig erzeugte Kennung Ihres Browsers (siehe Abschnitt 5)</li>
+            <li>eine zufällig erzeugte Kennung Ihres Browsers (siehe Abschnitt 6)</li>
           </ul>
           <p>
             Die IP-Adresse wird in PostHog nicht gespeichert. Es werden keine Bildschirmaufzeichnungen (Session
@@ -250,7 +289,7 @@ export default function DatenschutzPage() {
         </>
       ) : (
         <>
-          <h2>7. Keine Analyse- und Tracking-Dienste</h2>
+          <h2>8. Keine Analyse- und Tracking-Dienste</h2>
           <p>
             Ich setze keine Analyse- oder Tracking-Werkzeuge ein, keine Werbenetzwerke und keine Social-Media-Plugins.
             Alle Grafiken dieser Website werden direkt im Browser erzeugt; es werden keine Inhalte von Drittanbietern
@@ -259,13 +298,13 @@ export default function DatenschutzPage() {
         </>
       )}
 
-      <h2>8. SSL-/TLS-Verschlüsselung</h2>
+      <h2>9. SSL-/TLS-Verschlüsselung</h2>
       <p>
         Diese Website nutzt aus Sicherheitsgründen eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung
         erkennen Sie an „https://“ in der Adresszeile Ihres Browsers.
       </p>
 
-      <h2>9. Ihre Rechte</h2>
+      <h2>10. Ihre Rechte</h2>
       <p>Sie haben gegenüber mir folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:</p>
       <ul>
         <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
@@ -288,7 +327,7 @@ export default function DatenschutzPage() {
         (Art. 77 DSGVO).
       </p>
 
-      <h2>10. Aktualität</h2>
+      <h2>11. Aktualität</h2>
       <p>
         Stand: September 2026. Ich passe diese Datenschutzerklärung an, sobald sich die Website oder die rechtlichen
         Anforderungen ändern.
