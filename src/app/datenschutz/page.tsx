@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton";
 import { LegalLayout, Placeholder } from "@/components/site/LegalLayout";
+import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
+import { CONSENT_COOKIE } from "@/lib/consent";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
-  description: `Wie ${siteConfig.name} – ${siteConfig.trade} mit personenbezogenen Daten umgeht: Hosting, Kontakt per E-Mail, Login-Bereich und Ihre Rechte.`,
+  description: `Wie ${siteConfig.name} – ${siteConfig.trade} mit personenbezogenen Daten umgeht: Hosting, Kontakt per E-Mail, Login-Bereich, Cookies, Webanalyse und Ihre Rechte.`,
   alternates: { canonical: "/datenschutz" },
 };
 
@@ -17,11 +20,19 @@ export default function DatenschutzPage() {
       eyebrow="Rechtliches"
       title={<>Datenschutz&shy;erklärung</>}
       intro={
-        <p>
-          Kurz gesagt: Diese Website verzichtet auf Tracking, Analyse-Tools, Werbe-Cookies und eingebundene Inhalte
-          Dritter. Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre Anfrage
-          oder den geschützten Login-Bereich nötig ist.
-        </p>
+        analyticsEnabled ? (
+          <p>
+            Kurz gesagt: Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre
+            Anfrage oder den geschützten Login-Bereich nötig ist. Eine Nutzungsstatistik mit PostHog läuft
+            ausschließlich, wenn Sie ausdrücklich zustimmen. Werbe-Cookies und Social-Media-Plugins gibt es nicht.
+          </p>
+        ) : (
+          <p>
+            Kurz gesagt: Diese Website verzichtet auf Tracking, Analyse-Tools, Werbe-Cookies und eingebundene Inhalte
+            Dritter. Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre Anfrage
+            oder den geschützten Login-Bereich nötig ist.
+          </p>
+        )
       }
     >
       <h2>1. Verantwortlicher</h2>
@@ -102,14 +113,55 @@ export default function DatenschutzPage() {
         auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).
       </p>
 
-      <h2>5. Cookies</h2>
-      <p>
-        Auf den öffentlichen Seiten dieser Website werden keine Cookies gesetzt. Erst wenn Sie sich im Login-Bereich
-        anmelden, werden technisch notwendige Sitzungs-Cookies gespeichert (z. B. „better-auth.session_token“), die Sie
-        als angemeldete Person wiedererkennen. Sie verlieren spätestens nach 14 Tagen ihre Gültigkeit bzw. werden beim
-        Abmelden gelöscht. Da diese Cookies für den von Ihnen ausdrücklich gewünschten Dienst unbedingt erforderlich
-        sind, ist keine Einwilligung nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1 lit. b und f DSGVO).
-      </p>
+      <h2 id="cookies" className="scroll-mt-28">5. Cookies und Einwilligung</h2>
+      {analyticsEnabled ? (
+        <>
+          <p>
+            Cookies sind kleine Textdateien, die Ihr Browser speichert. Ähnlich funktionieren Einträge im lokalen
+            Speicher des Browsers (Local Storage). Diese Website unterscheidet zwei Arten:
+          </p>
+          <h3>Technisch notwendige Cookies</h3>
+          <ul>
+            <li>
+              <strong>{CONSENT_COOKIE}</strong> speichert Ihre Auswahl im Cookie-Hinweis („Statistik erlaubt“ oder
+              „nur notwendige“), damit Sie nicht bei jedem Besuch erneut gefragt werden. Speicherdauer: 12 Monate.
+            </li>
+            <li>
+              <strong>better-auth.session_token</strong> (und zugehörige Cookies) werden erst gesetzt, wenn Sie sich im
+              Login-Bereich anmelden, und erkennen Sie als angemeldete Person wieder. Sie verlieren spätestens nach 14
+              Tagen ihre Gültigkeit bzw. werden beim Abmelden gelöscht.
+            </li>
+          </ul>
+          <p>
+            Diese Cookies sind für den Betrieb der Website bzw. den von Ihnen gewünschten Dienst unbedingt
+            erforderlich; eine Einwilligung ist dafür nicht nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1 lit. b und f
+            DSGVO).
+          </p>
+          <h3>Statistik-Cookies (nur mit Einwilligung)</h3>
+          <p>
+            Nur wenn Sie im Cookie-Hinweis auf „Statistik erlauben“ klicken, speichert PostHog ein Cookie bzw. einen
+            Local-Storage-Eintrag mit dem Namen <strong>ph_&lt;Projektschlüssel&gt;_posthog</strong>. Er enthält eine
+            zufällig erzeugte Kennung, mit der wiederholte Besuche desselben Browsers erkannt werden, und bleibt bis zu
+            12 Monate gespeichert. Details dazu in Abschnitt 7. Rechtsgrundlage ist Ihre Einwilligung (§ 25 Abs. 1
+            TDDDG, Art. 6 Abs. 1 lit. a DSGVO).
+          </p>
+          <h3>Einwilligung ändern oder widerrufen</h3>
+          <p>
+            Ihre Einwilligung ist freiwillig. Sie können sie jederzeit mit Wirkung für die Zukunft widerrufen oder
+            erneut erteilen, über den Link „Cookie-Einstellungen“ im Seitenfuß oder direkt hier:{" "}
+            <CookieSettingsButton className="cursor-pointer font-semibold text-oak-deep underline underline-offset-2" />
+            . Nach einem Widerruf werden die Statistik-Cookies aus Ihrem Browser entfernt.
+          </p>
+        </>
+      ) : (
+        <p>
+          Auf den öffentlichen Seiten dieser Website werden keine Cookies gesetzt. Erst wenn Sie sich im Login-Bereich
+          anmelden, werden technisch notwendige Sitzungs-Cookies gespeichert (z. B. „better-auth.session_token“), die
+          Sie als angemeldete Person wiedererkennen. Sie verlieren spätestens nach 14 Tagen ihre Gültigkeit bzw. werden
+          beim Abmelden gelöscht. Da diese Cookies für den von Ihnen ausdrücklich gewünschten Dienst unbedingt
+          erforderlich sind, ist keine Einwilligung nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1 lit. b und f DSGVO).
+        </p>
+      )}
 
       <h2>6. Schriftarten</h2>
       <p>
@@ -118,12 +170,54 @@ export default function DatenschutzPage() {
         Schriftanbietern statt.
       </p>
 
-      <h2>7. Keine Analyse- und Tracking-Dienste</h2>
-      <p>
-        Ich setze keine Analyse- oder Tracking-Werkzeuge ein, keine Werbenetzwerke und keine Social-Media-Plugins. Alle
-        Grafiken dieser Website werden direkt im Browser erzeugt; es werden keine Inhalte von Drittanbietern
-        nachgeladen.
-      </p>
+      {analyticsEnabled ? (
+        <>
+          <h2 id="webanalyse" className="scroll-mt-28">7. Webanalyse mit PostHog</h2>
+          <p>
+            Sofern Sie eingewilligt haben, nutze ich den Analysedienst PostHog der PostHog Inc., 2261 Market Street
+            #4008, San Francisco, CA 94114, USA. PostHog hilft mir zu verstehen, welche Seiten und Inhalte gefragt sind
+            und wo die Website verbessert werden kann. Dabei werden folgende Daten verarbeitet:
+          </p>
+          <ul>
+            <li>aufgerufene Seiten, Zeitpunkt und Dauer des Besuchs sowie die zuvor besuchte Seite (Referrer)</li>
+            <li>Klicks auf Links und Schaltflächen; Eingaben in Formularfelder werden nicht erfasst</li>
+            <li>Gerätetyp, Browser, Betriebssystem, Bildschirmgröße und Spracheinstellung</li>
+            <li>ungefährer Standort (Land, Region, Stadt), abgeleitet aus der IP-Adresse</li>
+            <li>eine zufällig erzeugte Kennung Ihres Browsers (siehe Abschnitt 5)</li>
+          </ul>
+          <p>
+            Die IP-Adresse wird in PostHog nicht gespeichert. Es werden keine Bildschirmaufzeichnungen (Session
+            Recordings) angefertigt, keine geräteübergreifenden Profile gebildet und die Daten nicht mit anderen Daten
+            zusammengeführt oder für Werbung verwendet. Sendet Ihr Browser das Signal „Do Not Track“, findet keine
+            Erfassung statt.
+          </p>
+          <p>
+            Die Daten werden in der EU-Cloud von PostHog (Rechenzentrum in Frankfurt am Main) gespeichert. Ihr Browser
+            sendet sie dabei nicht direkt an PostHog, sondern an diese Website, die sie an PostHog weiterleitet. PostHog
+            ist als Auftragsverarbeiter tätig (Art. 28 DSGVO). Soweit ein Zugriff aus den USA nicht ausgeschlossen
+            werden kann, erfolgt die Übermittlung auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c
+            DSGVO).
+          </p>
+          <p>
+            Rechtsgrundlage ist Ihre Einwilligung (§ 25 Abs. 1 TDDDG, Art. 6 Abs. 1 lit. a DSGVO), die Sie jederzeit
+            über die Cookie-Einstellungen widerrufen können. Ohne Einwilligung wird PostHog nicht geladen. Die
+            Analysedaten werden gelöscht, sobald sie für die Auswertung nicht mehr erforderlich sind.
+          </p>
+          <p>
+            Werbenetzwerke und Social-Media-Plugins setze ich nicht ein. Alle Grafiken dieser Website werden direkt im
+            Browser erzeugt; es werden keine Inhalte von Drittanbietern nachgeladen.
+          </p>
+        </>
+      ) : (
+        <>
+          <h2>7. Keine Analyse- und Tracking-Dienste</h2>
+          <p>
+            Ich setze keine Analyse- oder Tracking-Werkzeuge ein, keine Werbenetzwerke und keine Social-Media-Plugins.
+            Alle Grafiken dieser Website werden direkt im Browser erzeugt; es werden keine Inhalte von Drittanbietern
+            nachgeladen.
+          </p>
+        </>
+      )}
 
       <h2>8. SSL-/TLS-Verschlüsselung</h2>
       <p>

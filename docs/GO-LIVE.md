@@ -9,7 +9,8 @@ Alles Technische ist fertig und getestet. Vor der öffentlichen Freischaltung fe
 - [ ] **Einsatzgebiet** (optional, gut für lokale Suche): `siteConfig.serviceArea`, z. B. „Bonn & Umgebung“.
 - [ ] **USt-ID**, falls vorhanden: `siteConfig.vatId`.
 - [ ] **Verbraucherstreitbeilegung:** Aryo bestätigt die Formulierung „nicht bereit und nicht verpflichtet“ im Impressum.
-- [ ] **Datenschutzerklärung:** Anbieterangaben zu Vercel, Neon und Google (Gmail) einmal gegenprüfen.
+- [ ] **Datenschutzerklärung:** Anbieterangaben zu Vercel, Neon, Google (Gmail) und PostHog einmal gegenprüfen.
+- [ ] **PostHog** (optional): Key in Vercel setzen, „Discard client IP data“ aktivieren, DPA abschließen, siehe [ANALYTICS.md](ANALYTICS.md).
 - [x] Anschrift im Impressum (Florusstraße 9, 53225 Bonn)
 
 ## Betrieb
