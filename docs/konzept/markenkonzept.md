@@ -4,6 +4,16 @@ Ergebnis der Konzept-Session zur Unternehmenswebsite (öffentlicher Teil und Adm
 
 **Stand:** 26.09.2026, nach Runde 6 (Design). Offene Entscheidungen stehen am Ende.
 
+**Verhältnis zur Erstimplementierung** (Branch `claude/amazing-wozniak-41vwku`, Next.js):
+- **Dieses Dokument ist führend** für die öffentliche Website und die Fachlichkeit des Admin-Bereichs: Marke, Inhalte, Aufbau, Geschäftslogik, Preise, Kontingente und Design.
+- **Aktueller ist die Erstimplementierung** beim 3D-Traumhaus und bei der Login-Grundlage des Admin-Bereichs. Diese Teile werden übernommen und ergänzen das Konzept:
+  - Login unter `/login`
+  - Ersteinrichtung des Admins unter `/einrichten`
+  - Bereich `/studio` mit dem 3D-Traumhaus als Sonderbereich für Aryos Account
+  - Benutzerverwaltung unter `/studio/benutzer` und Konto unter `/studio/konto`
+- Die Module aus Kapitel 13 kommen als weitere Menüpunkte in diesen Bereich: Kalender, Preise und Leistungen, Abos, Einstellungen, PostHog-Link.
+- Bei Widersprüchen im öffentlichen Teil gilt dieses Dokument.
+
 ---
 
 ## 1. Das Unternehmen
@@ -295,7 +305,7 @@ Das Ergebnis ist das Bodenprofil mit drei Empfehlungen und die Einladung zur Spr
 
 ## 13. Admin-Bereich („Werkbank“)
 
-Der Admin-Bereich ist nach dem Login erreichbar. Alle Datensätze sind miteinander verknüpft.
+Der Admin-Bereich ist nach dem Login erreichbar. Alle Datensätze sind miteinander verknüpft. Technisch baut er auf dem Bereich `/studio` der Erstimplementierung auf, also Login, Benutzerverwaltung und 3D-Traumhaus. Die folgenden Module kommen dort als weitere Menüpunkte hinzu.
 
 ### Kalender (Kernstück)
 
