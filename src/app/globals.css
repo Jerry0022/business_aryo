@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Direction A "Aufmaß": screed grey, drawing paper, graphite, chalk-line blue, oak. */
+  --color-estrich: #e4e3de;
+  --color-estrich-deep: #d8d7d1;
+  --color-blatt: #f7f7f4;
+  --color-graphit: #22252a;
+  --color-graphit-soft: #3a3d43;
+  --color-graphit-muted: #5b5e64;
+  --color-strich: #b9b7b0;
+  --color-strich-dark: #8d9096;
+  --color-kreide: #2d5ba8;
+  --color-kreide-deep: #1f4580;
+  --color-kreide-light: #9db6e0;
+  --color-eiche: #c0894a;
+  --color-eiche-deep: #a8713a;
 
   --color-ink: #17130f;
   --color-ink-soft: #2b241d;
@@ -35,20 +51,20 @@
   }
 
   body {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
+    background-color: var(--color-estrich);
+    color: var(--color-graphit);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background-color: var(--color-oak-light);
-    color: var(--color-ink);
+    background-color: var(--color-kreide-light);
+    color: var(--color-graphit);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-copper);
+    outline: 2px solid var(--color-kreide);
     outline-offset: 3px;
   }
 
@@ -64,6 +80,19 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
+
+/* Width axis of Archivo: wide display type, semi-wide headings, narrow labels. */
+@utility font-wide {
+  font-stretch: 125%;
+}
+
+@utility font-semiwide {
+  font-stretch: 112%;
+}
+
+@utility font-narrow {
+  font-stretch: 80%;
 }
 
 /* === auth + studio === */

@@ -1,19 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// Direction A "Aufmaß" (docs/konzept/markenkonzept.md, chapter 14): Archivo with its width axis for
+// display type (`font-wide`), IBM Plex Mono for measurements, labels and numbers.
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-archivo",
   display: "swap",
-  axes: ["SOFT", "opsz"],
+  axes: ["wdth"],
 });
 
-const manrope = Manrope({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-plex-mono",
   display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#17130f",
+  themeColor: "#22252a",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -43,7 +46,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" data-scroll-behavior="smooth" className={`${fraunces.variable} ${manrope.variable}`}>
+    <html lang="de" data-scroll-behavior="smooth" className={`${archivo.variable} ${plexMono.variable}`}>
       <body>{children}</body>
     </html>
   );
