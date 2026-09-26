@@ -1,13 +1,19 @@
 "use client";
 
+import { ChevronDown, Cookie } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { isConsentSettingsOpen, readConsent, subscribeConsent, writeConsent } from "@/lib/consent";
 
+// Both choices share one style on purpose: rejecting must be as easy as accepting.
 const buttonClass =
-  "inline-flex flex-1 items-center justify-center rounded-full border border-paper/30 px-5 py-3 text-sm font-semibold text-paper transition hover:border-paper hover:bg-paper hover:text-ink";
+  "inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-paper/10 px-4 py-2.5 text-sm font-semibold text-paper ring-1 ring-paper/20 transition hover:bg-paper hover:text-ink";
 
-/** Consent banner for PostHog. Both choices are equally prominent; nothing loads before a decision. */
+/**
+ * Compact consent banner for PostHog; nothing loads before a decision. The conventional ids
+ * (`cookie-banner`, `cookie-accept`, `cookie-reject`) let consent browser extensions answer it
+ * on the visitor's behalf.
+ */
 export function CookieBanner() {
   const consent = useSyncExternalStore(subscribeConsent, readConsent, () => "pending" as const);
   const settingsOpen = useSyncExternalStore(subscribeConsent, isConsentSettingsOpen, () => false);
@@ -21,39 +27,86 @@ export function CookieBanner() {
 
   return (
     <section
+      id="cookie-banner"
       role="dialog"
       aria-labelledby="cookie-banner-title"
       aria-describedby="cookie-banner-text"
-      className="site-dark fixed inset-x-3 bottom-3 z-[70] mx-auto max-w-xl rounded-card border border-paper/10 bg-ink p-5 text-paper shadow-2xl shadow-ink/40 sm:bottom-5 sm:p-6"
+      className="cookie-banner site-dark fixed inset-x-3 bottom-3 z-[70] max-h-[calc(100dvh-1.5rem)] overflow-y-auto rounded-card border border-paper/10 bg-ink/95 p-4 text-paper shadow-2xl shadow-ink/40 backdrop-blur sm:inset-x-auto sm:bottom-5 sm:left-5 sm:w-[25rem]"
     >
-      <h2
-        id="cookie-banner-title"
-        ref={headingRef}
-        tabIndex={-1}
-        className="font-display text-xl font-medium tracking-tight outline-none"
-      >
-        Cookies &amp; Statistik
-      </h2>
-      <p id="cookie-banner-text" className="mt-2 text-sm leading-relaxed text-paper/75">
-        Mit Ihrer Einwilligung nutze ich PostHog (Server in der EU), um in pseudonymisierter Form zu verstehen, welche
-        Seiten und Inhalte gefragt sind. Technisch notwendige Cookies, etwa für den Login und diese Auswahl, sind immer aktiv. Sie können
-        Ihre Entscheidung jederzeit unter „Cookie-Einstellungen“ im Seitenfuß ändern. Mehr dazu in der{" "}
-        <Link href="/datenschutz#cookies" className="underline underline-offset-2 hover:text-paper">
-          Datenschutzerklärung
-        </Link>
-        .
-      </p>
+      <div className="flex items-start gap-3">
+        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-oak/20 text-oak-light" aria-hidden="true">
+          <Cookie className="size-5" strokeWidth={1.75} />
+        </span>
+        <div>
+          <h2
+            id="cookie-banner-title"
+            ref={headingRef}
+            tabIndex={-1}
+            className="font-display text-lg font-medium leading-tight tracking-tight outline-none"
+          >
+            Ein Keks für die Statistik?
+          </h2>
+          <p id="cookie-banner-text" className="mt-1 text-sm leading-snug text-paper/70">
+            Darf ich pseudonym mitzählen, welche Seiten gefragt sind? Keine Werbung, keine Weitergabe.{" "}
+            <Link href="/datenschutz#cookies" className="whitespace-nowrap underline underline-offset-2 hover:text-paper">
+              Datenschutz
+            </Link>
+          </p>
+        </div>
+      </div>
+
+      <details className="group mt-3 rounded-xl bg-paper/5 text-sm text-paper/70 open:bg-paper/[0.07]">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 rounded-xl px-3 py-2 font-semibold text-paper/85 hover:text-paper [&::-webkit-details-marker]:hidden">
+          Kurz erklärt
+          <ChevronDown className="size-4 transition-transform group-open:rotate-180" aria-hidden="true" />
+        </summary>
+        <ul className="space-y-1.5 px-3 pb-3 leading-snug">
+          <li>
+            <strong className="text-paper/90">Was:</strong> Seitenaufrufe, Klicks, Ladezeiten, Gerät und Browser. Keine
+            Formulareingaben, keine IP-Adresse, keine Bildschirmaufzeichnung.
+          </li>
+          <li>
+            <strong className="text-paper/90">Wo:</strong> PostHog, Server in Frankfurt (EU).
+          </li>
+          <li>
+            <strong className="text-paper/90">Wie lange:</strong> Das Statistik-Cookie bis zu 12 Monate.
+          </li>
+          <li>
+            <strong className="text-paper/90">Immer aktiv:</strong> nur technisch Notwendiges, etwa Ihre Auswahl hier
+            und der Login.
+          </li>
+          <li>
+            Sie können jederzeit im Seitenfuß unter „Cookie-Einstellungen“ widerrufen.{" "}
+            <Link href="/datenschutz#cookies" className="underline underline-offset-2 hover:text-paper">
+              Alle Details
+            </Link>
+          </li>
+        </ul>
+      </details>
+
       {consent !== "unknown" ? (
-        <p className="mt-3 text-xs text-paper/60">
-          Aktuelle Auswahl: {consent === "granted" ? "Statistik erlaubt" : "nur notwendige Cookies"}
+        <p className="mt-3 text-xs text-paper/55">
+          Aktuell: {consent === "granted" ? "Statistik erlaubt" : "nur notwendige Cookies"}
         </p>
       ) : null}
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-        <button type="button" className={buttonClass} onClick={() => writeConsent("denied")}>
+      <div className="mt-3 flex gap-2">
+        <button
+          id="cookie-reject"
+          type="button"
+          data-consent="reject"
+          className={buttonClass}
+          onClick={() => writeConsent("denied")}
+        >
           Nur notwendige
         </button>
-        <button type="button" className={buttonClass} onClick={() => writeConsent("granted")}>
-          Statistik erlauben
+        <button
+          id="cookie-accept"
+          type="button"
+          data-consent="accept"
+          className={buttonClass}
+          onClick={() => writeConsent("granted")}
+        >
+          Einverstanden
         </button>
       </div>
     </section>
