@@ -2,7 +2,7 @@
 
 Website of **Aryo Sabouri — Parkett & Boden** plus a private studio:
 
-- **Public site** (`/`): one-page presentation of the parquet business with a generated plank-floor hero, service overview, interactive pattern explorer, process, about, a mailto-based quote form and **Mini-Aryo**, an animated floor-advice chat answered by Grok (xAI, see [docs/MINI-ARYO.md](docs/MINI-ARYO.md)). Installable as an app (PWA) on Android, iOS, Windows and macOS, see [docs/PWA.md](docs/PWA.md). Legal pages: `/impressum`, `/datenschutz`.
+- **Public site** (`/`): one-page presentation of the parquet business with a generated plank-floor hero, service overview, interactive pattern explorer, process, about, a mailto-based quote form and **Mini-Aryo**, an animated floor-advice chat answered by Groq (or Grok/xAI as fallback, see [docs/MINI-ARYO.md](docs/MINI-ARYO.md)). Installable as an app (PWA) on Android, iOS, Windows and macOS, see [docs/PWA.md](docs/PWA.md). Legal pages: `/impressum`, `/datenschutz`.
 - **Studio** (`/studio`, login required): an interactive 3D **dream house** (single-story villa with roof terrace on a mountain above a city) and, for admins, the **user management** plus a **Statistik** link to the site's PostHog analytics (`NEXT_PUBLIC_POSTHOG_PROJECT_ID` makes it open the project directly).
 
 ## Stack
@@ -50,7 +50,7 @@ src/
   components/site/     public website sections (parquet SVG generators in parquet/)
   components/auth/     login + first-admin setup forms
   components/studio/   studio shell, user management, account settings
-  features/berater/    Mini-Aryo chat: Grok system prompt, rate limit, SSE parser, FAB + panel UI
+  features/berater/    Mini-Aryo chat: system prompt, LLM providers (Groq/xAI), rate limit, SSE parser, FAB + panel UI
   features/house/      3D dream house
     data/              floor plan (plan.ts) and rooms with ≤ 20 items each (rooms.ts)
     models/            procedural model catalog, materials, geometry builder

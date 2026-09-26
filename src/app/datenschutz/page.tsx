@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalLayout, Placeholder } from "@/components/site/LegalLayout";
 import { siteConfig } from "@/config/site";
+import { QUESTIONS_PER_HOUR } from "@/features/berater/limits";
+import { getLlmConfig } from "@/features/berater/llm";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 export default function DatenschutzPage() {
   const { street, postalCode, city, country } = siteConfig.address;
   const { email } = siteConfig;
+  const llm = getLlmConfig();
   return (
     <LegalLayout
       eyebrow="Rechtliches"
@@ -81,26 +84,28 @@ export default function DatenschutzPage() {
       <h2 id="mini-aryo">4. KI-Bodenberater „Mini-Aryo“</h2>
       <p>
         Unten rechts auf der Website können Sie freiwillig den Chat „Mini-Aryo“ öffnen und Fragen rund um Böden stellen.
-        Die Antworten erzeugt ein KI-Sprachmodell (Grok) automatisch; sie können fehlerhaft sein und ersetzen keine
-        Beratung vor Ort. Solange Sie keine Frage absenden, werden keine Daten übertragen.
+        Die Antworten erzeugt ein KI-Sprachmodell automatisch; sie können fehlerhaft sein und ersetzen keine Beratung
+        vor Ort. Solange Sie keine Frage absenden, werden keine Daten übertragen.
       </p>
       <p>
         Wenn Sie eine Frage absenden, werden Ihre Frage und der bisherige Gesprächsverlauf über den Server dieser
-        Website an die Programmierschnittstelle von xAI (Anbieter der Grok-Modelle,{" "}
-        <Placeholder>[Firmierung und Anschrift laut xAI-Vertrag ergänzen]</Placeholder>) übermittelt, dort verarbeitet
-        und die Antwort an Ihren Browser zurückgesendet. Dabei wird eine Übermittlung in die USA durchgeführt; sie
-        erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Der Gesprächsverlauf wird
-        auf dem Server dieser Website nicht gespeichert und ist in Ihrem Browser nur so lange vorhanden, bis Sie die
-        Seite schließen oder neu laden. Welche Daten xAI wie lange speichert, richtet sich nach den
-        Datenschutzbestimmungen von xAI.
+        Website an die Programmierschnittstelle des KI-Anbieters {llm?.provider.company ?? "Groq, Inc. (USA)"}{" "}
+        übermittelt, dort verarbeitet und die Antwort an Ihren Browser zurückgesendet. Dabei findet eine Übermittlung in
+        die USA statt; sie erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Der
+        Gesprächsverlauf wird auf dem Server dieser Website nicht gespeichert und ist in Ihrem Browser nur so lange
+        vorhanden, bis Sie die Seite schließen oder neu laden. Welche Daten der KI-Anbieter wie lange speichert, richtet
+        sich nach dessen Datenschutzbestimmungen.
       </p>
       <p>
-        Zum Schutz vor Missbrauch und unverhältnismäßigen Kosten ist die Zahl der Fragen begrenzt. Dazu wird aus Ihrer
-        IP-Adresse ein pseudonymer Prüfwert (gesalzener Hash) gebildet; gespeichert werden nur dieser Wert und ein
-        Zähler, die IP-Adresse selbst nicht. Derselbe Prüfwert wird xAI als anonyme Kennung zur Missbrauchserkennung
-        übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer
-        Fragen und an einem sicheren, wirtschaftlichen Betrieb). Bitte geben Sie im Chat keine personenbezogenen Daten
-        wie Namen, Adressen oder Telefonnummern ein – für eine persönliche Anfrage nutzen Sie bitte E-Mail oder das
+        Zum Schutz vor Missbrauch und unverhältnismäßigen Kosten sind höchstens {QUESTIONS_PER_HOUR} Fragen pro Stunde
+        möglich. Dazu wird aus Ihrer IP-Adresse ein pseudonymer Prüfwert (gesalzener Hash) gebildet; gespeichert werden
+        nur dieser Wert und ein Zähler, die IP-Adresse selbst nicht.
+        {llm?.provider.id === "xai"
+          ? " Derselbe Prüfwert wird dem KI-Anbieter als anonyme Kennung zur Missbrauchserkennung übermittelt."
+          : ""}{" "}
+        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Fragen und an
+        einem sicheren, wirtschaftlichen Betrieb). Bitte geben Sie im Chat keine personenbezogenen Daten wie Namen,
+        Adressen oder Telefonnummern ein – für eine persönliche Anfrage nutzen Sie bitte E-Mail oder das
         Anfrageformular.
       </p>
 

@@ -109,6 +109,15 @@ test.describe("public site", () => {
     await expect(page.locator("section#leistungen")).toContainText("Möbelmontage");
   });
 
+  test("only the public contact address appears on public pages", async ({ request }) => {
+    for (const path of ["/", "/impressum", "/datenschutz", "/login", "/einrichten", "/gibt-es-nicht"]) {
+      const html = await (await request.get(path)).text();
+      expect(html, path).not.toContain("aryo.kontakt");
+    }
+    const home = await (await request.get("/")).text();
+    expect(home).toContain("Maximilian.Parkett@gmail.com");
+  });
+
   test("Mini-Aryo answers in a streamed chat", async ({ page }) => {
     let sent: unknown;
     await page.route("/api/berater", async (route) => {
@@ -199,6 +208,32 @@ test.describe("public site", () => {
     expect(await (await request.get("/offline.html")).text()).toContain("Gerade keine Verbindung");
   });
 
+  test("Mini-Aryo shows a live countdown when the hourly limit is reached", async ({ page }) => {
+    await page.route("/api/berater", (route) =>
+      route.fulfill({
+        status: 429,
+        contentType: "application/json",
+        headers: { "Retry-After": "125" },
+        body: JSON.stringify({ error: "rate_limited", retryAfter: 125 }),
+      }),
+    );
+    await open(page, "/");
+    await page.getByRole("button", { name: /Mini-Aryo fragen/ }).click();
+    const chat = page.getByRole("dialog", { name: "Mini-Aryo" });
+    const input = chat.getByLabel("Ihre Frage an Mini-Aryo");
+    await input.fill("Wie oft kann ich Parkett schleifen?");
+    await input.press("Enter");
+
+    const alert = chat.getByRole("alert");
+    await expect(alert).toContainText("10 Fragen pro Stunde");
+    const timer = alert.getByRole("timer");
+    await expect(timer).toHaveText(/^2:0[0-5]$/);
+    const first = await timer.textContent();
+    await expect(timer).not.toHaveText(first ?? "", { timeout: 3000 });
+    await expect(input).toHaveValue("Wie oft kann ich Parkett schleifen?");
+    await expect(chat.getByRole("button", { name: "Frage senden" })).toBeDisabled();
+  });
+
   test("Mini-Aryo falls back to the e-mail address without an API key", async ({ page, request }) => {
     const response = await request.post("/api/berater", {
       data: { messages: [{ role: "user", content: "Hallo" }] },
@@ -221,7 +256,7 @@ test.describe("public site", () => {
 
     await expect(contact.getByRole("link", { name: "E-Mail schreiben" })).toHaveAttribute(
       "href",
-      /^mailto:aryo\.kontakt@gmail\.com\?subject=/,
+      /^mailto:Maximilian\.Parkett@gmail\.com\?subject=/,
     );
     await expect(contact.getByRole("link", { name: siteConfig.email })).toHaveAttribute(
       "href",

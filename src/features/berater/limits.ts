@@ -5,7 +5,7 @@ export const CHAT_LIMITS = {
   /** Characters per message the visitor can type. */
   maxInputChars: 1000,
   /** Messages of history sent to the model (older ones are dropped by the client). */
-  maxHistory: 12,
+  maxHistory: 8,
   /** Characters per stored message (assistant answers included). */
   maxMessageChars: 4000,
 } as const;
@@ -29,5 +29,8 @@ export const chatRequestSchema = z.object({
 
 export type ChatMessage = z.infer<typeof chatMessageSchema>;
 
-/** Error codes the API returns as `{ error }`; the UI maps them to German messages. */
+/** Error codes the API returns as `{ error, retryAfter? }`; the UI maps them to German messages. */
 export type ChatErrorCode = "not_configured" | "bad_request" | "forbidden" | "rate_limited" | "busy" | "upstream";
+
+/** Questions per visitor and hour; mirrored in the UI hint. */
+export const QUESTIONS_PER_HOUR = 10;
