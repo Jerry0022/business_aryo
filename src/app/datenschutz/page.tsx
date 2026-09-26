@@ -6,6 +6,7 @@ import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
 import { QUESTIONS_PER_HOUR } from "@/features/berater/limits";
 import { getLlmConfig } from "@/features/berater/llm";
+import { NUDGE_STORAGE_KEY } from "@/features/pwa/nudge";
 import { CONSENT_COOKIE } from "@/lib/consent";
 
 export const metadata: Metadata = {
@@ -20,6 +21,12 @@ const cookieOverview = [
     consent: false,
     purpose: "Merkt sich Ihre Auswahl im Cookie-Hinweis, damit Sie nicht bei jedem Besuch gefragt werden.",
     duration: "12 Monate",
+  },
+  {
+    name: NUDGE_STORAGE_KEY,
+    consent: false,
+    purpose: "Local-Storage-Eintrag: Zeitpunkt, zu dem Mini-Aryo zuletzt auf die App hingewiesen hat (höchstens alle zwei Wochen).",
+    duration: "bis Sie die Websitedaten löschen",
   },
   {
     name: "better-auth.session_token",
