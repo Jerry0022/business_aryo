@@ -29,6 +29,8 @@ test.afterAll(async () => {
 async function signIn(target: Page) {
   await target.goto("/einrichten");
   if (new URL(target.url()).pathname === "/einrichten") {
+    // The admin address is never prefilled: /einrichten is reachable without login.
+    await target.getByLabel("E-Mail").fill(ADMIN.email);
     await target.getByLabel("Passwort", { exact: true }).fill(ADMIN.password);
     await target.getByLabel("Passwort wiederholen").fill(ADMIN.password);
     await target.getByLabel("Einrichtungscode").fill(SETUP_TOKEN);
@@ -55,12 +57,6 @@ async function openWerkbank(target: Page, path = "") {
   await expect(target.getByRole("navigation", { name: "Werkbank" })).toBeVisible({ timeout: TIMEOUT });
 }
 
-/** The public page is rebuilt on another branch; only assert on it once it renders the service catalog. */
-async function publicCatalogShown(target: Page): Promise<boolean> {
-  await target.goto("/");
-  return (await target.getByText("Erstberatung vor Ort").count()) > 0;
-}
-
 /** Next Tuesday (inside the work window in both week types) that is not a holiday. */
 function nextWorkingTuesday(): string {
   let key = addDays(todayKey(), 1);
@@ -74,7 +70,10 @@ test("the admin opens the Werkbank from the studio navigation", async () => {
   await expect(page.getByRole("heading", { level: 1, name: "Übersicht" })).toBeVisible({ timeout: TIMEOUT });
   const nav = page.getByRole("navigation", { name: "Werkbank" });
   for (const name of ["Kalender", "Anfragen", "Projekte", "Kunden & Boden-Pässe", "Sprechstunde", "Werkzeug", "Abos", "Preise & Leistungen", "Einstellungen"]) {
-    await expect(nav.getByRole("link", { name, exact: true })).toBeVisible();
+    // Leads from the public specs add a badge ("Anfragen 2 neue") when the suite runs as a whole.
+    // The labels contain no regex metacharacters.
+    const label = new RegExp(`^${name}( \\d+ neue)?$`);
+    await expect(nav.getByRole("link", { name: label })).toBeVisible();
   }
   await expect(page.getByText("Der Zähler auf der Website kommt direkt aus diesem Kalender.")).toBeVisible();
   const analytics = page.getByRole("link", { name: /Analytics/ });
@@ -83,15 +82,25 @@ test("the admin opens the Werkbank from the studio navigation", async () => {
 });
 
 test("a net price for the Erstberatung appears on the public page", async () => {
+  const priceField = page.getByLabel("Preis netto für Erstberatung vor Ort");
   await openWerkbank(page, "/preise");
-  await page.getByLabel("Preis netto für Erstberatung vor Ort").fill("89");
+  await priceField.fill("89");
   await page.getByRole("button", { name: "Änderungen speichern" }).click();
   await expect(page.getByText(/Leistung gespeichert/)).toBeVisible();
-  const row = page.getByRole("listitem").filter({ has: page.getByLabel("Preis netto für Erstberatung vor Ort") });
+  const row = page.getByRole("listitem").filter({ has: priceField });
   await expect(row).toContainText("sichtbar mit Preis: 105,91 €");
 
-  test.skip(!(await publicCatalogShown(page)), "The public page does not render the service catalog on this branch yet.");
-  await expect(page.getByText(/105,91\s€/).first()).toBeVisible();
+  await page.goto("/");
+  const services = page.locator("section#leistungen");
+  await expect(services.getByText(/105,91\s€/).first()).toBeVisible();
+
+  // Remove the price again: the public specs of the mobile project expect a catalog without prices.
+  await openWerkbank(page, "/preise");
+  await priceField.fill("");
+  await page.getByRole("button", { name: "Änderungen speichern" }).click();
+  await expect(page.getByText(/Leistung gespeichert/)).toBeVisible();
+  await page.goto("/");
+  await expect(services).not.toContainText("€");
 });
 
 test("an active Meister partner unlocks the Meister services", async () => {
@@ -111,8 +120,8 @@ test("an active Meister partner unlocks the Meister services", async () => {
   const row = page.getByRole("listitem").filter({ has: page.getByLabel("Preis netto für Parkett schleifen und versiegeln") });
   await expect(row).toContainText("Website: sichtbar");
 
-  test.skip(!(await publicCatalogShown(page)), "The public page does not render the service catalog on this branch yet.");
-  await expect(page.getByText("Parkett schleifen und versiegeln").first()).toBeVisible();
+  await page.goto("/");
+  await expect(page.locator("section#leistungen").getByText("Parkett schleifen und versiegeln")).toBeVisible();
 });
 
 test("a new calendar event shows up in the agenda", async () => {
