@@ -34,10 +34,10 @@ const SCENES: readonly Scene[] = [
   },
   {
     id: "laminat",
-    title: "Graues Laminat → Eiche Landhausdiele, natur",
-    intro: "Links graues Laminat, rechts Eiche als Landhausdiele, natur geölt.",
+    title: "Graues Laminat → Ahorn Landhausdiele, natur",
+    intro: "Links graues Laminat, rechts europäischer Ahorn als Landhausdiele, natur geölt, mein Lieblingsholz.",
     before: { kind: "laminate", label: "Graues Laminat" },
-    after: { kind: "wood", label: "Eiche Landhausdiele, natur", pattern: "landhausdiele", wood: "eiche-natur", unit: 10, detail: true },
+    after: { kind: "wood", label: "Ahorn Landhausdiele, natur", pattern: "landhausdiele", wood: "ahorn", unit: 10, detail: true },
   },
 ];
 

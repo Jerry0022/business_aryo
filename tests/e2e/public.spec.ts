@@ -323,7 +323,7 @@ test.describe("public site", () => {
     const laminate = section.getByRole("button", { name: /Graues Laminat/ });
     await laminate.click();
     await expect(laminate).toHaveAttribute("aria-pressed", "true");
-    await expect(section.getByText("Eiche Landhausdiele, natur", { exact: true })).toBeVisible();
+    await expect(section.getByText("Ahorn Landhausdiele, natur", { exact: true })).toBeVisible();
   });
 
   test("Boden-Check leads to three recommendations and stores the profile", async ({ page }, testInfo) => {

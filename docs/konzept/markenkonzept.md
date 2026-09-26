@@ -389,7 +389,7 @@ Klickbare Vorschau: <https://claude.ai/artifact/Hmz3Q3JkUXWexvhzbHaWZx>. Das Art
 | **A · Aufmaß** (abgelöst) | Der Tüftler mit Zollstock: technische Zeichnung, Bemaßungslinien, Aufmaß und Schriftfeld | Archivo (breit) und IBM Plex Mono | Estrich-Grau, Graphit, Kreideblau, Eiche |
 | **B · Maserung** | Sinnlich und hochwertig: dunkles Nussbaum, große Holzflächen | Gloock und Hanken Grotesk | Nussbaum, Leinöl, geölte Eiche, Moos |
 | **C · Verband** (verworfen) | Modern und grafisch: Verlegemuster als Bildsprache, Vergleich ganz vorn. Verworfen, weil Fischgrät nicht angeboten wird | Bricolage Grotesque und Schibsted Grotesk | Tannengrün, Kalk, helle Eiche, Signalgelb |
-| **D · Werkstatt** (umgesetzt) | Die Werkstatt am Abend: geöltes Leinen statt Weiß, dunkles Nussbaum mit Maserung und Lampenlicht, Kupfer als Akzent. Aus A bleiben Bemaßungslinien, Aufmaß-Karte und Schriftfeld | Fraunces (weiche Serife, kursive Betonungen) und Hanken Grotesk, IBM Plex Mono für Maße | Leinen, Nussbaum, Kupfer, Eiche, Moos |
+| **D · Werkstatt** (umgesetzt) | Die Werkstatt am Abend: geöltes Leinen statt Weiß, dunkles Nussbaum mit Maserung und Lampenlicht, Kupfer als Akzent. Aus A bleiben Bemaßungslinien, Aufmaß-Karte und Schriftfeld | Fraunces (weiche Serife, kursive Betonungen) und Hanken Grotesk, IBM Plex Mono für Maße | Leinen, Nussbaum, Kupfer, Eiche, Moos und blonder europäischer Ahorn (Aryos Lieblingsholz, u. a. als Button auf Nussbaum und Standard-Holzton im Boden-Explorer) |
 
 Alle Richtungen enthalten dieselben Bausteine: Vorher/Nachher-Vergleich, Boden-Check, Kontingent-Anzeige, Einladung zur Sprechstunde und Ratgeber.
 

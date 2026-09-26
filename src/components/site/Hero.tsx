@@ -68,7 +68,7 @@ function AufmassCard() {
       <div className="flex flex-col text-[0.8125rem]">
         <SpecRow label="Estrichfeuchte (CM-Messung)" value={<>1,8 % <span className="text-kupfer">✓</span></>} />
         <SpecRow label="Fläche gesamt" value="62,4 m²" />
-        <SpecRow label="Vorschlag Wohnen und Flur" value="Eiche Schiffsboden, geölt" />
+        <SpecRow label="Vorschlag Wohnen und Flur" value="Ahorn Schiffsboden, geölt" />
         <SpecRow label="Vorschlag Bad und Küche" value="Vinyl, wasserfest" />
       </div>
       <figcaption className={`${eyebrow} text-[0.625rem] text-nuss-muted`}>Illustration · so sieht ein Aufmaß bei mir aus</figcaption>
@@ -97,7 +97,7 @@ function FloorPlan() {
     >
       <defs>
         <pattern id="aufmass-ship" width="60" height="12" patternUnits="userSpaceOnUse">
-          <g fill="#e6cba0" stroke="#b98a52" strokeWidth="0.6">
+          <g fill="#f1dfb6" stroke="#c4a473" strokeWidth="0.6">
             <rect x="0" y="0" width="36" height="4" />
             <rect x="36" y="0" width="36" height="4" />
             <rect x="-24" y="4" width="36" height="4" />
@@ -108,7 +108,7 @@ function FloorPlan() {
           </g>
         </pattern>
         <pattern id="aufmass-planks" width="48" height="12" patternUnits="userSpaceOnUse">
-          <g fill="#ecd7b3" stroke="#b98a52" strokeWidth="0.6">
+          <g fill="#d9b07a" stroke="#a8713a" strokeWidth="0.6">
             <rect x="0" y="0" width="24" height="6" />
             <rect x="24" y="0" width="24" height="6" />
             <rect x="-12" y="6" width="24" height="6" />

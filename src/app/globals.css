@@ -5,7 +5,8 @@
   --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Direction "Werkstatt": oiled linen instead of white, dark walnut, copper, moss and oak.
+  /* Direction "Werkstatt": oiled linen instead of white, dark walnut, copper, moss, oak and blond
+     European maple (Aryo's favourite wood, the primary button on walnut).
      Warm like the workshop in the evening, the Aufmaß details (mono labels, dimension lines) stay. */
   --color-leinen: #efe6d6;
   --color-leinen-deep: #e5d8c2;
@@ -21,6 +22,8 @@
   --color-kupfer-deep: #7c3512;
   --color-kupfer-light: #e9a574;
   --color-moos: #56633a;
+  --color-ahorn: #ecd6a9;
+  --color-ahorn-light: #f5e5c1;
   --color-eiche: #c0894a;
   --color-eiche-deep: #a8713a;
 

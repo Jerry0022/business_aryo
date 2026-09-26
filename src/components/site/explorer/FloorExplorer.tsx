@@ -6,7 +6,7 @@ import { MATERIALS, PATTERNS, type MaterialId } from "../content";
 import { usePrefersReducedMotion, useNearViewport, useWebGLSupport } from "../hooks";
 import { buildParquet, type ParquetGeometry, type PatternId } from "../parquet/geometry";
 import { ParquetSvg } from "../parquet/ParquetSvg";
-import { WOOD_IDS, WOODS, type WoodId } from "../parquet/woods";
+import { WOOD_IDS, WOODS, type WoodId, type WoodTone } from "../parquet/woods";
 import { container, eyebrow, SectionHeader } from "../ui";
 
 // Boden-Explorer: material, pattern and wood tone on a 3D sample board. The 3D part is loaded only
@@ -81,7 +81,7 @@ const radioBase =
 export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean }) {
   const [material, setMaterial] = useState<MaterialId>("parkett");
   const [patternId, setPatternId] = useState<PatternId>("landhausdiele");
-  const [woodId, setWoodId] = useState<WoodId>("eiche-natur");
+  const [woodId, setWoodId] = useState<WoodId>("ahorn");
   const [yaw, setYaw] = useState(0);
   const [interacted, setInteracted] = useState(false);
   const [ready, setReady] = useState(false);
@@ -293,9 +293,9 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
               <p id="muster-wood-label" className={`${eyebrow} text-nuss-muted`}>
                 Holzton
               </p>
-              <div role="radiogroup" aria-labelledby="muster-wood-label" className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+              <div role="radiogroup" aria-labelledby="muster-wood-label" className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5">
                 {WOOD_IDS.map((id) => {
-                  const tone = WOODS[id];
+                  const tone: WoodTone = WOODS[id];
                   const checked = id === woodId;
                   return (
                     <button
@@ -317,6 +317,9 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
                         aria-hidden="true"
                       />
                       <span className="text-sm font-semibold leading-tight text-nuss">{tone.label}</span>
+                      {tone.favorite ? (
+                        <span className="-mt-1 font-display text-xs italic text-kupfer">mein Lieblingsholz</span>
+                      ) : null}
                       <span className="sr-only">– {tone.note}</span>
                     </button>
                   );

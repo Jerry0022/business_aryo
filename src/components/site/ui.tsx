@@ -8,9 +8,9 @@ export const container = "mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 xl:px-2
 export const buttonPrimary =
   "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-kupfer text-center px-6 py-3 text-[0.95rem] font-semibold text-creme shadow-[0_10px_24px_-14px_rgb(124_53_18/0.9)] transition-[background-color,transform] hover:-translate-y-px hover:bg-kupfer-deep disabled:cursor-wait disabled:opacity-70";
 
-/** Primary action on walnut surfaces: glowing copper with dark text. */
+/** Primary action on walnut surfaces: blond maple with dark text. */
 export const buttonOnDark =
-  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-kupfer-light text-center px-6 py-3 text-[0.95rem] font-semibold text-nuss shadow-[0_12px_32px_-14px_rgb(233_165_116/0.7)] transition-[background-color,transform] hover:-translate-y-px hover:bg-[#f2b98f] disabled:cursor-wait disabled:opacity-70";
+  "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full bg-ahorn text-center px-6 py-3 text-[0.95rem] font-semibold text-nuss shadow-[0_12px_32px_-14px_rgb(236_214_169/0.6)] transition-[background-color,transform] hover:-translate-y-px hover:bg-ahorn-light disabled:cursor-wait disabled:opacity-70";
 
 export const buttonSecondary =
   "inline-flex min-h-11 items-center justify-center gap-2.5 rounded-full border border-nuss/30 px-6 py-3 text-[0.95rem] font-semibold text-nuss transition-colors hover:border-nuss hover:bg-creme";
