@@ -31,7 +31,7 @@ Schritte 1–3 lassen sich sofort erledigen, die Schritte ab 4 nach dem Merge de
 ### 3. Token in GitHub hinterlegen (Jerry)
 1. Repository → **Settings → Secrets and variables → Actions → New repository secret**.
 2. Name `VERCEL_TOKEN`, Wert = Token aus Schritt 2.
-3. Optional unter **Variables**: `VERCEL_PROJECT` (Standard `business-aryo`, das bereits angelegte Projekt) und `VERCEL_SCOPE`, falls ein Team statt des persönlichen Accounts genutzt wird.
+3. Optional unter **Variables**: `VERCEL_PROJECT` (Standard `business-aryo`, das bereits angelegte Projekt) und `VERCEL_SCOPE` (Standard `business-aryo`, das Vercel-Team).
 
 ### 4. Vercel-Projekt anlegen (entfällt, `business-aryo` existiert bereits)
 Nur für ein neues Projekt: GitHub → **Actions → Deploy to Vercel → Run workflow** → Modus **`create-project`**.

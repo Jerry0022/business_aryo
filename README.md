@@ -94,3 +94,16 @@ The time slider and the Tag/Nacht toggle change sun, sky, lighting, interior lam
 claude plugin marketplace add Jerry0022/dotclaude || true
 claude plugin install devops@dotclaude || true
 ```
+
+GitHub access in cloud sessions runs through the built-in GitHub proxy (`gh` is pre-installed and authenticated); no `GH_TOKEN` is needed.
+
+## Deployment (Vercel)
+
+The Vercel project `business-aryo` (team `business-aryo`) is linked to this repository: every push to `main` deploys to production at https://business-aryo.vercel.app, and every pull request gets a preview deployment. Production builds run the database migrations first (`npm run vercel-build`); the Neon database and the runtime secrets are set up as described in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+For Claude to drive Vercel from a cloud session, the `business_aryo` environment needs:
+
+- **Environment variable** `VERCEL_TOKEN` — set the value to the token only, without a `VERCEL_TOKEN=` prefix.
+- **Network access** to `vercel.com` and `api.vercel.com`.
+
+The Vercel CLI is not pre-installed; `npx vercel` works, or add `npm install -g vercel || true` to the setup script.

@@ -15,10 +15,16 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind 4 · Better Auth �
 ## Dream house
 - Data lives in `src/features/house/data/` (plan + rooms); max 20 items per room, enforced by tests. Guide: docs/TRAUMHAUS.md.
 
+## Deployment
+- Vercel project `business-aryo` in team `business-aryo`, Git-linked to `aryoyeah/business_aryo`.
+- Push to `main` → production (https://business-aryo.vercel.app); every PR gets a preview deployment.
+- Cloud sessions reach Vercel via the `VERCEL_TOKEN` env var: `npx vercel <cmd> --scope business-aryo`. The Vercel MCP connector is linked to a different account and does not see this team.
+- Runtime env vars live in the Vercel project settings, not in the repo.
+
 ## Conventions
 - Claude Code config lives in `.claude/settings.json` (devops plugin from the `dotclaude` marketplace); keep it tracked.
 - Never commit secrets — `.env*` and key files are gitignored; share `.env.example` instead.
-- Deploys go through `.github/workflows/deploy.yml` (Vercel CLI, Aryo's account) — see docs/DEPLOYMENT.md.
+- `.github/workflows/deploy.yml` (Vercel CLI + `VERCEL_TOKEN` secret) is only a fallback for when Git deployments are blocked — see docs/DEPLOYMENT.md.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

@@ -10,7 +10,6 @@ next-env.d.ts
 
 # Runtime / cache
 .data/
-.vercel/
 .eslintcache
 
 # Environment / secrets — NEVER commit
@@ -29,12 +28,16 @@ playwright-report/
 test-results/
 blob-report/
 
+# Vercel — local project link created by `vercel link`
+.vercel/
+
 # AI tooling — session state (never track)
 .claude/worktrees/
 .claude/todos/
 .claude/plans/
 .claude/settings.local.json
 .claude/*.log
+graphify-out/
 
 # OS / editor
 .DS_Store
