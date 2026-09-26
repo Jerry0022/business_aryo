@@ -4,7 +4,7 @@ import { buildParquet } from "./parquet/geometry";
 import { ParquetSvg } from "./parquet/ParquetSvg";
 import { SectionHeading } from "./SectionHeading";
 
-const cardFloor = buildParquet("fischgraet", { width: 480, height: 600, unit: 15, seed: 23 });
+const cardFloor = buildParquet("schiffsboden", { width: 480, height: 600, unit: 15, seed: 23, vertical: true });
 
 const PRINCIPLES = ["Ehrlich beraten", "Sauber arbeiten", "Termine halten"] as const;
 

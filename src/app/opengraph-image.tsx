@@ -13,7 +13,10 @@ const toDataUri = (svg: string) => `data:image/svg+xml;base64,${Buffer.from(svg)
 // The root segment has no dynamic params, so the (Promise-based) `params` prop is not needed here.
 export default async function OpenGraphImage() {
   const floor = toDataUri(
-    parquetSvgMarkup(buildParquet("fischgraet", { width: 600, height: 630, unit: 20, seed: 11 }), "eiche-natur"),
+    parquetSvgMarkup(
+      buildParquet("landhausdiele", { width: 600, height: 630, unit: 16, seed: 11, vertical: true }),
+      "eiche-natur",
+    ),
   );
   const logo = toDataUri(logoSvgMarkup());
 
@@ -56,7 +59,7 @@ export default async function OpenGraphImage() {
           <div style={{ fontSize: 92, lineHeight: 1.05, color: "#d8712c", letterSpacing: -3 }}>Handschrift.</div>
         </div>
         <div style={{ display: "flex", fontSize: 26, color: "rgba(248,244,237,0.72)" }}>
-          Verlegen · Schleifen · Ölen · Aufarbeiten
+          Verlegen · Schleifen · Ölen · Montage
         </div>
       </div>
     </div>,

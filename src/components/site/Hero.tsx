@@ -58,11 +58,11 @@ export function Hero() {
 
       <a
         href="#muster"
-        className="hero__tag absolute bottom-6 right-5 z-10 hidden items-center gap-3 rounded-full border border-paper/15 bg-ink/55 py-2 pl-2 pr-4 text-xs text-paper/80 backdrop-blur-md transition hover:border-paper/40 hover:text-paper sm:inline-flex lg:bottom-8 lg:right-12"
+        className="hero__tag absolute bottom-6 right-5 z-10 hidden items-center gap-3 rounded-full border border-paper/15 bg-ink/55 py-2 pl-2 pr-4 text-xs text-paper/80 backdrop-blur-md transition hover:border-paper/40 hover:text-paper sm:inline-flex sm:right-32 lg:bottom-8 lg:right-36"
       >
         <span className="hero__tag-swatch size-7 rounded-full" aria-hidden="true" />
         <span>
-          <span className="block font-semibold text-paper">Fischgrät · Eiche natur</span>
+          <span className="block font-semibold text-paper">Landhausdiele · Eiche natur</span>
           <span className="block text-paper/65">Muster selbst ausprobieren</span>
         </span>
       </a>

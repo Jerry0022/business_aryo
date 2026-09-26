@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
-  description: `Wie ${siteConfig.name} – ${siteConfig.trade} mit personenbezogenen Daten umgeht: Hosting, Kontakt per E-Mail, Login-Bereich und Ihre Rechte.`,
+  description: `Wie ${siteConfig.name} – ${siteConfig.trade} mit personenbezogenen Daten umgeht: Hosting, Kontakt per E-Mail, KI-Bodenberater, Login-Bereich und Ihre Rechte.`,
   alternates: { canonical: "/datenschutz" },
 };
 
@@ -19,8 +19,8 @@ export default function DatenschutzPage() {
       intro={
         <p>
           Kurz gesagt: Diese Website verzichtet auf Tracking, Analyse-Tools, Werbe-Cookies und eingebundene Inhalte
-          Dritter. Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre Anfrage
-          oder den geschützten Login-Bereich nötig ist.
+          Dritter. Personenbezogene Daten werden nur verarbeitet, soweit es für den Betrieb der Website, Ihre Anfrage,
+          den freiwilligen KI-Bodenberater oder den geschützten Login-Bereich nötig ist.
         </p>
       }
     >
@@ -78,7 +78,33 @@ export default function DatenschutzPage() {
         Aufbewahrungspflichten (etwa für Angebote und Rechnungen) entgegenstehen.
       </p>
 
-      <h2>4. Geschützter Login-Bereich</h2>
+      <h2 id="mini-aryo">4. KI-Bodenberater „Mini-Aryo“</h2>
+      <p>
+        Unten rechts auf der Website können Sie freiwillig den Chat „Mini-Aryo“ öffnen und Fragen rund um Böden stellen.
+        Die Antworten erzeugt ein KI-Sprachmodell (Grok) automatisch; sie können fehlerhaft sein und ersetzen keine
+        Beratung vor Ort. Solange Sie keine Frage absenden, werden keine Daten übertragen.
+      </p>
+      <p>
+        Wenn Sie eine Frage absenden, werden Ihre Frage und der bisherige Gesprächsverlauf über den Server dieser
+        Website an die Programmierschnittstelle von xAI (Anbieter der Grok-Modelle,{" "}
+        <Placeholder>[Firmierung und Anschrift laut xAI-Vertrag ergänzen]</Placeholder>) übermittelt, dort verarbeitet
+        und die Antwort an Ihren Browser zurückgesendet. Dabei wird eine Übermittlung in die USA durchgeführt; sie
+        erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Der Gesprächsverlauf wird
+        auf dem Server dieser Website nicht gespeichert und ist in Ihrem Browser nur so lange vorhanden, bis Sie die
+        Seite schließen oder neu laden. Welche Daten xAI wie lange speichert, richtet sich nach den
+        Datenschutzbestimmungen von xAI.
+      </p>
+      <p>
+        Zum Schutz vor Missbrauch und unverhältnismäßigen Kosten ist die Zahl der Fragen begrenzt. Dazu wird aus Ihrer
+        IP-Adresse ein pseudonymer Prüfwert (gesalzener Hash) gebildet; gespeichert werden nur dieser Wert und ein
+        Zähler, die IP-Adresse selbst nicht. Derselbe Prüfwert wird xAI als anonyme Kennung zur Missbrauchserkennung
+        übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer
+        Fragen und an einem sicheren, wirtschaftlichen Betrieb). Bitte geben Sie im Chat keine personenbezogenen Daten
+        wie Namen, Adressen oder Telefonnummern ein – für eine persönliche Anfrage nutzen Sie bitte E-Mail oder das
+        Anfrageformular.
+      </p>
+
+      <h2>5. Geschützter Login-Bereich</h2>
       <p>
         Über den Link „Login“ erreichen Sie einen geschützten Bereich, der ausschließlich eingeladenen Personen zur
         Verfügung steht. Eine öffentliche Registrierung gibt es nicht. Für eingeladene Nutzerinnen und Nutzer werden
@@ -102,7 +128,7 @@ export default function DatenschutzPage() {
         auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).
       </p>
 
-      <h2>5. Cookies</h2>
+      <h2>6. Cookies</h2>
       <p>
         Auf den öffentlichen Seiten dieser Website werden keine Cookies gesetzt. Erst wenn Sie sich im Login-Bereich
         anmelden, werden technisch notwendige Sitzungs-Cookies gespeichert (z. B. „better-auth.session_token“), die Sie
@@ -111,27 +137,27 @@ export default function DatenschutzPage() {
         sind, ist keine Einwilligung nötig (§ 25 Abs. 2 Nr. 2 TDDDG, Art. 6 Abs. 1 lit. b und f DSGVO).
       </p>
 
-      <h2>6. Schriftarten</h2>
+      <h2>7. Schriftarten</h2>
       <p>
         Die verwendeten Schriftarten sind lokal in diese Website eingebunden und werden zusammen mit ihr über den oben
         genannten Hoster ausgeliefert. Beim Aufruf der Seiten findet keine Verbindung zu Servern von Google oder anderen
         Schriftanbietern statt.
       </p>
 
-      <h2>7. Keine Analyse- und Tracking-Dienste</h2>
+      <h2>8. Keine Analyse- und Tracking-Dienste</h2>
       <p>
         Ich setze keine Analyse- oder Tracking-Werkzeuge ein, keine Werbenetzwerke und keine Social-Media-Plugins. Alle
         Grafiken dieser Website werden direkt im Browser erzeugt; es werden keine Inhalte von Drittanbietern
         nachgeladen.
       </p>
 
-      <h2>8. SSL-/TLS-Verschlüsselung</h2>
+      <h2>9. SSL-/TLS-Verschlüsselung</h2>
       <p>
         Diese Website nutzt aus Sicherheitsgründen eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung
         erkennen Sie an „https://“ in der Adresszeile Ihres Browsers.
       </p>
 
-      <h2>9. Ihre Rechte</h2>
+      <h2>10. Ihre Rechte</h2>
       <p>Sie haben gegenüber mir folgende Rechte hinsichtlich der Sie betreffenden personenbezogenen Daten:</p>
       <ul>
         <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
@@ -154,7 +180,7 @@ export default function DatenschutzPage() {
         (Art. 77 DSGVO).
       </p>
 
-      <h2>10. Aktualität</h2>
+      <h2>11. Aktualität</h2>
       <p>
         Stand: September 2026. Ich passe diese Datenschutzerklärung an, sobald sich die Website oder die rechtlichen
         Anforderungen ändern.

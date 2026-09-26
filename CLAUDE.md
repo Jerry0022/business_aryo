@@ -15,6 +15,10 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind 4 · Better Auth �
 ## Dream house
 - Data lives in `src/features/house/data/` (plan + rooms); max 20 items per room, enforced by tests. Guide: docs/TRAUMHAUS.md.
 
+## Business rules
+- Never offer or depict herringbone (Fischgrät/Chevron, any variant) or Tafelparkett anywhere on the site or in the chat prompt — Meisterpflicht. Guarded by `src/features/berater/system-prompt.test.ts`.
+- Mini-Aryo chat (Grok via xAI): prompt in `src/features/berater/system-prompt.ts`, route `src/app/api/berater/route.ts`, setup in docs/MINI-ARYO.md (`XAI_API_KEY`).
+
 ## Deployment
 - Vercel project `business-aryo` in team `business-aryo`, Git-linked to `aryoyeah/business_aryo`.
 - Push to `main` → production (https://business-aryo.vercel.app); every PR gets a preview deployment.

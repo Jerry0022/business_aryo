@@ -11,6 +11,8 @@ Alles Technische ist fertig und getestet. Vor der öffentlichen Freischaltung fe
 - [ ] **Verbraucherstreitbeilegung:** Aryo bestätigt die Formulierung „nicht bereit und nicht verpflichtet“ im Impressum.
 - [ ] **Datenschutzerklärung:** Anbieterangaben zu Vercel, Neon und Google (Gmail) einmal gegenprüfen.
 - [x] Anschrift im Impressum (Florusstraße 9, 53225 Bonn)
+- [x] **Keine Fischgrät- und Tafelparkett-Versprechen** (Meisterpflicht): aus Leistungen, Muster-Explorer, Grafiken und Mini-Aryo-Prompt entfernt; ein Unit-Test (`src/features/berater/system-prompt.test.ts`) verhindert, dass sie zurückkommen.
+- [ ] **Mini-Aryo (KI-Chat):** xAI-Konto + API-Key einrichten, siehe [MINI-ARYO.md](MINI-ARYO.md). In der Datenschutzerklärung (Abschnitt 4) die Firmierung und Anschrift von xAI ergänzen und den Datenverarbeitungsvertrag (DPA) von xAI abschließen.
 
 ## Betrieb
 - [ ] Vercel + Neon einrichten, siehe [DEPLOYMENT.md](DEPLOYMENT.md)
