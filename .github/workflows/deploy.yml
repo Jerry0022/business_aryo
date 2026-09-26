@@ -20,7 +20,7 @@ concurrency:
 
 env:
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-  VERCEL_PROJECT: ${{ vars.VERCEL_PROJECT || 'aryo-sabouri' }}
+  VERCEL_PROJECT: ${{ vars.VERCEL_PROJECT || 'business-aryo' }}
   VERCEL_SCOPE: ${{ vars.VERCEL_SCOPE }}
 
 jobs:

@@ -8,6 +8,14 @@ Auf dem kostenlosen Hobby-Plan deployt Vercel Commits aus einem **privaten** Rep
 
 Der Workflow `.github/workflows/deploy.yml` umgeht das sauber: Er deployt bei jedem Push auf `main` mit Aryos **Token** über die Vercel CLI. Zusätzlich prüft `.github/workflows/ci.yml` jeden PR (Lint, Typen, Unit- und E2E-Tests, Build).
 
+## Stand: Git-Integration ist bereits verbunden
+
+Das Vercel-Projekt **`business-aryo`** ist schon mit dem GitHub-Repo verbunden. Damit baut Vercel jeden Push selbst:
+
+- **Production** (Branch `main`) führt vor dem Build die Migrationen aus und braucht deshalb `DATABASE_URL` (Neon, Schritt 5).
+- **Preview** (Pull Requests) baut ohne Migrationen. Ohne Datenbank laufen dort nur die öffentlichen Seiten, Login und Studio brauchen Neon auch für „Preview“. Bekommt jede Preview einen eigenen Neon-Branch, kann `MIGRATE_ON_PREVIEW=1` (nur Environment „Preview“) die Migrationen auch dort einschalten.
+- Werden Commits auf dem Hobby-Plan blockiert, weil der Commit-Autor nicht Aryo ist, springt der Token-Workflow ein (Schritte 2–4 und 7). Er deployt in dasselbe Projekt. Die Git-Deployments kann man dann unter Settings → Git abschalten.
+
 ## Einmalige Einrichtung (ca. 15 Minuten)
 
 Schritte 1–3 lassen sich sofort erledigen, die Schritte ab 4 nach dem Merge des Setup-PRs.
@@ -23,15 +31,14 @@ Schritte 1–3 lassen sich sofort erledigen, die Schritte ab 4 nach dem Merge de
 ### 3. Token in GitHub hinterlegen (Jerry)
 1. Repository → **Settings → Secrets and variables → Actions → New repository secret**.
 2. Name `VERCEL_TOKEN`, Wert = Token aus Schritt 2.
-3. Optional unter **Variables**: `VERCEL_PROJECT` (Standard `aryo-sabouri`, bestimmt die Adresse `aryo-sabouri.vercel.app`) und `VERCEL_SCOPE`, falls ein Team statt des persönlichen Accounts genutzt wird.
+3. Optional unter **Variables**: `VERCEL_PROJECT` (Standard `business-aryo`, das bereits angelegte Projekt) und `VERCEL_SCOPE`, falls ein Team statt des persönlichen Accounts genutzt wird.
 
-### 4. Vercel-Projekt anlegen (Jerry, nach dem Merge)
-1. GitHub → **Actions → Deploy to Vercel → Run workflow** → Modus **`create-project`**.
-2. Der Lauf legt das Projekt `aryo-sabouri` in Aryos Konto an.
+### 4. Vercel-Projekt anlegen (entfällt, `business-aryo` existiert bereits)
+Nur für ein neues Projekt: GitHub → **Actions → Deploy to Vercel → Run workflow** → Modus **`create-project`**.
 
 ### 5. Neon-Datenbank verbinden (Aryo)
-1. Vercel Dashboard → Projekt **aryo-sabouri → Storage → Create Database → Neon (Serverless Postgres)**.
-2. Region **Frankfurt (eu-central-1)**, Plan **Free**, Name z. B. `aryo-sabouri-db`.
+1. Vercel Dashboard → Projekt **business-aryo → Storage → Create Database → Neon (Serverless Postgres)**.
+2. Region **Frankfurt (eu-central-1)**, Plan **Free**, Name z. B. `business-aryo-db`.
 3. **Connect** zum Projekt für **Production** (und optional Preview). Vercel setzt dabei automatisch `DATABASE_URL`, `DATABASE_URL_UNPOOLED` usw.
 
 ### 6. Umgebungsvariablen setzen (Aryo oder Jerry)
@@ -51,7 +58,7 @@ Vercel → Projekt → **Settings → Environment Variables** (Environment: Prod
 2. Der Build führt vorher die Datenbank-Migrationen aus (`npm run vercel-build`).
 
 ### 8. Admin-Konto einrichten (Aryo)
-1. `https://aryo-sabouri.vercel.app/einrichten` öffnen.
+1. `https://business-aryo.vercel.app/einrichten` öffnen.
 2. Passwort wählen, `ADMIN_SETUP_TOKEN` als Einrichtungscode eingeben.
 3. Danach schließt sich `/einrichten` automatisch. Den `ADMIN_SETUP_TOKEN` kann man anschließend löschen.
 4. Weitere Personen legt Aryo im Studio unter **Nutzer** an.
@@ -67,6 +74,7 @@ Lokal (Claude Code mit dem `devops`-Plugin und Edge) kann der Skill **auto-guide
 | Symptom | Ursache / Lösung |
 |---|---|
 | Deploy-Workflow: „Deploy skipped“ | Secret `VERCEL_TOKEN` fehlt (Schritt 3). |
-| Build: `DATABASE_URL is missing` | Neon ist nicht mit dem Projekt verbunden (Schritt 5). |
+| Build: `DATABASE_URL is missing` | Neon ist nicht mit dem Projekt verbunden (Schritt 5), betrifft nur Production-Builds. |
+| GitHub zeigt keine CI-Checks | GitHub Actions sind im Repo deaktiviert: Settings → Actions → General → „Allow all actions“. |
 | `/einrichten`: „Die Einrichtung ist nicht freigeschaltet“ | `ADMIN_SETUP_TOKEN` fehlt, danach neu deployen. |
 | Login schlägt mit 403 fehl | Aufruf über eine unbekannte Domain: `NEXT_PUBLIC_SITE_URL` bzw. Domain in Vercel prüfen. |

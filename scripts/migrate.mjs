@@ -19,10 +19,19 @@ loadEnvFile(".env");
 
 const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
 const migrationsFolder = path.resolve("drizzle");
+const vercelEnv = process.env.VERCEL ? process.env.VERCEL_ENV ?? "production" : null;
+
+// On Vercel only production builds migrate: preview deployments may share the production
+// database, and an unmerged branch must not change its schema. Set MIGRATE_ON_PREVIEW=1 when
+// previews get their own Neon branch.
+if (vercelEnv && vercelEnv !== "production" && process.env.MIGRATE_ON_PREVIEW !== "1") {
+  console.log(`[migrate] Vercel ${vercelEnv} build — skipping migrations (set MIGRATE_ON_PREVIEW=1 to enable).`);
+  process.exit(0);
+}
 
 if (!url) {
-  if (process.env.VERCEL) {
-    console.error("[migrate] DATABASE_URL is missing. Connect the Neon integration to this Vercel project.");
+  if (vercelEnv === "production") {
+    console.error("[migrate] DATABASE_URL is missing. Connect the Neon integration to this Vercel project (Storage → Neon).");
     process.exit(1);
   }
   console.log("[migrate] DATABASE_URL not set — skipping migrations.");
