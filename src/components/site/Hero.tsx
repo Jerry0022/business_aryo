@@ -56,7 +56,7 @@ function AufmassCard() {
       <div className="flex flex-col text-[0.8125rem]">
         <SpecRow label="Estrichfeuchte (CM-Messung)" value={<>1,8 % <span className="text-kreide">✓</span></>} />
         <SpecRow label="Fläche gesamt" value="62,4 m²" />
-        <SpecRow label="Vorschlag Wohnen und Flur" value="Eiche Fischgrät, geölt" />
+        <SpecRow label="Vorschlag Wohnen und Flur" value="Eiche Schiffsboden, geölt" />
         <SpecRow label="Vorschlag Bad und Küche" value="Vinyl, wasserfest" />
       </div>
       <figcaption className={`${eyebrow} text-[0.625rem] text-graphit-muted`}>Illustration · so sieht ein Aufmaß bei mir aus</figcaption>
@@ -84,30 +84,15 @@ function FloorPlan() {
       className="h-auto w-full"
     >
       <defs>
-        <pattern id="aufmass-hb" width="32" height="32" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <pattern id="aufmass-ship" width="60" height="12" patternUnits="userSpaceOnUse">
           <g fill="#e6cba0" stroke="#b98a52" strokeWidth="0.6">
-            <rect x="-12" y="20" width="16" height="4" />
-            <rect x="-8" y="24" width="16" height="4" />
-            <rect x="-4" y="28" width="16" height="4" />
-            <rect x="0" y="0" width="16" height="4" />
-            <rect x="4" y="4" width="16" height="4" />
-            <rect x="8" y="8" width="16" height="4" />
-            <rect x="12" y="12" width="16" height="4" />
-            <rect x="16" y="16" width="16" height="4" />
-            <rect x="20" y="20" width="16" height="4" />
-            <rect x="24" y="24" width="16" height="4" />
-            <rect x="28" y="28" width="16" height="4" />
-            <rect x="0" y="4" width="4" height="16" />
-            <rect x="4" y="8" width="4" height="16" />
-            <rect x="8" y="12" width="4" height="16" />
-            <rect x="12" y="16" width="4" height="16" />
-            <rect x="16" y="20" width="4" height="16" />
-            <rect x="16" y="-12" width="4" height="16" />
-            <rect x="20" y="24" width="4" height="16" />
-            <rect x="20" y="-8" width="4" height="16" />
-            <rect x="24" y="28" width="4" height="16" />
-            <rect x="24" y="-4" width="4" height="16" />
-            <rect x="28" y="0" width="4" height="16" />
+            <rect x="0" y="0" width="36" height="4" />
+            <rect x="36" y="0" width="36" height="4" />
+            <rect x="-24" y="4" width="36" height="4" />
+            <rect x="12" y="4" width="36" height="4" />
+            <rect x="48" y="4" width="36" height="4" />
+            <rect x="-12" y="8" width="36" height="4" />
+            <rect x="24" y="8" width="36" height="4" />
           </g>
         </pattern>
         <pattern id="aufmass-planks" width="48" height="12" patternUnits="userSpaceOnUse">
@@ -124,8 +109,8 @@ function FloorPlan() {
           <path d="M0 0H10M0 5H10" stroke="#c3c1ba" strokeWidth="0.6" />
         </pattern>
       </defs>
-      <rect x="52" y="56" width="210.8" height="149.6" fill="url(#aufmass-hb)" />
-      <rect x="52" y="205.6" width="122.4" height="54.4" fill="url(#aufmass-hb)" />
+      <rect x="52" y="56" width="210.8" height="149.6" fill="url(#aufmass-ship)" />
+      <rect x="52" y="205.6" width="122.4" height="54.4" fill="url(#aufmass-ship)" />
       <rect x="174.4" y="205.6" width="88.4" height="54.4" fill="url(#aufmass-vinyl)" />
       <rect x="262.8" y="56" width="142.8" height="115.6" fill="url(#aufmass-planks)" />
       <rect x="262.8" y="171.6" width="142.8" height="88.4" fill="url(#aufmass-vinyl)" />

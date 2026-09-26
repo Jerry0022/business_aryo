@@ -134,7 +134,7 @@ export function Professionals({ partnerSlots }: { partnerSlots: number }) {
                 <TextField name="phone" label="Telefon" type="tel" autoComplete="tel" hint="Für den Rückruf." />
                 <TextField name="postalCode" label="PLZ des Projekts" required inputMode="numeric" maxLength={5} autoComplete="postal-code" />
                 <TextField name="areaM2" label="Fläche in m²" type="number" inputMode="numeric" min={1} />
-                <TextField name="floorWish" label="Bodenwunsch" placeholder="z. B. Eiche Fischgrät" />
+                <TextField name="floorWish" label="Bodenwunsch" placeholder="z. B. Eiche Landhausdiele, geölt" />
                 <TextField name="timeframe" label="Zeitraum" placeholder="z. B. Frühjahr 2027" />
               </div>
               <TextAreaField name="message" label="Nachricht" rows={3} />

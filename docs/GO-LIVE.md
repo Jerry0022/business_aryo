@@ -24,6 +24,9 @@ Die Website, der Ratgeber und die Werkbank sind technisch fertig und getestet. V
   - Prüfen, ob ein Formular Zwischenstände im Browser speichert (localStorage), und das dann ergänzen.
   - Anschrift der Aufsichtsbehörde (LDI NRW) und die Anbieterangaben zu Vercel, Neon, Google (Gmail) und PostHog einmal gegenprüfen.
 - [ ] **AGB und Widerrufsbelehrung** von einem Anwalt formulieren lassen, **bevor Abos online abgeschlossen werden** können. Dazu gehören der Kündigungsbutton (§ 312k BGB), das Widerrufsrecht von 14 Tagen und höchstens 24 Monate Erstlaufzeit für Privatkunden. Formuliert als Pflege- und Wartungsvertrag, nicht als Versicherung oder Garantie. Heute kann man Abos nur anfragen.
+- [x] **Keine Fischgrät- und Tafelparkett-Versprechen** (Meisterpflicht): aus Leistungen, 3D-Explorer, Vorher/Nachher, Boden-Check, Grafiken, Logo/Favicon und Mini-Aryo-Prompt entfernt; Unit-Tests (`src/features/berater/system-prompt.test.ts`, `src/lib/business/business.test.ts`) und ein E2E-Test verhindern, dass sie zurückkommen.
+- [x] **Mini-Aryo (KI-Chat):** läuft über Groq (`GROQ_API_KEY` in Vercel gesetzt), siehe [MINI-ARYO.md](MINI-ARYO.md).
+- [ ] Datenverarbeitungsvertrag (DPA) mit Groq prüfen/abschließen.
 
 ## Partner und Preise
 - [ ] **Ersten Parkettleger-Meisterbetrieb als Partner gewinnen** (Innung, HWK-Betriebsbörse, Großhändler, Meister kurz vor dem Ruhestand). Bis dahin bleiben Leistungen mit Meisterpflicht auf der Website ausgeblendet. Die Ratgeber-Artikel sprechen allgemein von „einem Parkettleger-Meisterbetrieb als Partner“; sobald ein Partner feststeht, die Formulierungen einmal gegenlesen.

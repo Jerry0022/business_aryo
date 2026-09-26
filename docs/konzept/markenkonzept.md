@@ -2,7 +2,7 @@
 
 Ergebnis der Konzept-Session zur Unternehmenswebsite (öffentlicher Teil und Admin-Bereich). Das 3D-Haus für Aryos Account ist ein separates Projekt und nicht Teil dieses Dokuments.
 
-**Stand:** 26.09.2026, nach Runde 6 (Design). Offene Entscheidungen stehen am Ende.
+**Stand:** 26.09.2026, umgesetzt in Design-Richtung A „Aufmaß“ (öffentliche Website, Ratgeber, Werkbank). Offene Entscheidungen stehen am Ende.
 
 **Verhältnis zur Erstimplementierung** (Branch `claude/amazing-wozniak-41vwku`, Next.js):
 - **Dieses Dokument ist führend** für die öffentliche Website und die Fachlichkeit des Admin-Bereichs: Marke, Inhalte, Aufbau, Geschäftslogik, Preise, Kontingente und Design.
@@ -13,6 +13,7 @@ Ergebnis der Konzept-Session zur Unternehmenswebsite (öffentlicher Teil und Adm
   - Benutzerverwaltung unter `/studio/benutzer` und Konto unter `/studio/konto`
 - Die Module aus Kapitel 13 kommen als weitere Menüpunkte in diesen Bereich: Kalender, Preise und Leistungen, Abos, Einstellungen, PostHog-Link.
 - Bei Widersprüchen im öffentlichen Teil gilt dieses Dokument.
+- **Später auf `main` entschieden und übernommen:** kein Fischgrät, Chevron oder Tafelparkett (siehe Kapitel 10), Möbelmontage als Leistung, der KI-Bodenberater „Mini-Aryo“ (Chat unten rechts, siehe `docs/MINI-ARYO.md`), PostHog nur nach Einwilligung (siehe `docs/ANALYTICS.md`) und `Maximilian.Parkett@gmail.com` als einzige öffentliche E-Mail-Adresse. Die Login-Adresse des Admins erscheint nie auf öffentlichen Seiten.
 
 ---
 
@@ -21,14 +22,14 @@ Ergebnis der Konzept-Session zur Unternehmenswebsite (öffentlicher Teil und Adm
 | | |
 |---|---|
 | Name | **Maximilian Parkett** (Arbeitsname, wird später umbenannt) |
-| Rechtsform | Einzelunternehmen, Inhaber Aryo |
+| Rechtsform | Einzelunternehmen, Inhaber Aryo Sabouri |
 | Handwerk | Bodenleger (zulassungsfrei). **Kein** Parkettleger-Meister, siehe Kapitel 10 |
 | Region | NRW und angrenzende Gebiete |
 | Arbeitszeit | halbtags im Schnitt, abwechselnd Block-Wochen und Halbtags-Wochen |
 | Schwerpunkt | Parkett, außerdem Laminat und Vinyl |
-| Leistungen | Planung, Material, Werkzeug (Verkauf und Verleih), Einweisung, Ausbessern, Vollleistung |
+| Leistungen | Planung, Material, Werkzeug (Verkauf und Verleih), Einweisung, Ausbessern, Möbelmontage, Vollleistung |
 | Kunden | Privatkunden, andere Kleinunternehmen und Handwerker, Hausverwaltungen und Gewerbe |
-| Gesicht | vorerst kein Foto auf der Website. Im Impressum stehen Name und Anschrift (Pflicht) |
+| Gesicht | vorerst kein Foto auf der Website. Im Impressum stehen Name und Anschrift (Pflicht). Einzige Ausnahme ist die gezeichnete Figur von Mini-Aryo im Chat |
 
 ## 2. Markenkern
 
@@ -83,7 +84,7 @@ Ergebnis der Konzept-Session zur Unternehmenswebsite (öffentlicher Teil und Adm
 | Zielgruppe | Ihr Problem | Der Vorteil für sie |
 |---|---|---|
 | Eigentümer | Riesige Auswahl, Angst vor dem Fehlkauf, unklare Kosten | Klarheit durch Planung, ein Ansprechpartner, ein Boden für Jahrzehnte |
-| Bauherren im Luxussegment | Wollen Besonderes (Fischgrät, besondere Hölzer) | Planung bis ins Detail, Umsetzung mit Meisterpartner |
+| Bauherren im Luxussegment | Wollen Besonderes (breite Landhausdielen, besondere Hölzer und Oberflächen) | Planung bis ins Detail, Umsetzung mit Meisterpartner, wo nötig |
 | Vermieter, Hausverwaltungen, Gewerbe | Leerstand, Schäden, Ausfallzeiten, Kosten | Robuste Böden, schnelle Umsetzung, Werterhalt, Rundum-sorglos-Pflege |
 | Heimwerker | Profi-Werkzeug ist teuer, Angst vor Fehlern | Profi-Ergebnis mit Material, Werkzeug und Einweisung |
 | Handwerkskollegen | Keine Kapazität, kein Parkett-Wissen, Materialbeschaffung | Verlässlicher Partner, der keine Kunden abwirbt |
@@ -216,6 +217,7 @@ Deshalb gibt es das Privatkunden-Abo nur zusammen mit einem Projekt oder nach ei
   - **Ohne Meisterpflicht:** Beratung, Planung, Material- und Werkzeughandel, Einweisung, Laminat, Vinyl, Designbeläge. Fertigparkett mit Klicksystem ist meist möglich, muss aber bestätigt werden.
   - **In der Regel meisterpflichtig:** Massiv- und Stabparkett verkleben, Parkett schleifen und versiegeln, größere Parkettsanierungen. Diese Arbeiten übernimmt ein **Parkettleger-Meisterbetrieb als Partner**. Am saubersten beauftragt der Kunde den Partner direkt.
   - **Auf der Website nie für sich selbst verwenden:** „Parkettleger“, „Meister“, „Meisterbetrieb“.
+  - **Nie anbieten oder zeigen:** Fischgrät in jeder Form (auch Chevron, Doppel-Fischgrät, als Klick- oder Vinyl-Variante) und Tafel- bzw. Würfelparkett. Auch nicht „über den Meisterpartner“, auch nicht als Bild, im Logo, im Boden-Check oder im Chat. Unit- und E2E-Tests wachen darüber. Als Muster bleiben Landhausdiele und Schiffsboden.
 - **Knappheit:** Kontingente müssen echt sein. Erfundene Knappheit steht im UWG auf der schwarzen Liste.
 - **Gutschein-Bedingungen** müssen vorab klar sichtbar sein.
 - **E-Mail und Sprechstunde:** Double-Opt-In, Newsletter-Einwilligung getrennt einholen.
@@ -298,7 +300,7 @@ Das Ergebnis ist das Bodenprofil mit drei Empfehlungen und die Einladung zur Spr
 | Juni | Kinder, Hund, Rotwein |
 | Juli | Vermieten: robust und wertsteigernd |
 | August | Raumklima |
-| September | Fischgrät und Co., mit Meisterpartner |
+| September | Landhausdiele, Schiffsboden und Co.: Verlegearten im Vergleich |
 | Oktober | Pflege für 30 Jahre |
 | November | Boden vor dem Verkauf |
 | Dezember | Planung und Start des Kontingents 2028 |
@@ -386,13 +388,13 @@ Klickbare Vorschau: <https://claude.ai/artifact/Hmz3Q3JkUXWexvhzbHaWZx>. Das Art
 |---|---|---|---|
 | **A · Aufmaß** (Empfehlung) | Der Tüftler mit Zollstock: technische Zeichnung, Bemaßungslinien, Aufmaß und Schriftfeld | Archivo (breit) und IBM Plex Mono | Estrich-Grau, Graphit, Kreideblau, Eiche |
 | **B · Maserung** | Sinnlich und hochwertig: dunkles Nussbaum, große Holzflächen | Gloock und Hanken Grotesk | Nussbaum, Leinöl, geölte Eiche, Moos |
-| **C · Fischgrät** | Modern und grafisch: Verlegemuster als Bildsprache, Vergleich ganz vorn | Bricolage Grotesque und Schibsted Grotesk | Tannengrün, Kalk, helle Eiche, Signalgelb |
+| **C · Verband** (verworfen) | Modern und grafisch: Verlegemuster als Bildsprache, Vergleich ganz vorn. Verworfen, weil Fischgrät nicht angeboten wird | Bricolage Grotesque und Schibsted Grotesk | Tannengrün, Kalk, helle Eiche, Signalgelb |
 
 Alle drei Richtungen enthalten dieselben Bausteine: Vorher/Nachher-Vergleich, Boden-Check, Kontingent-Anzeige, Einladung zur Sprechstunde und Ratgeber.
 
 ## 15. Offene Entscheidungen
 
-1. Welche Design-Richtung: A, B, C oder eine Mischung?
+1. ~~Welche Design-Richtung?~~ Entschieden: A „Aufmaß“, umgesetzt.
 2. Boden-Pass Plus: Größengrenze für Ausbesserungen, Pflegeintervall, Zielsegmente für Rundum-sorglos.
 3. Termin bei der Handwerkskammer (Fragen siehe Kapitel 10).
 4. Partner-Suche: erster Parkettleger-Meisterbetrieb.

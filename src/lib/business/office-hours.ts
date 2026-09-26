@@ -12,7 +12,7 @@ const TOPIC_PLAN: Record<number, string> = {
   6: "Kinder, Hund, Rotwein: Böden für echtes Leben",
   7: "Vermieten: robust und wertsteigernd",
   8: "Boden und Raumklima",
-  9: "Fischgrät und Co.: besondere Verlegemuster",
+  9: "Landhausdiele, Schiffsboden und Co.: Verlegearten im Vergleich",
   10: "Pflege: So bleibt dein Boden 30 Jahre schön",
   11: "Boden vor dem Verkauf: Werterhalt, der sich zeigt",
   12: "Planung fürs neue Jahr",

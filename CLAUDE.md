@@ -15,6 +15,11 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind 4 · Better Auth �
 ## Dream house
 - Data lives in `src/features/house/data/` (plan + rooms); max 20 items per room, enforced by tests. Guide: docs/TRAUMHAUS.md.
 
+## Business rules
+- Never offer or depict herringbone (Fischgrät/Chevron, any variant) or Tafelparkett anywhere on the site or in the chat prompt — Meisterpflicht. Guarded by `src/features/berater/system-prompt.test.ts`.
+- The only e-mail address shown publicly is `siteConfig.email` (Maximilian.Parkett@gmail.com). The admin login (`DEFAULT_ADMIN_EMAIL` / `ADMIN_EMAILS`) must never appear on public pages; an e2e test checks this.
+- Mini-Aryo chat: prompt in `src/features/berater/system-prompt.ts`, providers in `llm.ts` (Groq via `GROQ_API_KEY` first — Groq ≠ Grok —, xAI Grok via `XAI_API_KEY` as fallback), route `src/app/api/berater/route.ts`, 10 questions/hour per visitor, all visitors ≤ 80 % of the Groq quota. Setup: docs/MINI-ARYO.md.
+
 ## Deployment
 - Vercel project `business-aryo` in team `business-aryo`, Git-linked to `aryoyeah/business_aryo`.
 - Push to `main` → production (https://business-aryo.vercel.app); every PR gets a preview deployment.

@@ -14,7 +14,7 @@ export function AuthShell({
 }) {
   return (
     <main className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-studio-bg px-4 py-12 text-studio-text">
-      <div aria-hidden className="auth-herringbone pointer-events-none absolute inset-0 opacity-[0.07]" />
+      <div aria-hidden className="auth-lattice pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-oak/25 blur-[140px]"

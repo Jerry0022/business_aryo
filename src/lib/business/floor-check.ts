@@ -36,7 +36,7 @@ export const FLOOR_CHECK_STEPS: readonly FloorCheckStep[] = [
     label: "Stil",
     question: "Wie soll sich der Raum anfühlen?",
     hint: "Wähl, was dir spontan gefällt. Holzarten und Farbtöne suchen wir später aus.",
-    options: ["Hell und nordisch", "Warm und natürlich", "Dunkel und edel", "Landhaus", "Klassisch mit Muster"],
+    options: ["Hell und nordisch", "Warm und natürlich", "Dunkel und edel", "Landhaus", "Klassisch und zeitlos"],
     swatches: ["#E8D5B5", "#C99A5E", "#5A3E2B", "#B08A5B", "#A8743F"],
     multiple: true,
   },
@@ -141,12 +141,12 @@ export function recommendFloors(answers: FloorCheckAnswers): FloorRecommendation
       viaMasterPartner: false,
     });
   }
-  if (has("Klassisch mit Muster")) {
+  if (has("Klassisch und zeitlos")) {
     list.push({
-      name: "Fischgrät-Parkett",
-      why: "Zeitlos und wertsteigernd. Ich plane und liefere, verlegt wird von meinem Meisterpartner.",
-      care: "Pflege: je nach Oberfläche.",
-      viaMasterPartner: true,
+      name: "Eiche Schiffsboden, geölt",
+      why: "Lange, schmale Stäbe in versetzten Reihen: ruhig, zeitlos und gut, um einen Raum optisch zu strecken.",
+      care: "Pflege: alle 2 Jahre nachölen.",
+      viaMasterPartner: false,
     });
   }
   if (has("Fußbodenheizung")) {

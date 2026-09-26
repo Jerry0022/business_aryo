@@ -111,25 +111,26 @@ test.describe("public site", () => {
     await open(page, "/#muster");
 
     const patterns = page.getByRole("radiogroup", { name: "Verlegemuster" });
-    const herringbone = patterns.getByRole("radio", { name: /^Fischgrät/ });
-    const chevron = patterns.getByRole("radio", { name: /Französisches Fischgrät/ });
+    await expect(patterns.getByRole("radio")).toHaveCount(2);
+    await expect(patterns).not.toContainText(/Fischgrät|Chevron|Tafelparkett/);
+    const plank = patterns.getByRole("radio", { name: /Landhausdiele/ });
     const shipDeck = patterns.getByRole("radio", { name: /Schiffsboden/ });
 
-    await expect(herringbone).toHaveAttribute("aria-checked", "true");
-    await expect(chevron).toHaveAttribute("aria-checked", "false");
-
-    await chevron.click();
-    await expect(chevron).toHaveAttribute("aria-checked", "true");
-    await expect(herringbone).toHaveAttribute("aria-checked", "false");
-    await expect(page.getByRole("img", { name: /Vorschau: Französisches Fischgrät/ })).toBeVisible();
+    await expect(plank).toHaveAttribute("aria-checked", "true");
+    await expect(shipDeck).toHaveAttribute("aria-checked", "false");
 
     // Radio-group keyboard semantics: arrows move selection and focus.
-    await chevron.focus();
+    await plank.focus();
     await page.keyboard.press("ArrowDown");
     await expect(shipDeck).toHaveAttribute("aria-checked", "true");
     await expect(shipDeck).toBeFocused();
-    await expect(chevron).toHaveAttribute("tabindex", "-1");
+    await expect(plank).toHaveAttribute("tabindex", "-1");
 
+    await plank.click();
+    await expect(plank).toHaveAttribute("aria-checked", "true");
+    await expect(page.getByRole("img", { name: /Vorschau: Landhausdiele/ })).toBeVisible();
+
+    await shipDeck.click();
     const walnut = page.getByRole("radiogroup", { name: "Holzton" }).getByRole("radio", { name: /Nussbaum/ });
     await walnut.click();
     await expect(walnut).toHaveAttribute("aria-checked", "true");
@@ -140,6 +141,91 @@ test.describe("public site", () => {
     await expect(page.getByRole("img", { name: "Vorschau: Vinyl-Diele in Nussbaum" })).toBeVisible();
     await expect(patterns).toHaveCount(0);
     await expect(page.locator("section#muster")).toContainText("Vinyl ist kein Naturmaterial");
+  });
+
+  test("no herringbone or Tafelparkett is offered anywhere on the page", async ({ page }) => {
+    await open(page, "/");
+    await expect(page.locator("main")).not.toContainText(/Fischgrät|Chevron|Tafelparkett|Würfelparkett/i);
+    await expect(page.locator("section#leistungen")).toContainText("Möbelmontage");
+  });
+
+  test("only the public contact address appears on public pages", async ({ request }) => {
+    for (const path of ["/", "/ratgeber", "/impressum", "/datenschutz", "/login", "/einrichten", "/gibt-es-nicht"]) {
+      const html = await (await request.get(path)).text();
+      expect(html, path).not.toContain("aryo.kontakt");
+    }
+    const home = await (await request.get("/")).text();
+    expect(home).toContain("Maximilian.Parkett@gmail.com");
+  });
+
+  test("Mini-Aryo answers in a streamed chat", async ({ page }) => {
+    let sent: unknown;
+    await page.route("/api/berater", async (route) => {
+      sent = route.request().postDataJSON();
+      await route.fulfill({
+        status: 200,
+        contentType: "text/plain; charset=utf-8",
+        body: "Geölte Böden pflegst du mit **Holzbodenseife**:\n\n- nebelfeucht wischen\n- ab und zu nachölen",
+      });
+    });
+    await open(page, "/");
+
+    await page.getByRole("button", { name: /Mini-Aryo fragen/ }).click();
+    const chat = page.getByRole("dialog", { name: "Mini-Aryo" });
+    await expect(chat).toBeVisible();
+    await expect(chat).toContainText("KI");
+    await expect(chat.getByLabel("Deine Frage an Mini-Aryo")).toBeFocused();
+
+    await chat.getByRole("button", { name: "Wie pflege ich einen geölten Holzboden?" }).click();
+    await expect(chat.getByText("Holzbodenseife", { exact: true })).toBeVisible();
+    await expect(chat.getByRole("listitem").filter({ hasText: "nebelfeucht wischen" })).toBeVisible();
+    expect(sent).toEqual({ messages: [{ role: "user", content: "Wie pflege ich einen geölten Holzboden?" }] });
+
+    await page.keyboard.press("Escape");
+    await expect(chat).toBeHidden();
+    await expect(page.getByRole("button", { name: /Mini-Aryo fragen/ })).toBeFocused();
+  });
+
+  test("Mini-Aryo shows a live countdown when the hourly limit is reached", async ({ page }) => {
+    await page.route("/api/berater", (route) =>
+      route.fulfill({
+        status: 429,
+        contentType: "application/json",
+        headers: { "Retry-After": "125" },
+        body: JSON.stringify({ error: "rate_limited", retryAfter: 125 }),
+      }),
+    );
+    await open(page, "/");
+    await page.getByRole("button", { name: /Mini-Aryo fragen/ }).click();
+    const chat = page.getByRole("dialog", { name: "Mini-Aryo" });
+    const input = chat.getByLabel("Deine Frage an Mini-Aryo");
+    await input.fill("Wie oft kann ich Parkett schleifen?");
+    await input.press("Enter");
+
+    const alert = chat.getByRole("alert");
+    await expect(alert).toContainText("10 Fragen pro Stunde");
+    const timer = alert.getByRole("timer");
+    await expect(timer).toHaveText(/^2:0[0-5]$/);
+    const first = await timer.textContent();
+    await expect(timer).not.toHaveText(first ?? "", { timeout: 3000 });
+    await expect(input).toHaveValue("Wie oft kann ich Parkett schleifen?");
+    await expect(chat.getByRole("button", { name: "Frage senden" })).toBeDisabled();
+  });
+
+  test("Mini-Aryo falls back to the e-mail address without an API key", async ({ page, request }) => {
+    const response = await request.post("/api/berater", {
+      data: { messages: [{ role: "user", content: "Hallo" }] },
+    });
+    expect(response.status()).toBe(503);
+    expect(await response.json()).toEqual({ error: "not_configured" });
+
+    await open(page, "/impressum");
+    await page.getByRole("button", { name: /Mini-Aryo fragen/ }).click();
+    const chat = page.getByRole("dialog", { name: "Mini-Aryo" });
+    await chat.getByLabel("Deine Frage an Mini-Aryo").fill("Parkett auf Fußbodenheizung?");
+    await chat.getByLabel("Deine Frage an Mini-Aryo").press("Enter");
+    await expect(chat.getByRole("alert")).toContainText("Pause");
+    await expect(chat.getByRole("alert").getByRole("link", { name: siteConfig.email })).toBeVisible();
   });
 
   test("before/after slider works with keyboard and pointer", async ({ page, isMobile }) => {
@@ -187,7 +273,7 @@ test.describe("public site", () => {
     await expect(check.getByRole("heading", { name: "Wer lebt auf dem Boden?" })).toBeVisible();
     await check.getByRole("button", { name: "Hund" }).click();
     await next.click();
-    await check.getByRole("button", { name: "Klassisch mit Muster" }).click();
+    await check.getByRole("button", { name: "Klassisch und zeitlos" }).click();
     // Klima, Bestand and Wer macht's stay unanswered (all optional).
     for (let step = 0; step < 4; step += 1) await next.click();
 
@@ -200,7 +286,8 @@ test.describe("public site", () => {
     const recommendations = check.getByRole("list", { name: "Empfehlungen" }).getByRole("listitem");
     await expect(recommendations).toHaveCount(3);
     await expect(recommendations.first()).toContainText("Passt am besten");
-    await expect(check.getByText("Verlegung über Meisterpartner")).toBeVisible();
+    await expect(recommendations.filter({ hasText: "Schiffsboden" })).toHaveCount(1);
+    await expect(check).not.toContainText(/Fischgrät|Chevron|Tafelparkett/);
 
     await check.getByLabel("Name", { exact: true }).fill("Erika Muster");
     await check.getByLabel("E-Mail", { exact: true }).fill(emailFor(testInfo, "boden-check"));

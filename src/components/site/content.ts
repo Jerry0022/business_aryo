@@ -30,9 +30,9 @@ export function resolveHref(href: string, onHome: boolean): string {
  * Services the business offers itself (used for structured data). Work that needs the Meister
  * partner is left out on purpose, it is never claimed as the owner's own trade.
  */
-export const SERVICES: readonly { id: string; title: string }[] = defaultServices()
+export const SERVICES: readonly { id: string; title: string; text: string }[] = defaultServices()
   .filter((item) => !item.requiresMasterPartner)
-  .map((item) => ({ id: item.id, title: item.title }));
+  .map((item) => ({ id: item.id, title: item.title, text: item.description }));
 
 // ---- Werte (concept chapter 3) -------------------------------------------------------------------
 
@@ -131,22 +131,6 @@ export interface PatternInfo {
 
 export const PATTERNS: readonly PatternInfo[] = [
   {
-    id: "fischgraet",
-    label: "Fischgrät",
-    short: "Der Klassiker",
-    description: "Rechtwinklig versetzte Stäbe, die wie Gräten ineinandergreifen. Lebendig und zeitlos, wie gemacht für den Altbau.",
-    unit: 18,
-    glued: true,
-  },
-  {
-    id: "chevron",
-    label: "Französisches Fischgrät",
-    short: "Chevron",
-    description: "Auf Gehrung geschnittene Stäbe treffen sich auf einer geraden Linie. Grafisch, ruhig, ein bisschen streng.",
-    unit: 17,
-    glued: true,
-  },
-  {
     id: "schiffsboden",
     label: "Schiffsboden",
     short: "Wilder Verband",
@@ -161,14 +145,6 @@ export const PATTERNS: readonly PatternInfo[] = [
     description: "Breite, lange Dielen mit ruhigem Fugenbild und sichtbarer Maserung. Gibt es auch als Fertigparkett zum Klicken.",
     unit: 18,
     glued: false,
-  },
-  {
-    id: "tafelparkett",
-    label: "Würfel / Tafelparkett",
-    short: "Mit Charakter",
-    description: "Quadratische Felder, deren Richtung von Feld zu Feld wechselt. Viel Handwerk, viel Charakter.",
-    unit: 18,
-    glued: true,
   },
 ];
 

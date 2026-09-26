@@ -18,7 +18,7 @@ import {
   holidayMap,
 } from "./calendar";
 import { foundingContingent, projectContingent, subscriptionSlotsUsed } from "./contingent";
-import { floorCheckAnswersSchema, recommendFloors } from "./floor-check";
+import { FLOOR_CHECK_STEPS, floorCheckAnswersSchema, recommendFloors } from "./floor-check";
 import { defaultOfficeHours, generateVoucherCode, mergeOfficeHours, nthWeekdayOfMonth, voucherChecks, voucherConditionTexts } from "./office-hours";
 import {
   defaultServices,
@@ -214,9 +214,15 @@ describe("floor check", () => {
     expect(names[1]).toContain("gebürstet");
   });
 
-  it("marks patterned parquet as a Meister partner job", () => {
-    const [first] = recommendFloors({ stil: ["Klassisch mit Muster"] });
-    expect(first).toMatchObject({ name: "Fischgrät-Parkett", viaMasterPartner: true });
+  it("never recommends herringbone or Tafelparkett (Meisterpflicht)", () => {
+    const [first] = recommendFloors({ stil: ["Klassisch und zeitlos"] });
+    expect(first).toMatchObject({ name: "Eiche Schiffsboden, geölt", viaMasterPartner: false });
+    const everything = Object.fromEntries(FLOOR_CHECK_STEPS.map((step) => [step.key, [...step.options]]));
+    const texts = [
+      ...FLOOR_CHECK_STEPS.flatMap((step) => [step.question, step.hint, ...step.options]),
+      ...recommendFloors(everything).flatMap((item) => [item.name, item.why]),
+    ];
+    for (const text of texts) expect(text).not.toMatch(/fischgr|chevron|tafelparkett|würfelparkett/i);
   });
 });
 

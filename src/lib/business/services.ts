@@ -77,9 +77,18 @@ const CATALOG: readonly CatalogEntry[] = [
     requiresMasterPartner: false,
   },
   {
+    id: "moebelmontage",
+    groupKey: "machen-lassen",
+    title: "Möbelmontage",
+    description:
+      "Wenn der neue Boden liegt: Schränke, Regale und Betten aufbauen, gerade ausrichten und sicher an der Wand befestigen, ohne Kratzer im Boden.",
+    priceType: "stunde",
+    requiresMasterPartner: false,
+  },
+  {
     id: "massivparkett",
     groupKey: "machen-lassen",
-    title: "Massiv- und Stabparkett, Fischgrät verklebt",
+    title: "Massiv- und Stabparkett, vollflächig verklebt",
     description: "Geplant und geliefert von mir, verlegt von meinem Parkettleger-Meisterpartner.",
     priceType: "m2",
     requiresMasterPartner: true,

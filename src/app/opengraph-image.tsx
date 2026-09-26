@@ -23,7 +23,7 @@ const COLORS = {
 function drawingSvg(): string {
   const grid = Array.from({ length: 27 }, (_, i) => `<path d="M${i * 24} 0V630" />`).join("");
   const rows = Array.from({ length: 27 }, (_, i) => `<path d="M0 ${i * 24}H1200" />`).join("");
-  // Floor plan fragment on the right: herringbone living room, planks, dimension lines.
+  // Floor plan fragment on the right: a plank floor with dimension lines.
   const planks = Array.from({ length: 9 }, (_, i) => {
     const y = 150 + i * 36;
     const offset = i % 2 === 0 ? 0 : 60;

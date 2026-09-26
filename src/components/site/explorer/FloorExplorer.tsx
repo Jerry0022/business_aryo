@@ -80,7 +80,7 @@ const radioBase =
 
 export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean }) {
   const [material, setMaterial] = useState<MaterialId>("parkett");
-  const [patternId, setPatternId] = useState<PatternId>("fischgraet");
+  const [patternId, setPatternId] = useState<PatternId>("landhausdiele");
   const [woodId, setWoodId] = useState<WoodId>("eiche-natur");
   const [yaw, setYaw] = useState(0);
   const [interacted, setInteracted] = useState(false);
@@ -332,7 +332,7 @@ export function FloorExplorer({ hasMasterPartner }: { hasMasterPartner: boolean 
 
           <div className="grid min-w-0 gap-3 border-t border-dashed border-strich-dark/60 pt-4 text-pretty leading-relaxed text-graphit-soft sm:grid-cols-2 lg:col-span-7 lg:col-start-6 lg:row-start-2 lg:self-start">
             <p>{materialInfo.note}</p>
-            <p>{isParkett ? `${pattern.description} ${gluedNote}` : "Fischgrät gibt es inzwischen auch als Laminat und Vinyl. Hier siehst du die übliche Diele."}</p>
+            <p>{isParkett ? `${pattern.description} ${gluedNote}` : "Laminat und Vinyl gibt es fast nur als Diele. Hier siehst du die übliche Diele."}</p>
           </div>
         </div>
       </div>

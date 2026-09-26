@@ -27,10 +27,10 @@ interface Scene {
 const SCENES: readonly Scene[] = [
   {
     id: "teppich",
-    title: "Teppich → Eiche Fischgrät, geölt",
-    intro: "Links der alte Teppich, rechts Eiche im Fischgrätmuster, geölt.",
+    title: "Teppich → Eiche Schiffsboden, geölt",
+    intro: "Links der alte Teppich, rechts Eiche als Schiffsboden, geölt.",
     before: { kind: "carpet", label: "Teppich" },
-    after: { kind: "wood", label: "Eiche Fischgrät, geölt", pattern: "fischgraet", wood: "eiche-natur", unit: 10, detail: false },
+    after: { kind: "wood", label: "Eiche Schiffsboden, geölt", pattern: "schiffsboden", wood: "eiche-natur", unit: 10, detail: false },
   },
   {
     id: "laminat",

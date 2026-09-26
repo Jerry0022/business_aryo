@@ -10,6 +10,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { siteConfig } from "@/config/site";
 import { ARTICLES, articlesByPillar, PILLARS } from "@/content/ratgeber";
+import { BeraterFab } from "@/features/berater/ui/BeraterFab";
 
 const description =
   "Worauf es beim Boden ankommt: ehrliche Antworten zu Hund und Kindern, Fußbodenheizung, Kosten pro Jahr, Raumklima, Selbstverlegen und Oberflächen.";
@@ -120,6 +121,7 @@ export default function RatgeberPage() {
         </div>
       </main>
       <SiteFooter />
+      <BeraterFab />
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Start", path: "/" },

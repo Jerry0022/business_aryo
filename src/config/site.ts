@@ -13,7 +13,8 @@ export const siteConfig = {
   title: "Maximilian Parkett — Böden aus Naturmaterial in NRW",
   description:
     "Parkett, Laminat und Vinyl in NRW: geplant, geliefert, verlegt. Boden-Check in 7 Schritten, ehrliche Beratung und für Selbermacher Material, Profi-Werkzeug und Einweisung.",
-  email: "aryo.kontakt@gmail.com",
+  /** The only e-mail address ever shown publicly (site, chat, JSON-LD). */
+  email: "Maximilian.Parkett@gmail.com",
   /** E.164 format, e.g. "+491701234567". Shown as call button when set. */
   phone: null as string | null,
   /** Displayed service area. */
@@ -34,4 +35,5 @@ export const siteConfig = {
       : "http://localhost:3000"),
 } as const;
 
-export const DEFAULT_ADMIN_EMAIL = siteConfig.email;
+/** Login of the main admin when ADMIN_EMAILS is unset. Internal only — never rendered on public pages. */
+export const DEFAULT_ADMIN_EMAIL = "aryo.kontakt@gmail.com";

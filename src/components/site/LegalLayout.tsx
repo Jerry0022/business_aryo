@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { DimensionLine } from "@/components/ratgeber/DimensionLine";
 import { siteConfig } from "@/config/site";
+import { BeraterFab } from "@/features/berater/ui/BeraterFab";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 
@@ -46,6 +47,7 @@ export function LegalLayout({ eyebrow, title, intro, updated, children }: LegalL
         </article>
       </main>
       <SiteFooter />
+      <BeraterFab />
     </>
   );
 }

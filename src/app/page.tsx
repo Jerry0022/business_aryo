@@ -16,6 +16,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { Subscriptions } from "@/components/site/Subscriptions";
 import { Ways } from "@/components/site/Ways";
 import { getPublicSiteData } from "@/lib/business/data";
+import { BeraterFab } from "@/features/berater/ui/BeraterFab";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -57,6 +58,7 @@ export default async function HomePage() {
         <Contact />
       </main>
       <SiteFooter onHome />
+      <BeraterFab />
       <JsonLd data={businessJsonLd()} />
     </>
   );

@@ -4,11 +4,13 @@ import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton"
 import { LegalLayout, Placeholder } from "@/components/site/LegalLayout";
 import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
+import { QUESTIONS_PER_HOUR } from "@/features/berater/limits";
+import { getLlmConfig } from "@/features/berater/llm";
 import { CONSENT_COOKIE } from "@/lib/consent";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
-  description: `Wie ${siteConfig.name} mit personenbezogenen Daten umgeht: Hosting, Formulare und Datenbank, Boden-Sprechstunde, Newsletter, Login-Bereich, Cookies, Webanalyse und deine Rechte.`,
+  description: `Wie ${siteConfig.name} mit personenbezogenen Daten umgeht: Hosting, Formulare und Datenbank, Boden-Sprechstunde, Newsletter, KI-Bodenberater, Login-Bereich, Cookies, Webanalyse und deine Rechte.`,
   alternates: { canonical: "/datenschutz" },
 };
 
@@ -41,6 +43,7 @@ export default function DatenschutzPage() {
   const { street, postalCode, city, country } = siteConfig.address;
   const { email } = siteConfig;
   const mail = <a href={`mailto:${email}`}>{email}</a>;
+  const llm = getLlmConfig();
   return (
     <LegalLayout
       eyebrow="Rechtliches"
@@ -49,14 +52,14 @@ export default function DatenschutzPage() {
         analyticsEnabled ? (
           <p>
             Kurz gesagt: Ich verarbeite deine Daten nur, soweit es für die Website, deine Anfrage oder deine Anmeldung
-            nötig ist. Was du in die Formulare einträgst, speichere ich in einer Datenbank, die für diese Website
+            nötig ist. Im freiwilligen KI-Bodenberater geht nur das raus, was du dort absendest. Was du in die Formulare einträgst, speichere ich in einer Datenbank, die für diese Website
             betrieben wird. Eine Nutzungsstatistik mit PostHog läuft nur, wenn du ausdrücklich zustimmst. Werbe-Cookies
             und Social-Media-Plugins gibt es nicht.
           </p>
         ) : (
           <p>
             Kurz gesagt: Ich verarbeite deine Daten nur, soweit es für die Website, deine Anfrage oder deine Anmeldung
-            nötig ist. Was du in die Formulare einträgst, speichere ich in einer Datenbank, die für diese Website
+            nötig ist. Im freiwilligen KI-Bodenberater geht nur das raus, was du dort absendest. Was du in die Formulare einträgst, speichere ich in einer Datenbank, die für diese Website
             betrieben wird. Tracking, Analyse-Tools und Werbe-Cookies gibt es hier derzeit nicht.
           </p>
         )
@@ -285,6 +288,7 @@ export default function DatenschutzPage() {
         <li>der E-Mail- und Newsletter-Versanddienst (Abschnitte 4 und 4.3)</li>
         <li>der Anbieter des Webinar-Tools (Abschnitt 6)</li>
         <li>Google für mein E-Mail-Postfach (Abschnitt 7)</li>
+        <li>der KI-Anbieter für Mini-Aryo, nur wenn du dort eine Frage absendest (Abschnitt 10)</li>
       </ul>
       <p>
         Vermittle ich dein Projekt an einen Partnerbetrieb, etwa für Arbeiten, die ein Parkettleger-Meisterbetrieb
@@ -311,8 +315,37 @@ export default function DatenschutzPage() {
         verlieren ihre Gültigkeit. Gespeichert wird in der Datenbank aus Abschnitt 3.
       </p>
 
+      <h2 id="mini-aryo" className="scroll-mt-28">
+        10. KI-Bodenberater „Mini-Aryo“
+      </h2>
+      <p>
+        Unten rechts auf der Website kannst du freiwillig den Chat „Mini-Aryo“ öffnen und Fragen rund um Böden stellen.
+        Die Antworten erzeugt ein KI-Sprachmodell automatisch; sie können fehlerhaft sein und ersetzen keine Beratung vor
+        Ort. Solange du keine Frage absendest, werden keine Daten übertragen.
+      </p>
+      <p>
+        Wenn du eine Frage absendest, werden deine Frage und der bisherige Gesprächsverlauf über den Server dieser
+        Website an die Programmierschnittstelle des KI-Anbieters {llm?.provider.company ?? "Groq, Inc. (USA)"}{" "}
+        übermittelt, dort verarbeitet und die Antwort an deinen Browser zurückgesendet. Dabei findet eine Übermittlung in
+        die USA statt; sie erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Der
+        Gesprächsverlauf wird auf dem Server dieser Website nicht gespeichert und ist in deinem Browser nur so lange
+        vorhanden, bis du die Seite schließt oder neu lädst. Welche Daten der KI-Anbieter wie lange speichert, richtet
+        sich nach dessen Datenschutzbestimmungen.
+      </p>
+      <p>
+        Zum Schutz vor Missbrauch und unverhältnismäßigen Kosten sind höchstens {QUESTIONS_PER_HOUR} Fragen pro Stunde
+        möglich. Dazu wird aus deiner IP-Adresse ein pseudonymer Prüfwert (gesalzener Hash) gebildet; gespeichert werden
+        nur dieser Wert und ein Zähler, die IP-Adresse selbst nicht.
+        {llm?.provider.id === "xai"
+          ? " Derselbe Prüfwert wird dem KI-Anbieter als anonyme Kennung zur Missbrauchserkennung übermittelt."
+          : ""}{" "}
+        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung deiner Fragen und an
+        einem sicheren, wirtschaftlichen Betrieb). Bitte gib im Chat keine personenbezogenen Daten wie Namen, Adressen
+        oder Telefonnummern ein. Für eine persönliche Anfrage nutz bitte E-Mail oder die Formulare auf der Startseite.
+      </p>
+
       <h2 id="cookies" className="scroll-mt-28">
-        10. Cookies und Einwilligung
+        11. Cookies und Einwilligung
       </h2>
       {analyticsEnabled ? (
         <>
@@ -352,7 +385,7 @@ export default function DatenschutzPage() {
           <p>
             Nur wenn du im Cookie-Hinweis auf „Einverstanden“ klickst, speichert PostHog ein Cookie bzw. einen
             Local-Storage-Eintrag. Er enthält eine zufällig erzeugte Kennung, mit der wiederholte Besuche desselben
-            Browsers erkannt werden. Details dazu in Abschnitt 12. Rechtsgrundlage ist deine Einwilligung (§ 25 Abs. 1
+            Browsers erkannt werden. Details dazu in Abschnitt 13. Rechtsgrundlage ist deine Einwilligung (§ 25 Abs. 1
             TDDDG, Art. 6 Abs. 1 lit. a DSGVO).
           </p>
           <h3>Browser-Erweiterungen für Cookie-Hinweise</h3>
@@ -385,7 +418,7 @@ export default function DatenschutzPage() {
         </Placeholder>
       </p>
 
-      <h2>11. Schriftarten</h2>
+      <h2>12. Schriftarten</h2>
       <p>
         Die verwendeten Schriftarten sind lokal in diese Website eingebunden und werden zusammen mit ihr über den oben
         genannten Hoster ausgeliefert. Beim Aufruf der Seiten findet keine Verbindung zu Servern von Google oder anderen
@@ -395,7 +428,7 @@ export default function DatenschutzPage() {
       {analyticsEnabled ? (
         <>
           <h2 id="webanalyse" className="scroll-mt-28">
-            12. Webanalyse mit PostHog
+            13. Webanalyse mit PostHog
           </h2>
           <p>
             Wenn du eingewilligt hast, nutze ich den Analysedienst PostHog der PostHog Inc., 2261 Market Street #4008,
@@ -411,7 +444,7 @@ export default function DatenschutzPage() {
             <li>Ladezeiten und technische Leistungswerte der Seite</li>
             <li>Gerätetyp, Browser, Betriebssystem, Bildschirmgröße und Spracheinstellung</li>
             <li>ungefährer Standort (Land, Region, Stadt), abgeleitet aus der IP-Adresse</li>
-            <li>eine zufällig erzeugte Kennung deines Browsers (siehe Abschnitt 10)</li>
+            <li>eine zufällig erzeugte Kennung deines Browsers (siehe Abschnitt 11)</li>
           </ul>
           <p>
             Die IP-Adresse wird in PostHog nicht gespeichert. Es werden keine Bildschirmaufzeichnungen (Session
@@ -438,7 +471,7 @@ export default function DatenschutzPage() {
         </>
       ) : (
         <>
-          <h2>12. Keine Analyse- und Tracking-Dienste</h2>
+          <h2>13. Keine Analyse- und Tracking-Dienste</h2>
           <p>
             Derzeit setze ich keine Analyse- oder Tracking-Werkzeuge ein, keine Werbenetzwerke und keine
             Social-Media-Plugins. Der Kosten-Rechner im Ratgeber rechnet nur in deinem Browser, deine Eingaben werden
@@ -453,19 +486,19 @@ export default function DatenschutzPage() {
         </>
       )}
 
-      <h2>13. SSL-/TLS-Verschlüsselung</h2>
+      <h2>14. SSL-/TLS-Verschlüsselung</h2>
       <p>
         Diese Website nutzt aus Sicherheitsgründen eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung
         erkennst du an „https://“ in der Adresszeile deines Browsers.
       </p>
 
-      <h2>14. Keine automatisierte Entscheidung</h2>
+      <h2>15. Keine automatisierte Entscheidung</h2>
       <p>
         Die Empfehlungen im Bodenprofil werden automatisch aus deinen Antworten errechnet. Das ist ein Vorschlag, keine
         automatisierte Entscheidung mit rechtlicher Wirkung im Sinne von Art. 22 DSGVO.
       </p>
 
-      <h2>15. Deine Rechte</h2>
+      <h2>16. Deine Rechte</h2>
       <p>Du hast mir gegenüber folgende Rechte hinsichtlich der dich betreffenden personenbezogenen Daten:</p>
       <ul>
         <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
@@ -488,7 +521,7 @@ export default function DatenschutzPage() {
         NRW), Kavalleriestraße 2–4, 40213 Düsseldorf.
       </p>
 
-      <h2>16. Aktualität</h2>
+      <h2>17. Aktualität</h2>
       <p>
         Stand: September 2026. Ich passe diese Datenschutzerklärung an, sobald sich die Website oder die rechtlichen
         Anforderungen ändern.

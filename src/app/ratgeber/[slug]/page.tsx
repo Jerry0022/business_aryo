@@ -22,6 +22,7 @@ import {
   relatedArticles,
   TOC_MIN_SECTIONS,
 } from "@/content/ratgeber";
+import { BeraterFab } from "@/features/berater/ui/BeraterFab";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -149,6 +150,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </main>
       <SiteFooter />
+      <BeraterFab />
       <JsonLd data={articleJsonLd(article)} />
       <JsonLd
         data={breadcrumbJsonLd([

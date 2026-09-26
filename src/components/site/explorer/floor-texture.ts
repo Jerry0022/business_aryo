@@ -14,11 +14,8 @@ export const THICKNESS: Record<MaterialId, number> = { parkett: 0.07, laminat: 0
 const TEXTURE = { width: 1024, height: 640, scale: 2 } as const;
 
 const UNITS: Record<PatternId, number> = {
-  fischgraet: 30,
-  chevron: 30,
   schiffsboden: 32,
   landhausdiele: 34,
-  tafelparkett: 30,
 };
 
 /** Laminate and vinyl are printed: less variation between the boards than real wood. */

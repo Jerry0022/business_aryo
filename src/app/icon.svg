@@ -1,11 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <rect width="32" height="32" rx="8" fill="#17130f"/>
-  <g stroke="#17130f" stroke-width="0.6" stroke-linejoin="round">
-    <polygon points="17.41,3.45 25.55,11.58 22.72,14.41 14.59,6.28" fill="#e8c28c"/>
-    <polygon points="14.59,6.28 17.41,9.11 9.28,17.24 6.45,14.41" fill="#c99352"/>
-    <polygon points="17.41,9.11 25.55,17.24 22.72,20.07 14.59,11.93" fill="#dca565"/>
-    <polygon points="14.59,11.93 17.41,14.76 9.28,22.89 6.45,20.07" fill="#b57a3e"/>
-    <polygon points="17.41,14.76 25.55,22.89 22.72,25.72 14.59,17.59" fill="#d8712c"/>
-    <polygon points="14.59,17.59 17.41,20.42 9.28,28.55 6.45,25.72" fill="#a0602a"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="32" height="32">
+  <rect width="36" height="36" rx="6" fill="#e4e3de"/>
+  <g transform="translate(0 3)">
+    <rect x="1" y="3" width="20" height="6" fill="#c0894a"/>
+    <rect x="9" y="12" width="20" height="6" fill="#a8713a"/>
+    <rect x="1" y="21" width="20" height="6" fill="#c0894a"/>
+    <path d="M33 3v24M30 3h6M30 27h6" stroke="#2d5ba8" stroke-width="1.5" fill="none"/>
   </g>
 </svg>
