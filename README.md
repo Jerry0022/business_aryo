@@ -2,6 +2,10 @@
 
 Project workspace for the `business_aryo` Claude Code cloud environment.
 
+## Concept
+
+The brand and business concept for the company website (name, values, positioning, business model, subscriptions, admin area, design directions) lives in [`docs/konzept/markenkonzept.md`](docs/konzept/markenkonzept.md).
+
 ## Claude Code setup
 
 `.claude/settings.json` registers the `dotclaude` marketplace and enables the `devops` plugin for local sessions.
