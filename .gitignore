@@ -1,0 +1,33 @@
+# No tech stack yet — add dependency/build/cache rules when one is chosen
+# (https://www.toptal.com/developers/gitignore/api/{stack}).
+
+# Environment / secrets — NEVER commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials.json
+service-account*.json
+
+# Test coverage
+coverage/
+
+# AI tooling — session state (never track)
+.claude/worktrees/
+.claude/todos/
+.claude/plans/
+.claude/settings.local.json
+.claude/*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+*.swp
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
