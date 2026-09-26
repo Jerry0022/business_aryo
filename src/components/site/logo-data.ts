@@ -1,18 +1,24 @@
-/** Three herringbone plank pairs stacked along the spine: reads as parquet and as a stylised "A". */
-export const LOGO_PLANKS: ReadonlyArray<readonly [points: string, fill: string]> = [
-  ["17.41,3.45 25.55,11.58 22.72,14.41 14.59,6.28", "#e8c28c"],
-  ["14.59,6.28 17.41,9.11 9.28,17.24 6.45,14.41", "#c99352"],
-  ["17.41,9.11 25.55,17.24 22.72,20.07 14.59,11.93", "#dca565"],
-  ["14.59,11.93 17.41,14.76 9.28,22.89 6.45,20.07", "#b57a3e"],
-  ["17.41,14.76 25.55,22.89 22.72,25.72 14.59,17.59", "#d8712c"],
-  ["14.59,17.59 17.41,20.42 9.28,28.55 6.45,25.72", "#a0602a"],
+/** Logo mark: three staggered oak planks with a chalk-blue dimension line (direction A "Aufmaß"). */
+export const LOGO_VIEWBOX = { width: 36, height: 30 } as const;
+
+export const LOGO_PLANKS: ReadonlyArray<readonly [x: number, y: number, fill: string]> = [
+  [1, 3, "#c0894a"],
+  [9, 12, "#a8713a"],
+  [1, 21, "#c0894a"],
 ];
+
+export const LOGO_PLANK_SIZE = { width: 20, height: 6 } as const;
+
+/** Vertical dimension line with end ticks, right of the planks. */
+export const LOGO_DIMENSION_PATH = "M33 3v24M30 3h6M30 27h6";
+
+export const LOGO_CHALK = "#2d5ba8";
 
 /** Standalone SVG markup of the logo mark (used for generated images). */
 export function logoSvgMarkup(): string {
   const planks = LOGO_PLANKS.map(
-    ([points, fill]) =>
-      `<polygon points="${points}" fill="${fill}" stroke="#17130f" stroke-width="0.6" stroke-linejoin="round"/>`,
+    ([x, y, fill]) =>
+      `<rect x="${x}" y="${y}" width="${LOGO_PLANK_SIZE.width}" height="${LOGO_PLANK_SIZE.height}" fill="${fill}"/>`,
   ).join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="8" fill="#17130f"/>${planks}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${LOGO_VIEWBOX.width} ${LOGO_VIEWBOX.height}" width="${LOGO_VIEWBOX.width * 4}" height="${LOGO_VIEWBOX.height * 4}">${planks}<path d="${LOGO_DIMENSION_PATH}" stroke="${LOGO_CHALK}" stroke-width="1.5" fill="none"/></svg>`;
 }

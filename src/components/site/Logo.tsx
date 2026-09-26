@@ -1,14 +1,19 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import { LOGO_PLANKS } from "./logo-data";
+import { LOGO_CHALK, LOGO_DIMENSION_PATH, LOGO_PLANK_SIZE, LOGO_PLANKS, LOGO_VIEWBOX } from "./logo-data";
 
-export function LogoMark({ className }: { className?: string }) {
+export function LogoMark({ className, chalk = LOGO_CHALK }: { className?: string; chalk?: string }) {
   return (
-    <svg viewBox="0 0 32 32" className={className} aria-hidden="true" focusable="false">
-      <rect width="32" height="32" rx="8" fill="#17130f" />
-      {LOGO_PLANKS.map(([points, fill]) => (
-        <polygon key={points} points={points} fill={fill} stroke="#17130f" strokeWidth="0.6" strokeLinejoin="round" />
+    <svg
+      viewBox={`0 0 ${LOGO_VIEWBOX.width} ${LOGO_VIEWBOX.height}`}
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      {LOGO_PLANKS.map(([x, y, fill]) => (
+        <rect key={`${x}-${y}`} x={x} y={y} width={LOGO_PLANK_SIZE.width} height={LOGO_PLANK_SIZE.height} fill={fill} />
       ))}
+      <path d={LOGO_DIMENSION_PATH} stroke={chalk} strokeWidth="1.5" fill="none" />
     </svg>
   );
 }
@@ -21,24 +26,32 @@ interface LogoProps {
 }
 
 export function Logo({ href = "/", tone = "light", onClick }: LogoProps) {
+  const dark = tone === "dark";
   return (
     <Link
       href={href}
       onClick={onClick}
-      className="group inline-flex items-center gap-3 rounded-lg"
+      className="group inline-flex min-h-11 items-center gap-3 rounded-xs"
       aria-label={`${siteConfig.name} – ${siteConfig.trade}, zur Startseite`}
     >
-      <LogoMark className="size-9 shrink-0 transition-transform duration-500 ease-out-soft group-hover:-rotate-6" />
-      <span className="flex flex-col leading-none">
+      <LogoMark
+        className="h-[26px] w-[31px] shrink-0 transition-transform duration-500 ease-out-soft group-hover:-translate-y-px sm:h-[30px] sm:w-9"
+        chalk={dark ? "#9db6e0" : LOGO_CHALK}
+      />
+      <span className="flex flex-col gap-[3px] leading-none">
         <span
-          className={`font-display text-[1.15rem] font-semibold tracking-[-0.01em] ${tone === "dark" ? "text-paper" : "text-ink"}`}
+          className={`whitespace-nowrap font-display text-[0.8125rem] font-extrabold uppercase tracking-[0.06em] font-wide sm:text-[0.9375rem] ${
+            dark ? "text-blatt" : "text-graphit"
+          }`}
         >
           {siteConfig.name}
         </span>
         <span
-          className={`mt-1 text-[0.65rem] font-semibold uppercase tracking-[0.24em] ${tone === "dark" ? "text-oak-light" : "text-oak-deep"}`}
+          className={`whitespace-nowrap font-mono text-[0.625rem] uppercase tracking-[0.12em] ${
+            dark ? "text-strich" : "text-graphit-muted"
+          }`}
         >
-          {siteConfig.trade}
+          {siteConfig.trade} · NRW
         </span>
       </span>
     </Link>
