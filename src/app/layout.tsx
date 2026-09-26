@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { Consent } from "@/components/consent/Consent";
 import { siteConfig } from "@/config/site";
+import { CAPTURE_INSTALL_PROMPT_SCRIPT } from "@/features/pwa/capture-script";
+import { ServiceWorkerRegistration } from "@/features/pwa/ui/ServiceWorkerRegistration";
 import "./globals.css";
 
 // Direction A "Aufmaß" (docs/konzept/markenkonzept.md, chapter 14): Archivo with its width axis for
@@ -36,6 +38,8 @@ export const metadata: Metadata = {
     description: siteConfig.description,
   },
   twitter: { card: "summary_large_image" },
+  // Home-screen app on iPhone & iPad (the manifest in app/manifest.ts covers all other platforms).
+  appleWebApp: { capable: true, title: siteConfig.name, statusBarStyle: "black" },
 };
 
 export const viewport: Viewport = {
@@ -48,9 +52,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de" data-scroll-behavior="smooth" className={`${archivo.variable} ${plexMono.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: CAPTURE_INSTALL_PROMPT_SCRIPT }} />
+      </head>
       <body>
         {children}
         <Consent />
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );

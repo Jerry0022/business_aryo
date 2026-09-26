@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { CookieSettingsButton } from "@/components/consent/CookieSettingsButton";
 import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
+import { InstallAppButton } from "@/features/pwa/ui/InstallAppButton";
 import { resolveHref } from "./content";
 import { Logo } from "./Logo";
 
@@ -63,9 +64,12 @@ export function SiteFooter({ onHome = false }: { onHome?: boolean }) {
             </Link>
           </Cell>
           <Cell label="Zugang">
-            <Link href="/login" prefetch={false} className={footerLink}>
-              Login
-            </Link>
+            <span className="flex flex-wrap gap-x-3 gap-y-1">
+              <Link href="/login" prefetch={false} className={footerLink}>
+                Login
+              </Link>
+              <InstallAppButton className={`inline-flex cursor-pointer items-center gap-1 ${footerLink}`} />
+            </span>
           </Cell>
           <Cell label="Blatt">
             <span className="font-mono text-[0.8125rem]">1/1 · M 1:1</span>

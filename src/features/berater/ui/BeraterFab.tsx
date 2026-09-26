@@ -1,9 +1,24 @@
 "use client";
 
-import { ArrowUp, Hourglass, Mail, RotateCcw, X } from "lucide-react";
+import { ArrowUp, Download, Hourglass, Mail, RotateCcw, X } from "lucide-react";
 import Link from "next/link";
-import { Fragment, useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type FormEvent,
+  type KeyboardEvent,
+} from "react";
 import { siteConfig } from "@/config/site";
+import { isInstallable, promptInstall, useInstallState } from "@/features/pwa/install-store";
+import { isNudgeDue, readLastShownAt, writeLastShownAt } from "@/features/pwa/nudge";
+import { isManualInstallPlatform } from "@/features/pwa/platform";
+import { InstallSteps } from "@/features/pwa/ui/InstallSteps";
+import { useIdleMoment } from "@/features/pwa/use-idle-moment";
 import { formatCountdown, parseBlocks, parseSpans } from "../format";
 import { CHAT_LIMITS, QUESTIONS_PER_HOUR, type ChatErrorCode, type ChatMessage } from "../limits";
 import { MiniAryo } from "./MiniAryo";
@@ -34,6 +49,55 @@ const ERROR_TEXT: Record<ChatErrorCode | "network", string> = {
   upstream: "Da ist gerade etwas schiefgelaufen. Bitte versuch es gleich noch einmal.",
   network: "Keine Verbindung. Bitte prüf deine Internetverbindung und versuch es erneut.",
 };
+
+const subscribeNever = () => () => undefined;
+
+/** Whether the two-week app hint is due (read once on the client; false during SSR). */
+function useAppHintDue(): boolean {
+  return useSyncExternalStore(
+    subscribeNever,
+    () => isNudgeDue(readLastShownAt(), Date.now()),
+    () => false,
+  );
+}
+
+type AppHint = "none" | "unread" | "read";
+
+/** Mini-Aryo's occasional note that the website can be installed as an app. */
+function AppHintMessage() {
+  const install = useInstallState();
+  const [choice, setChoice] = useState<"accepted" | "dismissed" | null>(null);
+
+  const onInstall = async () => {
+    const outcome = await promptInstall();
+    if (outcome !== "unavailable") setChoice(outcome);
+  };
+
+  return (
+    <div className="max-w-[88%] space-y-2.5 rounded-2xl rounded-tl-md bg-estrich px-4 py-3 text-[0.95rem] leading-relaxed text-graphit-soft">
+      <p>
+        <strong className="font-semibold text-graphit">Übrigens:</strong> Mich gibt&apos;s auch als App! Einmal
+        installiert, bist du mit einem Tipp hier. Ohne App-Store, ohne Anmeldung.
+      </p>
+      {install.installed || choice === "accepted" ? (
+        <p className="font-semibold text-graphit">Klasse, die App ist installiert!</p>
+      ) : choice === "dismissed" ? (
+        <p>Alles klar – vielleicht ein andermal.</p>
+      ) : install.canPrompt ? (
+        <button
+          type="button"
+          onClick={() => void onInstall()}
+          className="inline-flex items-center gap-2 rounded-full bg-kreide px-4 py-2 text-sm font-semibold text-blatt transition hover:bg-kreide-deep"
+        >
+          <Download className="size-4" aria-hidden="true" />
+          Jetzt installieren
+        </button>
+      ) : isManualInstallPlatform(install.platform) ? (
+        <InstallSteps platform={install.platform} className="text-sm" />
+      ) : null}
+    </div>
+  );
+}
 
 function MessageText({ text }: { text: string }) {
   return (
@@ -85,6 +149,16 @@ export function BeraterFab() {
   const [draft, setDraft] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState<ChatErrorCode | "network" | null>(null);
+  const [appHint, setAppHint] = useState<AppHint>("none");
+  const [hintBubble, setHintBubble] = useState(false);
+
+  const install = useInstallState();
+  const appHintDue = useAppHintDue();
+  const hintWanted = appHint === "none" && appHintDue && isInstallable(install);
+  const hintWantedRef = useRef(hintWanted);
+  useEffect(() => {
+    hintWantedRef.current = hintWanted;
+  }, [hintWanted]);
   /** While rate limited: epoch ms when asking is possible again, plus a ticking clock for the countdown. */
   const [blockedUntil, setBlockedUntil] = useState<number | null>(null);
   const [now, setNow] = useState(0);
@@ -98,15 +172,31 @@ export function BeraterFab() {
   const logRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
-  // A short speech bubble once per page view (nothing is stored in the browser).
+  // A short speech bubble once per page view – skipped when the app hint is about to come.
   useEffect(() => {
-    const show = window.setTimeout(() => setTeaser(true), 4000);
+    const show = window.setTimeout(() => setTeaser(!hintWantedRef.current), 4000);
     const hide = window.setTimeout(() => setTeaser(false), 14000);
     return () => {
       window.clearTimeout(show);
       window.clearTimeout(hide);
     };
   }, []);
+
+  // Every two weeks Mini-Aryo has a new message: never right away, only at the first calm moment after
+  // the visitor has interacted with the page (3 s without scrolling, clicking or typing).
+  const deliverAppHint = useCallback(() => {
+    writeLastShownAt(Date.now());
+    setAppHint("unread");
+    setTeaser(false);
+    setHintBubble(true);
+  }, []);
+  useIdleMoment(hintWanted && !open, deliverAppHint);
+
+  useEffect(() => {
+    if (!hintBubble) return;
+    const hide = window.setTimeout(() => setHintBubble(false), 12000);
+    return () => window.clearTimeout(hide);
+  }, [hintBubble]);
 
   // Focus moves into the chat when it opens and back to the button (visible again) when it closes.
   const wasOpen = useRef(false);
@@ -159,6 +249,8 @@ export function BeraterFab() {
 
   const toggle = () => {
     setTeaser(false);
+    setHintBubble(false);
+    if (appHint === "unread") setAppHint("read");
     if (open) close();
     else setOpen(true);
   };
@@ -312,6 +404,8 @@ export function BeraterFab() {
               </p>
             </div>
 
+            {appHint !== "none" ? <AppHintMessage /> : null}
+
             {messages.length === 0 ? (
               <ul className="flex flex-wrap gap-2" aria-label="Vorschläge">
                 {SUGGESTIONS.map((suggestion) => (
@@ -451,7 +545,15 @@ export function BeraterFab() {
         </section>
       ) : null}
 
-      {teaser && !open ? (
+      {hintBubble && !open ? (
+        <button
+          type="button"
+          onClick={toggle}
+          className="berater-teaser fixed bottom-[6.25rem] right-5 z-30 max-w-[15rem] rounded-2xl rounded-br-md bg-blatt px-4 py-3 text-left text-sm font-medium text-graphit shadow-[0_20px_40px_-20px_rgb(23_19_15/0.6)] ring-1 ring-graphit/10 sm:right-7"
+        >
+          Psst, mich gibt&apos;s jetzt auch als App! Tipp auf mich.
+        </button>
+      ) : teaser && !open ? (
         <button
           type="button"
           onClick={toggle}
@@ -461,19 +563,34 @@ export function BeraterFab() {
         </button>
       ) : null}
 
-      <button
-        ref={fabRef}
-        type="button"
-        onClick={toggle}
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        aria-label={open ? "Mini-Aryo schließen" : "Mini-Aryo fragen – KI-Bodenberater öffnen"}
-        className={`berater-fab fixed bottom-5 right-5 z-30 size-[4.5rem] overflow-hidden rounded-full bg-graphit-soft shadow-[0_18px_40px_-14px_rgb(23_19_15/0.8)] ring-2 ring-kreide transition duration-300 ease-out-soft hover:-translate-y-0.5 hover:ring-kreide-light sm:bottom-7 sm:right-7 ${
-          open ? "max-sm:hidden" : ""
-        }`}
+      <div
+        className={`berater-fab-wrap fixed bottom-5 right-5 z-30 sm:bottom-7 sm:right-7 ${open ? "max-sm:hidden" : ""}`}
+        data-attention={appHint === "unread" && !open}
       >
-        <MiniAryo working={streaming} className="absolute inset-0 size-full translate-y-[5%] scale-[1.4]" />
-      </button>
+        <button
+          ref={fabRef}
+          type="button"
+          onClick={toggle}
+          aria-expanded={open}
+          aria-haspopup="dialog"
+          aria-label={
+            open
+              ? "Mini-Aryo schließen"
+              : `Mini-Aryo fragen – KI-Bodenberater öffnen${appHint === "unread" ? " (1 neue Nachricht)" : ""}`
+          }
+          className="berater-fab relative block size-[4.5rem] overflow-hidden rounded-full bg-graphit-soft shadow-[0_18px_40px_-14px_rgb(23_19_15/0.8)] ring-2 ring-kreide transition duration-300 ease-out-soft hover:-translate-y-0.5 hover:ring-kreide-light"
+        >
+          <MiniAryo working={streaming} className="absolute inset-0 size-full translate-y-[5%] scale-[1.4]" />
+        </button>
+        {appHint === "unread" && !open ? (
+          <span
+            className="berater-badge pointer-events-none absolute -right-0.5 -top-0.5 flex size-6 items-center justify-center rounded-full bg-kreide text-xs font-bold text-blatt ring-2 ring-blatt"
+            aria-hidden="true"
+          >
+            1
+          </span>
+        ) : null}
+      </div>
     </div>
   );
 }

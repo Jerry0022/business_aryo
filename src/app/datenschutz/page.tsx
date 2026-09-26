@@ -6,6 +6,7 @@ import { analyticsEnabled } from "@/config/analytics";
 import { siteConfig } from "@/config/site";
 import { QUESTIONS_PER_HOUR } from "@/features/berater/limits";
 import { getLlmConfig } from "@/features/berater/llm";
+import { NUDGE_STORAGE_KEY } from "@/features/pwa/nudge";
 import { CONSENT_COOKIE } from "@/lib/consent";
 
 export const metadata: Metadata = {
@@ -24,6 +25,12 @@ const cookieOverview = [
     consent: false,
     purpose: "Merkt sich deine Auswahl im Cookie-Hinweis, damit du nicht bei jedem Besuch gefragt wirst.",
     duration: "12 Monate",
+  },
+  {
+    name: NUDGE_STORAGE_KEY,
+    consent: false,
+    purpose: "Local-Storage-Eintrag: wann Mini-Aryo zuletzt auf die App hingewiesen hat (höchstens alle zwei Wochen).",
+    duration: "bis du die Websitedaten löschst",
   },
   {
     name: "better-auth.session_token",
@@ -342,6 +349,17 @@ export default function DatenschutzPage() {
         Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung deiner Fragen und an
         einem sicheren, wirtschaftlichen Betrieb). Bitte gib im Chat keine personenbezogenen Daten wie Namen, Adressen
         oder Telefonnummern ein. Für eine persönliche Anfrage nutz bitte E-Mail oder die Formulare auf der Startseite.
+      </p>
+
+      <p id="app">
+        Diese Website lässt sich als App auf Smartphone, Tablet oder Computer installieren. Die Installation übernimmt
+        dein Browser bzw. Betriebssystem; dabei werden keine zusätzlichen Daten an diese Website übertragen. Damit
+        Seitenaufrufe ohne Internetverbindung eine Hinweisseite zeigen können, legt ein sogenannter Service Worker eine
+        Offline-Seite im Speicher deines Browsers ab. Etwa alle zwei Wochen weist Mini-Aryo auf die App hin; damit der
+        Hinweis nicht bei jedem Besuch erscheint, wird der Zeitpunkt des letzten Hinweises im lokalen Speicher deines
+        Browsers (Local Storage) abgelegt. Diese Angaben verlassen dein Gerät nicht, und du kannst sie jederzeit über die
+        Browser-Einstellungen („Websitedaten löschen“) entfernen. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG, da die
+        Speicherung für diese von dir genutzten Funktionen erforderlich ist.
       </p>
 
       <h2 id="cookies" className="scroll-mt-28">
