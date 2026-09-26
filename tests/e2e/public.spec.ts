@@ -13,7 +13,7 @@ test.describe("public site", () => {
 
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Parkett mit\s*Handschrift\./);
-    await expect(page).toHaveTitle(/Aryo Sabouri/);
+    await expect(page).toHaveTitle(/Maximilian Parkett/);
 
     for (const [id, title] of [
       ["leistungen", "Alles für Ihren Holzboden."],
