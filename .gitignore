@@ -1,5 +1,17 @@
-# No tech stack yet — add dependency/build/cache rules when one is chosen
-# (https://www.toptal.com/developers/gitignore/api/{stack}).
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# Runtime / cache
+.data/
+.vercel/
+.eslintcache
 
 # Environment / secrets — NEVER commit
 .env
@@ -11,8 +23,11 @@
 credentials.json
 service-account*.json
 
-# Test coverage
+# Test output
 coverage/
+playwright-report/
+test-results/
+blob-report/
 
 # AI tooling — session state (never track)
 .claude/worktrees/
