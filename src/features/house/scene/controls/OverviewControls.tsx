@@ -19,8 +19,16 @@ export function OverviewControls({ fromWalk }: { fromWalk: boolean }) {
   const controls = useRef<CameraControls>(null);
   const keys = useKeyboard();
   const camera = useThree((state) => state.camera);
+  const aspect = useThree((state) => state.size.width / Math.max(1, state.size.height));
   const focusNonce = useStudio((state) => state.focusNonce);
   const selectedRoomId = useStudio((state) => state.selectedRoomId);
+
+  // Portrait screens get a wider vertical field of view so the house still fits.
+  useEffect(() => {
+    const perspective = camera as THREE.PerspectiveCamera;
+    perspective.fov = aspect < 0.8 ? 62 : 45;
+    perspective.updateProjectionMatrix();
+  }, [aspect, camera]);
 
   // Initial framing (or a smooth lift-off when leaving walk mode).
   useEffect(() => {

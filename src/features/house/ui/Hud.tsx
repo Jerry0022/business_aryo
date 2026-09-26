@@ -74,10 +74,38 @@ function ModeSwitch() {
   );
 }
 
-function TimeControl() {
+function TimeControl({ compact = false }: { compact?: boolean }) {
   const hour = useStudio((state) => state.hour);
   const setHour = useStudio((state) => state.setHour);
   const isNight = skyStateAt(hour).night > 0.5;
+
+  if (compact) {
+    return (
+      <div className={`${panel} flex items-center gap-3 px-3 py-2`}>
+        <p className="w-14 shrink-0 font-display text-lg font-semibold tabular-nums" aria-live="polite">
+          {formatHour(hour)}
+        </p>
+        <input
+          type="range"
+          min={0}
+          max={23.75}
+          step={0.25}
+          value={Math.round(hour * 4) / 4}
+          onChange={(event) => setHour(Number(event.target.value))}
+          aria-label="Uhrzeit einstellen"
+          className="time-slider min-w-0 flex-1"
+        />
+        <button
+          type="button"
+          onClick={() => setHour(isNight ? 13 : 22.5, true)}
+          className="grid size-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/5"
+          aria-label={isNight ? "Auf Tag umschalten" : "Auf Nacht umschalten"}
+        >
+          {isNight ? <Sun className="size-4 text-oak-light" aria-hidden /> : <Moon className="size-4 text-sky-200" aria-hidden />}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={`${panel} w-full p-3 sm:w-80`}>
@@ -373,7 +401,7 @@ export function Hud() {
       ) : null}
 
       <div className="flex flex-col gap-3">
-        {wide ? null : <TimeControl />}
+        {wide ? null : <TimeControl compact />}
         <div className="flex items-end justify-between gap-3">
           {coarse ? <Joystick target="move" label={mode === "walk" ? "Laufen" : "Bewegen"} /> : <span />}
           <div className="flex flex-1 flex-col items-center gap-2">

@@ -192,6 +192,8 @@ export function buildStructureParts(): StructureParts {
 
   // Roof slab with stair opening; white fascia, warm timber soffit under the canopy.
   for (const rect of ringRects(ROOF_SLAB, STAIR_HOLE)) roof.push(slab(rect, ROOF_SLAB_BOTTOM, ROOF_SLAB_TOP, "plasterExterior"));
+  const interior: Rect = { x0: FOOTPRINT.x0, z0: FOOTPRINT.z0, x1: FOOTPRINT.x1, z1: FOOTPRINT.z1 };
+  for (const rect of ringRects(interior, STAIR_HOLE)) roof.push(slab(rect, ROOF_SLAB_BOTTOM - 0.012, ROOF_SLAB_BOTTOM, "ceiling"));
   roof.push(slab({ x0: ROOF_SLAB.x0, z0: ROOF_SLAB.z0, x1: ROOF_SLAB.x1, z1: FOOTPRINT.z0 - 0.15 }, ROOF_SLAB_BOTTOM - 0.04, ROOF_SLAB_BOTTOM, "soffit"));
   // Roof deck boards (inset from the parapet) and parapet coping.
   const deckRect: Rect = { x0: ROOF_SLAB.x0 + 0.25, z0: ROOF_SLAB.z0 + 0.25, x1: ROOF_SLAB.x1 - 0.25, z1: ROOF_SLAB.z1 - 0.25 };

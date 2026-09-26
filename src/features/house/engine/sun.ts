@@ -74,7 +74,7 @@ export function skyStateAt(hour: number): SkyState {
 
   const sunColor = mixColor("#ff9a55", "#fff3e2", highSun);
   const hemiSky = mixColor(mixColor("#1a2744", "#f0b489", golden), "#bcd3ec", highSun * day);
-  const hemiGround = mixColor("#0b0d12", "#7a6a55", day);
+  const hemiGround = mixColor("#0b0d12", "#9d917f", day);
   const fogDay = mixColor("#e7b79b", "#c3d3e2", highSun);
   const fogColor = mixColor("#0a1020", fogDay, day);
 
@@ -89,8 +89,8 @@ export function skyStateAt(hour: number): SkyState {
     moonIntensity: night * 0.45,
     hemiSky,
     hemiGround,
-    hemiIntensity: lerp(0.3, 0.35, day),
-    environmentIntensity: lerp(0.05, 0.42, day),
+    hemiIntensity: lerp(0.3, 0.55, day),
+    environmentIntensity: lerp(0.05, 0.5, day),
     fogColor,
     exposure: lerp(1.15, 1, day),
   };

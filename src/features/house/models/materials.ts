@@ -160,7 +160,8 @@ export function createMaterialLibrary(quality: Quality): MaterialLibrary {
   const materials: Record<MaterialKey, THREE.Material> = {
     plaster: std({ color: "#eeebe5", roughness: 0.92, bumpMap: noise, bumpScale: 0.35 }),
     plasterExterior: std({ color: "#f2f0eb", roughness: 0.9, bumpMap: noise, bumpScale: 0.5 }),
-    ceiling: std({ color: "#f4f2ee", roughness: 0.95 }),
+    // Slight self-illumination fakes the light bouncing off floors and walls onto the ceiling.
+    ceiling: std({ color: "#f4f2ee", roughness: 0.95, emissive: "#f3ede4", emissiveIntensity: 0.22 }),
     concrete: std({ map: concrete, roughness: 0.85, bumpMap: noise, bumpScale: 0.4 }),
     concreteDark: std({ map: concreteDark, roughness: 0.8, bumpMap: noise, bumpScale: 0.4 }),
     cladding: std({ map: cladding, roughness: 0.75, bumpMap: cladding, bumpScale: 1.2 }),
