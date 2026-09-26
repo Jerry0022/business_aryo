@@ -15,7 +15,7 @@ Ohne `XAI_API_KEY` bleibt der Button sichtbar, der Chat zeigt dann nur einen Hin
 
 ## xAI-Konto und API-Key einrichten
 
-1. Auf <https://console.x.ai> mit **„Sign up“** ein neues Konto anlegen (am besten mit der Geschäfts-E-Mail, z. B. aryo.kontakt@gmail.com). E-Mail bestätigen.
+1. Auf <https://console.x.ai> mit **„Sign up“** ein neues Konto anlegen (am besten mit der Geschäfts-E-Mail, z. B. Maximilian.Parkett@gmail.com). E-Mail bestätigen.
 2. In der Console ein **Team** anlegen bzw. das Standard-Team verwenden.
 3. Unter **Billing** eine Zahlungsmethode hinterlegen und **Credits** aufladen (z. B. 10–20 $ zum Start). Ohne Guthaben antwortet die API mit einem Fehler. Wenn angeboten: ein **monatliches Ausgabenlimit** setzen.
 4. Unter **API Keys** → **Create API key**: Name z. B. `business-aryo-vercel`, Berechtigung nur für Chat/Text bzw. das Modell `grok-4.3` (falls die Console das Einschränken anbietet). Den Key sofort kopieren – er wird nur einmal angezeigt.

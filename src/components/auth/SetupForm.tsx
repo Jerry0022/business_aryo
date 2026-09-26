@@ -4,13 +4,13 @@ import { useActionState } from "react";
 import { setupAdmin, type SetupState } from "@/app/einrichten/actions";
 import { Field, FormError, SubmitButton } from "./AuthShell";
 
-export function SetupForm({ defaultEmail }: { defaultEmail: string }) {
+export function SetupForm() {
   const [state, formAction, pending] = useActionState<SetupState, FormData>(setupAdmin, {});
 
   return (
     <form action={formAction} className="space-y-5">
       <Field label="Name" name="name" autoComplete="name" required defaultValue="Aryo Sabouri" />
-      <Field label="E-Mail" name="email" type="email" autoComplete="email" required defaultValue={defaultEmail} />
+      <Field label="E-Mail" name="email" type="email" autoComplete="email" required />
       <Field
         label="Passwort"
         name="password"

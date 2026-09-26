@@ -109,6 +109,15 @@ test.describe("public site", () => {
     await expect(page.locator("section#leistungen")).toContainText("Möbelmontage");
   });
 
+  test("only the public contact address appears on public pages", async ({ request }) => {
+    for (const path of ["/", "/impressum", "/datenschutz", "/login", "/einrichten", "/gibt-es-nicht"]) {
+      const html = await (await request.get(path)).text();
+      expect(html, path).not.toContain("aryo.kontakt");
+    }
+    const home = await (await request.get("/")).text();
+    expect(home).toContain("Maximilian.Parkett@gmail.com");
+  });
+
   test("Mini-Aryo answers in a streamed chat", async ({ page }) => {
     let sent: unknown;
     await page.route("/api/berater", async (route) => {
@@ -159,7 +168,7 @@ test.describe("public site", () => {
 
     await expect(contact.getByRole("link", { name: "E-Mail schreiben" })).toHaveAttribute(
       "href",
-      /^mailto:aryo\.kontakt@gmail\.com\?subject=/,
+      /^mailto:Maximilian\.Parkett@gmail\.com\?subject=/,
     );
     await expect(contact.getByRole("link", { name: siteConfig.email })).toHaveAttribute(
       "href",

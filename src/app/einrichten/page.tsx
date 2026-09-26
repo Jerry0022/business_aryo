@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { connection } from "next/server";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { SetupForm } from "@/components/auth/SetupForm";
-import { getAdminEmails } from "@/lib/admin-config";
 import { hasAdminAccount } from "@/lib/users";
 
 export const metadata: Metadata = {
@@ -34,7 +33,7 @@ export default async function SetupPage() {
         Legen Sie das Administrator-Konto an. Den Einrichtungscode finden Sie in der Server-Konfiguration
         (<code className="text-studio-text">ADMIN_SETUP_TOKEN</code>).
       </p>
-      <SetupForm defaultEmail={getAdminEmails()[0] ?? ""} />
+      <SetupForm />
     </AuthShell>
   );
 }
