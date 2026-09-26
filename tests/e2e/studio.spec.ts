@@ -34,11 +34,13 @@ async function loginAndOpenStudio(page: Page, email: string, password: string) {
 test("the studio requires a login", async ({ page }) => {
   await page.goto("/studio");
   await expect(page).toHaveURL(/\/login$/);
-  await expect(page.getByRole("link", { name: "Studio einrichten" })).toBeVisible();
+  // First database access of the run (embedded PGlite start-up) can be slow on CI runners.
+  await expect(page.getByRole("link", { name: "Studio einrichten" })).toBeVisible({ timeout: STUDIO_TIMEOUT });
 });
 
 test("the setup rejects a wrong code", async ({ page }) => {
   await page.goto("/einrichten");
+  await page.getByLabel("E-Mail").fill(ADMIN.email);
   await page.getByLabel("Passwort", { exact: true }).fill(ADMIN.password);
   await page.getByLabel("Passwort wiederholen").fill(ADMIN.password);
   await page.getByLabel("Einrichtungscode").fill("falsch");
@@ -48,7 +50,9 @@ test("the setup rejects a wrong code", async ({ page }) => {
 
 test("the admin sets up the studio and lands in the 3D view", async ({ page }) => {
   await page.goto("/einrichten");
-  await expect(page.getByLabel("E-Mail")).toHaveValue(ADMIN.email);
+  // The admin address is never prefilled: /einrichten is reachable without login.
+  await expect(page.getByLabel("E-Mail")).toHaveValue("");
+  await page.getByLabel("E-Mail").fill(ADMIN.email);
   await page.getByLabel("Passwort", { exact: true }).fill(ADMIN.password);
   await page.getByLabel("Passwort wiederholen").fill(ADMIN.password);
   await page.getByLabel("Einrichtungscode").fill(SETUP_TOKEN);
@@ -130,7 +134,8 @@ test("the admin deletes the user", async ({ page }) => {
 test("signing out returns to the login", async ({ page }) => {
   await loginAndOpenStudio(page, ADMIN.email, ADMIN.password);
   await page.getByRole("button", { name: "Abmelden" }).click();
-  await expect(page).toHaveURL(/\/login$/);
+  // The client-side redirect waits for the main thread, which the WebGL scene may block on CI.
+  await expect(page).toHaveURL(/\/login$/, { timeout: STUDIO_TIMEOUT });
   await page.goto("/studio");
   await expect(page).toHaveURL(/\/login$/);
 });
