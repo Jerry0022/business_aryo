@@ -1,8 +1,9 @@
 # business_aryo
 
-Website of **Aryo Sabouri — Parkett & Boden** plus a private studio:
+Website of **Maximilian Parkett** (working name; Bodenleger in NRW, owner Aryo Sabouri, claim „Da stehst du drauf.“) plus a private studio with the **Werkbank** admin area. Brand, tone and business rules: [`docs/konzept/markenkonzept.md`](docs/konzept/markenkonzept.md).
 
-- **Public site** (`/`): one-page presentation of the parquet business with a generated herringbone hero, service overview, interactive pattern explorer, process, about and a mailto-based quote form. Legal pages: `/impressum`, `/datenschutz`.
+- **Public site** (`/`): landing page in design direction A „Aufmaß“ (technical drawing on screed grey) around the question „Wie viel willst du selbst machen?“: live contingent counter from the Werkbank calendar, the three ways (Machen lassen, Selbst machen, Für Profis) plus an emergency entry, the 7-step Boden-Check with Bodenprofil, registration for the monthly Boden-Sprechstunde, services (prices only once set in the Werkbank), subscriptions and applications for projects and partners. Form entries are stored as leads for the Werkbank.
+- **Ratgeber** (`/ratgeber`): seven statically generated advice articles in six pillars, content as typed data in `src/content/ratgeber/`, with the interactive Kosten-pro-Jahr-Rechner, `Article` JSON-LD and per-article Open Graph images. Legal pages: `/impressum`, `/datenschutz`.
 - **Studio** (`/studio`, login required): an interactive 3D **dream house** (single-story villa with roof terrace on a mountain above a city) and, for admins, the **user management**.
 
 ## Stack

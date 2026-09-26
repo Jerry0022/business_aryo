@@ -5,15 +5,20 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Impressum",
-  description: `Impressum und Anbieterkennzeichnung von ${siteConfig.name} – ${siteConfig.trade}.`,
+  description: `Impressum und Anbieterkennzeichnung von ${siteConfig.name}, Inhaber ${siteConfig.owner}, ${siteConfig.trade}.`,
   alternates: { canonical: "/impressum" },
 };
 
+// Legal form: Einzelunternehmen, so the owner is named as "Inhaber". If the business later becomes
+// a GmbH or UG, the label must change to "Geschäftsführer" and the Impressum needs the
+// Handelsregister entry (Registergericht and HRB number) — see docs/GO-LIVE.md.
 function Address() {
   const { street, postalCode, city, country } = siteConfig.address;
   return (
     <address>
-      {siteConfig.name}
+      <strong>{siteConfig.name}</strong>
+      <br />
+      Inhaber: {siteConfig.owner}
       <br />
       {siteConfig.trade}
       <br />
@@ -42,12 +47,13 @@ export default function ImpressumPage() {
       <h2>Kontakt</h2>
       <p>
         E-Mail: <a href={`mailto:${email}`}>{email}</a>
+        <br />
+        Telefon:{" "}
         {phone ? (
-          <>
-            <br />
-            Telefon: <a href={`tel:${phone.replace(/[^\d+]/g, "")}`}>{phone}</a>
-          </>
-        ) : null}
+          <a href={`tel:${phone.replace(/[^\d+]/g, "")}`}>{phone}</a>
+        ) : (
+          <Placeholder>[Telefonnummer wird ergänzt]</Placeholder>
+        )}
       </p>
 
       {vatId ? (
@@ -57,8 +63,25 @@ export default function ImpressumPage() {
         </>
       ) : null}
 
+      <h2>Handwerk und zuständige Kammer</h2>
+      <p>
+        Handwerk: {siteConfig.trade} (zulassungsfrei, keine Meisterpflicht)
+        <br />
+        Eingetragen im Verzeichnis der Inhaber eines zulassungsfreien Handwerks oder handwerksähnlichen Gewerbes
+        (§ 19 Handwerksordnung) bei der: <Placeholder>[Zuständige Handwerkskammer wird ergänzt]</Placeholder>
+        <br />
+        Anschrift der Kammer: <Placeholder>[Anschrift wird ergänzt]</Placeholder>
+      </p>
+      <p>
+        Berufsrechtliche Regelung: Handwerksordnung (HwO), einsehbar unter{" "}
+        <a href="https://www.gesetze-im-internet.de/hwo/" rel="noopener noreferrer">
+          gesetze-im-internet.de/hwo
+        </a>
+        .
+      </p>
+
       <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
-      <p>{siteConfig.name}, Anschrift wie oben.</p>
+      <p>{siteConfig.owner}, Anschrift wie oben.</p>
 
       <h2>Verbraucherstreitbeilegung</h2>
       <p>
@@ -68,10 +91,11 @@ export default function ImpressumPage() {
 
       <h2>Haftung für Inhalte und Links</h2>
       <p>
-        Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und
-        Aktualität kann ich jedoch keine Gewähr übernehmen. Diese Website enthält Links zu externen Websites Dritter,
-        auf deren Inhalte ich keinen Einfluss habe. Für diese fremden Inhalte ist stets der jeweilige Anbieter oder
-        Betreiber verantwortlich. Bei Bekanntwerden von Rechtsverletzungen entferne ich derartige Links umgehend.
+        Die Inhalte dieser Website, auch die Artikel im Ratgeber, habe ich sorgfältig erstellt. Sie ersetzen keine
+        Beratung vor Ort. Für Richtigkeit, Vollständigkeit und Aktualität kann ich keine Gewähr übernehmen. Diese Website
+        enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Für diese fremden Inhalte
+        ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Werden mir Rechtsverletzungen bekannt, entferne
+        ich solche Links umgehend.
       </p>
 
       <h2>Urheberrecht</h2>
@@ -80,9 +104,8 @@ export default function ImpressumPage() {
         außerhalb der Grenzen des Urheberrechts bedarf der vorherigen Zustimmung.
       </p>
 
-      <p className="pt-6 text-sm text-ink-muted">
-        Informationen zum Umgang mit Ihren Daten finden Sie in der <Link href="/datenschutz">Datenschutzerklärung</Link>
-        .
+      <p className="text-[0.95rem]">
+        Wie ich mit deinen Daten umgehe, steht in der <Link href="/datenschutz">Datenschutzerklärung</Link>.
       </p>
     </LegalLayout>
   );
